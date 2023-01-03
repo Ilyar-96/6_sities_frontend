@@ -6,25 +6,6 @@ import { toCapitalize } from '../../utils';
 const pluralize = require('pluralize');
 
 export const Apartment = () => {
-	const {
-		city,
-		previewImage,
-		bedrooms,
-		description,
-		goods,
-		host,
-		id,
-		images,
-		isFavorite,
-		isPremium,
-		location,
-		maxAdults,
-		price,
-		rating,
-		type,
-		title
-
-	} = offer;
 
 	return (
 		<div className="page">
@@ -33,50 +14,50 @@ export const Apartment = () => {
 				<section className="property">
 					<div className="property__gallery-container container">
 						<div className="property__gallery">
-							{images.slice(0, Limits.maxImagesOnApartmentPage).map(i => (
+							{offer.images.slice(0, Limits.maxImagesOnApartmentPage).map(i => (
 								<div className="property__image-wrapper" key={i}>
-									<img className="property__image" src={i} alt={type} />
+									<img className="property__image" src={i} alt={offer.type} />
 								</div>
 							))}
 						</div>
 					</div>
 					<div className="property__container container">
 						<div className="property__wrapper">
-							{isPremium && <div className="property__mark">
+							{offer.isPremium && <div className="property__mark">
 								<span>Premium</span>
 							</div>}
 							<div className="property__name-wrapper">
-								<h1 className="property__name">{title}</h1>
+								<h1 className="property__name">{offer.title}</h1>
 								<button className="property__bookmark-button button" type="button">
 									<svg className="property__bookmark-icon" width={31} height={33}>
 										<use xlinkHref="#icon-bookmark" />
 									</svg>
-									<span className="visually-hidden">To bookmarks</span>
+									<span className="visually-hidden">{offer.isFavorite ? "In bookmarks" : "To bookmarks"}</span>
 								</button>
 							</div>
 
-							<Rating value={rating} isCountVisible size="l" />
+							<Rating value={offer.rating} isCountVisible size="l" />
 
 							<ul className="property__features">
 								<li className="property__feature property__feature--entire">
-									{toCapitalize(type)}
+									{toCapitalize(offer.type)}
 								</li>
 								<li className="property__feature property__feature--bedrooms">
-									{bedrooms} {pluralize("Bedrooms", bedrooms)}
+									{offer.bedrooms} {pluralize("Bedrooms", offer.bedrooms)}
 								</li>
 								<li className="property__feature property__feature--adults">
-									Max {maxAdults} {pluralize("adults", maxAdults)}
+									Max {offer.maxAdults} {pluralize("adults", offer.maxAdults)}
 								</li>
 							</ul>
 
 							<div className="property__price">
-								<b className="property__price-value">€{price}</b>
+								<b className="property__price-value">€{offer.price}</b>
 								<span className="property__price-text">&nbsp;night</span>
 							</div>
 							<div className="property__inside">
 								<h2 className="property__inside-title">What's inside</h2>
 								<ul className="property__inside-list">
-									{goods.map(g => (
+									{offer.goods.map(g => (
 										<li className="property__inside-item" key={g}>{g}</li>
 									))}
 								</ul>
@@ -84,10 +65,10 @@ export const Apartment = () => {
 							<div className="property__host">
 								<h2 className="property__host-title">Meet the host</h2>
 
-								<User user={host} />
+								<User user={offer.host} />
 
 								<div className="property__description">
-									<p className="property__text">{description}</p>
+									<p className="property__text">{offer.description}</p>
 								</div>
 							</div>
 
@@ -106,7 +87,7 @@ export const Apartment = () => {
 								<ApartmentCard
 									className="near-places__card"
 									key={offer.id}
-									apartment={offer}
+									data={offer}
 								/>
 							))}
 						</div>
