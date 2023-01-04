@@ -42,3 +42,5 @@ export interface IReview {
 	comment: string;
 	date: string;
 }
+
+export type FavoriteListType = Record<ICity["name"], IOffer[]>;

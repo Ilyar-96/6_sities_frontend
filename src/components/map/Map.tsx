@@ -1,7 +1,9 @@
 import React from 'react';
+import cn from 'classnames';
+import { MapProps } from './Map.type';
 
-export const Map = () => {
+export const Map: React.FC<MapProps> = ({ className, ...props }) => {
 	return (
-		<section className="property__map map" />
+		<section className={cn(className, "map")} />
 	);
 };

@@ -75,7 +75,7 @@ export const Apartment = () => {
 							<Reviews className="property__reviews" />
 						</div>
 					</div>
-					<Map />
+					<Map className="property__map" />
 				</section>
 
 				<div className="container">

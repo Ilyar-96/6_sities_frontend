@@ -744,7 +744,7 @@ img {
 .locations--login .locations__item-link {
 	padding: 9px 21px 6px 16px;
 	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden
+	backface-visibility: hidden;
 }
 
 .locations--current .locations__item {
@@ -794,9 +794,12 @@ img {
 	font-style: oblique;
 	-webkit-transform: skew(-15deg);
 	transform: skew(-15deg);
+	border: 0;
+	background: none;
 	border-radius: 3px;
 	-webkit-transition: background .3s, color .3s, text-shadow .3s;
-	transition: background .3s, color .3s, text-shadow .3s
+	transition: background .3s, color .3s, text-shadow .3s;
+	cursor: pointer;
 }
 
 .locations__item-link span {
@@ -841,7 +844,7 @@ img {
 	fill: #0d0d0d
 }
 
-.places__options {
+.sort__options {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -850,7 +853,7 @@ img {
 	border-radius: 4px
 }
 
-.places__options--custom {
+.sort__options--custom {
 	position: absolute;
 	top: calc(100% + 1px);
 	left: 52px;
@@ -858,11 +861,11 @@ img {
 	display: none
 }
 
-.places__options--opened {
+.sort__options--opened {
 	display: block
 }
 
-.places__option {
+.sort__option {
 	min-width: 170px;
 	padding: 14px 16px 10px;
 	font-size: 14px;
@@ -873,13 +876,13 @@ img {
 	cursor: pointer
 }
 
-.places__option--active,
-.places__option:focus,
-.places__option:hover {
+.sort__option--active,
+.sort__option:focus,
+.sort__option:hover {
 	background-color: #f2f2f2
 }
 
-.places__option:selected {
+.sort__option:selected {
 	background-color: #f2f2f2
 }
 
@@ -1955,13 +1958,13 @@ img {
 	margin-bottom: 0
 }
 
-.favorites__image-wrapper {
+.favorites__card .place-card__image-wrapper {
 	min-width: 150px;
 	margin-right: 16px;
 	margin-bottom: 0
 }
 
-.favorites__card-info {
+.favorites__card .place-card__info {
 	padding-top: 1px
 }
 

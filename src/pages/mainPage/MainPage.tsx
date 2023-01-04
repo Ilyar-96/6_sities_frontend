@@ -1,90 +1,92 @@
 import React from 'react';
-import SimpleBar from 'simplebar-react';
+import cn from 'classnames';
 import { Header } from '../../components';
 import { offers } from '../../mockData';
-import { ApartmentCard } from '../../components';
+import { SortTypes } from "../../components/sort/Sort.type";
+import { ICity, IOffer } from '../../types/offer.type';
 import 'simplebar-react/dist/simplebar.min.css';
+import { CitiesLayout } from './citiesLayout/CitiesLayout';
+import { EmptyCitiesLayout } from "./emptyCitiesLayout/EmptyCitiesLayout";
+
+const cities: ICity[] = [
+	{ name: "Paris", location: { latitude: 50.938361, longitude: 6.959974, zoom: 13, } },
+	{ name: "Cologne", location: { latitude: 50.938361, longitude: 6.959974, zoom: 13, } },
+	{ name: "Brussels", location: { latitude: 50.938361, longitude: 6.959974, zoom: 13, } },
+	{ name: "Amsterdam", location: { latitude: 50.938361, longitude: 6.959974, zoom: 13, } },
+	{ name: "Hamburg", location: { latitude: 50.938361, longitude: 6.959974, zoom: 13, } },
+	{ name: "Dusseldorf", location: { latitude: 50.938361, longitude: 6.959974, zoom: 13, } },
+	{ name: "Berlin", location: { latitude: 50.938361, longitude: 6.959974, zoom: 13, } },
+];
 
 export const MainPage: React.FC = () => {
+	const [activeCity, setActiveCity] = React.useState<ICity>(cities[0]);
+	const [activeSort, setActiveSort] = React.useState<SortTypes>(SortTypes.POPULAR);
+	const filteredOffers = offers
+		.filter(offer => offer.city.name === activeCity.name)
+		.sort(offerCompare);
+	const isEmpty = filteredOffers.length === 0;
+
+	const sortChangeHandler = (value: SortTypes) => {
+		setActiveSort(value);
+	};
+
+	function offerCompare(a: IOffer, b: IOffer) {
+		switch (activeSort) {
+			case SortTypes.PRICE_ASC:
+				return a.price - b.price;
+			case SortTypes.PRICE_DESC:
+				return b.price - a.price;
+			case SortTypes.RATE:
+				return b.rating - a.rating;
+			default:
+				return 1;
+		}
+	};
+
+	const cityItemClickHandler = (city: ICity) => {
+		setActiveCity(city);
+	};
 
 	return (
 		<div className="page page--gray page--main">
 			<Header />
-			<main className="page__main page__main--index">
+			<main
+				className={cn(
+					"page__main",
+					"page__main--index",
+					{ "page__main--index-empty": isEmpty }
+				)}>
 				<h1 className="visually-hidden">Cities</h1>
 				<div className="tabs">
 					<section className="locations container">
 						<ul className="locations__list tabs__list">
-							<li className="locations__item">
-								<a className="locations__item-link tabs__item" href="#">
-									<span>Paris</span>
-								</a>
-							</li>
-							<li className="locations__item">
-								<a className="locations__item-link tabs__item" href="#">
-									<span>Cologne</span>
-								</a>
-							</li>
-							<li className="locations__item">
-								<a className="locations__item-link tabs__item" href="#">
-									<span>Brussels</span>
-								</a>
-							</li>
-							<li className="locations__item">
-								<a className="locations__item-link tabs__item tabs__item--active">
-									<span>Amsterdam</span>
-								</a>
-							</li>
-							<li className="locations__item">
-								<a className="locations__item-link tabs__item" href="#">
-									<span>Hamburg</span>
-								</a>
-							</li>
-							<li className="locations__item">
-								<a className="locations__item-link tabs__item" href="#">
-									<span>Dusseldorf</span>
-								</a>
-							</li>
+							{cities.map(city => (
+								<li className="locations__item" key={city.name}>
+									<button
+										className={cn(
+											"locations__item-link",
+											"tabs__item",
+											{ "tabs__item--active": activeCity.name === city.name }
+										)}
+										onClick={() => cityItemClickHandler(city)}
+									>
+										<span>{city.name}</span>
+									</button>
+								</li>
+							))}
 						</ul>
 					</section>
 				</div>
-				<div className="cities">
-					<div className="cities__places-container container">
-						<SimpleBar style={{ width: 572 }}>
-							<section className="cities__places places">
-								<h2 className="visually-hidden">Places</h2>
-								<b className="places__found">312 places to stay in Amsterdam</b>
-								<form className="places__sorting" action="#" method="get">
-									<span className="places__sorting-caption">Sort by</span>
-									<span className="places__sorting-type" tabIndex={0}>
-										Popular
-										<svg className="places__sorting-arrow" width={7} height={4}>
-											<use xlinkHref="#icon-arrow-select" />
-										</svg>
-									</span>
-									<ul className="places__options places__options--custom places__options--opened">
-										<li className="places__option places__option--active" tabIndex={0}>Popular</li>
-										<li className="places__option" tabIndex={0}>Price: low to high</li>
-										<li className="places__option" tabIndex={0}>Price: high to low</li>
-										<li className="places__option" tabIndex={0}>Top rated first</li>
-									</ul>
-								</form>
-								<div className="cities__places-list places__list tabs__content">
-									{offers.map(offer => (
-										<ApartmentCard
-											key={offer.id}
-											className="cities__card"
-											data={offer}
-										/>
-									))}
-								</div>
-							</section>
-						</SimpleBar>
-						<div className="cities__right-section">
-							<section className="cities__map map" />
-						</div>
-					</div>
-				</div>
+
+
+				{!isEmpty ?
+					<CitiesLayout
+						sortType={activeSort}
+						city={activeCity}
+						offers={filteredOffers}
+						sortChangeHandler={sortChangeHandler}
+					/> :
+					<EmptyCitiesLayout />}
 			</main>
 		</div>
 	);
