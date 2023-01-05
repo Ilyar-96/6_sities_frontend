@@ -11,3 +11,13 @@ export enum APPRoute {
 export const Limits = {
 	maxImagesOnApartmentPage: 6,
 };
+
+export enum NameSpace {
+	USER = "USER",
+}
+
+export enum AuthorizationStatus {
+	AUTH = "AUTH",
+	NO_AUTH = "NO_AUTH",
+	UNKNOWN = "UNKNOWN",
+}

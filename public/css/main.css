@@ -500,7 +500,7 @@ img {
 	text-shadow: .5px 0 0, -.5px 0 0
 }
 
-.header__avatar-wrapper {
+.header__avatar {
 	width: 20px;
 	height: 20px;
 	margin-right: 8px
@@ -529,12 +529,6 @@ img {
 	color: #fff;
 	background: #4481c3;
 	border-radius: 15px
-}
-
-.header__avatar-wrapper {
-	background-image: url(../img/avatar.svg);
-	background-size: 100%;
-	background-repeat: no-repeat
 }
 
 .user__avatar {
