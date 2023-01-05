@@ -8,5 +8,6 @@ export * from "./reviews/Reviews";
 export * from "./reviewForm/ReviewForm";
 export * from "./map/Map";
 export * from "./apartmentCard/ApartmentCard";
+export * from "./apartmentCard/VerticalCardSkeleton";
 export * from "./sort/Sort";
 export * from "./citiesTabs/CitiesTabs";

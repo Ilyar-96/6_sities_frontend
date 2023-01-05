@@ -13,7 +13,7 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 				<span>Premium</span>
 			</div>}
 			<div className="place-card__image-wrapper">
-				<Link to={APPRoute.APARTMENT}>
+				<Link to={`${APPRoute.APARTMENT}/${data.id}`}>
 					<img className="place-card__image" src={data.previewImage} width={260} height={200} alt={data.title} />
 				</Link>
 			</div>
@@ -37,7 +37,7 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 				</div>
 				<Rating value={data.rating} size="s" />
 				<h2 className="place-card__name">
-					<Link to={APPRoute.APARTMENT}>
+					<Link to={`${APPRoute.APARTMENT}/${data.id}`}>
 						{data.title}
 					</Link>
 				</h2>

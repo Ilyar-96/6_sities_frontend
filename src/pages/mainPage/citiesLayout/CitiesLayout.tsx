@@ -1,6 +1,6 @@
 import React from 'react';
 import SimpleBar from 'simplebar-react';
-import { ApartmentCard, Sort } from '../../../components';
+import { ApartmentCard, Sort, VerticalCardSkeleton } from '../../../components';
 import 'simplebar-react/dist/simplebar.min.css';
 import { CitiesLayoutProps } from './CitiesLayout.type';
 import { Map } from '../../../components/map/Map';
@@ -40,7 +40,9 @@ export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
 					}
 
 					{(status === FetchStatus.IDLE || status === FetchStatus.PENDING) && (
-						<h2>Loading...</h2>
+						<div className="cities__places-list places__list tabs__content">
+							{Array.from(new Array(8)).map((_, i) => <VerticalCardSkeleton key={i} />)}
+						</div>
 					)}
 
 				</section>
