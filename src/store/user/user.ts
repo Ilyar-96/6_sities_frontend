@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { NameSpace, AuthorizationStatus } from "../../const";
-import { UserProcess } from "../../types/state";
+import { IUserState } from "../../types/state";
 
-const initialState: UserProcess = {
+const initialState: IUserState = {
 	authorizationStatus: AuthorizationStatus.AUTH,
 	user: {
 		id: 1,
@@ -13,7 +13,7 @@ const initialState: UserProcess = {
 	},
 };
 
-export const userProcess = createSlice({
+export const userSlice = createSlice({
 	name: NameSpace.USER,
 	initialState,
 	reducers: {},

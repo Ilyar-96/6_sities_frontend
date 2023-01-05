@@ -3,7 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { APPRoute } from '../../const';
 import logoUrl from './logo.svg';
 import { useAppSelector } from '../../hooks';
-import { getIsAuthStatus, getUserData } from "../../store/userProcess/selectors";
+import { getIsAuthStatus, getUserData } from "../../store/user/selectors";
 import emptyAvatarUrl from './avatar.svg';
 
 export const Header: React.FC = () => {

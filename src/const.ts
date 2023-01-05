@@ -1,4 +1,6 @@
-export enum APIRoute {}
+export enum APIRoute {
+	OFFERS = "hotels",
+}
 
 export enum APPRoute {
 	MAIN = "/",
@@ -13,11 +15,19 @@ export const Limits = {
 };
 
 export enum NameSpace {
-	USER = "USER",
+	USER = "user",
+	OFFER = "offer",
 }
 
 export enum AuthorizationStatus {
 	AUTH = "AUTH",
 	NO_AUTH = "NO_AUTH",
 	UNKNOWN = "UNKNOWN",
+}
+
+export enum FetchStatus {
+	IDLE = "idle",
+	PENDING = "pending",
+	FULFILLED = "fulfilled",
+	REJECTED = "rejected",
 }
