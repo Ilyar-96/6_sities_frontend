@@ -7,6 +7,7 @@ import { Map } from '../../../components/map/Map';
 import { useAppSelector } from '../../../hooks';
 import { getOffersFetchingStatus } from '../../../store/offers/selectors';
 import { FetchStatus } from '../../../const';
+import { CitiesHeadSkeleton } from "./CitiesHeadSkeleton";
 const pluralize = require('pluralize');
 
 export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
@@ -16,6 +17,7 @@ export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
 	sortType
 }) => {
 	const status = useAppSelector(getOffersFetchingStatus);
+	const isLoading = status === FetchStatus.IDLE || status === FetchStatus.PENDING;
 
 	return (<div className="cities">
 		<div className="cities__places-container container">
@@ -23,6 +25,9 @@ export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
 				width: 572
 			}}>
 				<section className="cities__places places">
+
+					{isLoading && <CitiesHeadSkeleton />}
+
 					{status === FetchStatus.FULFILLED &&
 						<>
 							<h2 className="visually-hidden">Places</h2>
@@ -39,7 +44,7 @@ export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
 						</>
 					}
 
-					{(status === FetchStatus.IDLE || status === FetchStatus.PENDING) && (
+					{isLoading && (
 						<div className="cities__places-list places__list tabs__content">
 							{Array.from(new Array(8)).map((_, i) => <VerticalCardSkeleton key={i} />)}
 						</div>

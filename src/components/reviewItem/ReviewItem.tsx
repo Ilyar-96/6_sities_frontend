@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReviewItemProps } from './ReviewItem.type';
-import { Rating } from '../../../components';
-import { convertDateToMYYYY } from '../../../utils/convertDateToMYYYY';
+import { Rating } from '..';
+import { convertDateToMYYYY } from '../../utils/convertDateToMYYYY';
 
 export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
 	const { user, comment, date, rating } = review;
