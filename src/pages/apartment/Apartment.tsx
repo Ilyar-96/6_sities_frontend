@@ -1,10 +1,12 @@
 import React from 'react';
 import { Header, Map, ApartmentCard, ApartmentGallery, ApartmentInfo, ReviewList, ReviewForm, VerticalCardSkeleton } from '../../components';
 import { offers, reviews } from '../../mockData';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import offerService from '../../services/offerService';
 import { IOffer } from '../../types/offer.type';
 import { ApartmentLoadingLayout } from './ApartmentLoadingLayout';
+import { notifyError } from '../../utils/notify';
+import { APPRoute } from '../../const';
 
 export const Apartment = () => {
 	const { id } = useParams();
@@ -14,6 +16,7 @@ export const Apartment = () => {
 		isNeighbourhoodOfferLoading,
 		setIsneighbourhoodOffersLoading
 	] = React.useState<boolean>(true);
+	const navigate = useNavigate();
 
 	const getOffer = async () => {
 		if (id) {
@@ -23,7 +26,11 @@ export const Apartment = () => {
 				setIsOfferLoading(false);
 				setIsneighbourhoodOffersLoading(false);
 			} catch (err) {
-				console.log(1);
+				if (err instanceof Error) {
+					notifyError(err.message);
+					console.log(err);
+				}
+				navigate(APPRoute.MAIN);
 			}
 		}
 	};
@@ -78,7 +85,7 @@ export const Apartment = () => {
 									data={offer}
 								/>
 							)) :
-								Array.from(new Array(3)).map((_) => <VerticalCardSkeleton />)
+								Array.from(new Array(3)).map((_, i) => <VerticalCardSkeleton key={i} />)
 							}
 						</div>
 					</section>

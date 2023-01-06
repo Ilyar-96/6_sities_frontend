@@ -54,7 +54,6 @@ export const offerSlice = createSlice({
 				state.offersStatus = FetchStatus.PENDING;
 			})
 			.addCase(fetchOffersAction.fulfilled, (state, action) => {
-				console.log(action);
 				state.entities = action.payload;
 				state.offersStatus = FetchStatus.FULFILLED;
 			})

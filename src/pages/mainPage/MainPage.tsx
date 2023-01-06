@@ -56,21 +56,27 @@ export const MainPage: React.FC = () => {
 				className={cn(
 					"page__main",
 					"page__main--index",
-					{ "page__main--index-empty": isEmpty }
+					{ "page__main--index-empty": isEmpty || status === FetchStatus.REJECTED }
 				)}>
 				<h1 className="visually-hidden">Cities</h1>
 
 				<CitiesTabs activeCity={activeCity} onClick={cityItemClickHandler} />
 
 
-				{isEmpty && status === FetchStatus.FULFILLED ?
-					<EmptyCitiesLayout /> :
-					<CitiesLayout
-						sortType={activeSort}
-						city={activeCity}
-						offers={filteredOffers}
-						sortChangeHandler={sortChangeHandler}
-					/>}
+				{isEmpty && status === FetchStatus.FULFILLED &&
+					<EmptyCitiesLayout title="No places to stay available">
+						<>We could not find any property available at the moment in {activeCity.name}</>
+					</EmptyCitiesLayout>}
+				{!isEmpty && status === FetchStatus.FULFILLED && <CitiesLayout
+					sortType={activeSort}
+					city={activeCity}
+					offers={filteredOffers}
+					sortChangeHandler={sortChangeHandler}
+				/>}
+				{status === FetchStatus.REJECTED &&
+					<EmptyCitiesLayout title="Something went wrong...">
+						<>Try again later.</>
+					</EmptyCitiesLayout>}
 			</main>
 		</div>
 	);
