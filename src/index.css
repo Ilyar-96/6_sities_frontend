@@ -1732,6 +1732,7 @@ img {
 }
 
 .form__input {
+	width: 100%;
 	padding: 15px 14px 13px;
 	font-size: 16px;
 	line-height: 1.1875;
@@ -1739,6 +1740,30 @@ img {
 	background-color: #fff;
 	border: 1px solid #e6e6e6;
 	border-radius: 2px
+}
+
+.form__error {
+	position: absolute;
+	top: calc(100% + 3px);
+	left: 0;
+	font-size: 14px;
+	color: #cc0000;
+}
+
+.form__avatar-wrapper {}
+
+.form__input--avatar {
+	display: none;
+}
+
+.form__avatar {
+	display: block;
+	width: 100px;
+	height: 100px;
+	margin: 0 auto 24px;
+	border-radius: 50%;
+	cursor: pointer;
+	object-fit: cover;
 }
 
 .form__input::-webkit-input-placeholder {
@@ -1866,17 +1891,18 @@ img {
 	width: 341px
 }
 
-.login__input-wrapper {
-	margin-right: 2px
+
+.form__input-wrapper {
+	position: relative;
 }
 
-.login__input,
-.login__info {
+.form__input-wrapper,
+.form__info {
 	width: 100%;
 	margin-bottom: 24px
 }
 
-.login__info-link {
+.form__info-link {
 	color: #4481c3;
 }
 
@@ -1884,7 +1910,7 @@ img {
 	color: #3069a6;
 }
 
-.login__submit {
+.login__form .form__submit {
 	width: 100%
 }
 

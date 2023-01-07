@@ -3,7 +3,7 @@ import { NameSpace, AuthorizationStatus } from "../../const";
 
 export const getAuthStatus = (state: RootState): AuthorizationStatus =>
 	state[NameSpace.USER].authorizationStatus;
-export const getIsAuthStatus = (state: RootState): boolean =>
+export const getIsAuth = (state: RootState): boolean =>
 	state[NameSpace.USER].authorizationStatus === AuthorizationStatus.AUTH;
 export const getAuthCheckedStatus = (state: RootState): boolean =>
 	state[NameSpace.USER].authorizationStatus !== AuthorizationStatus.UNKNOWN;

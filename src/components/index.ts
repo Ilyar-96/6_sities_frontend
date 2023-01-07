@@ -18,3 +18,4 @@ export * from "./apartmentGallery/ApartmentGallery";
 export * from "./apartmentGallery/ApartmentGallerySkeleton";
 export * from "./apartmentInfo/ApartmentInfo";
 export * from "./apartmentInfo/ApartmentInfoSkeleton";
+export * from "./input/Input";
