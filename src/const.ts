@@ -1,5 +1,5 @@
 export enum APIRoute {
-	OFFERS = "hotels",
+	OFFERS = "offer",
 }
 
 export enum APPRoute {
@@ -10,8 +10,9 @@ export enum APPRoute {
 	FAVORITES = "/favorites",
 }
 
-export const Limits = {
+export const limits = {
 	maxImagesOnApartmentPage: 6,
+	offersPerPage: 10,
 };
 
 export enum NameSpace {

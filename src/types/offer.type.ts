@@ -32,7 +32,7 @@ export interface IOffer {
 	host: IUser;
 	description: string;
 	location: ILocation;
-	id: number;
+	_id: number;
 }
 
 export interface IReview {
@@ -44,3 +44,17 @@ export interface IReview {
 }
 
 export type FavoriteListType = Record<ICity["name"], IOffer[]>;
+
+export interface IOfferFetchParams {
+	page?: number;
+	limit?: number;
+	sortBy?: string;
+	order?: string;
+	cityId?: string;
+}
+
+export type IOfferData = {
+	offersCount: number;
+	pagesCount: number;
+	data: IOffer[];
+};

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { NameSpace, FetchStatus } from "../../const";
 import { IOfferState } from "../../types/state";
 import { fetchOffersAction } from "../apiActions";
@@ -54,7 +54,7 @@ export const offerSlice = createSlice({
 				state.offersStatus = FetchStatus.PENDING;
 			})
 			.addCase(fetchOffersAction.fulfilled, (state, action) => {
-				state.entities = action.payload;
+				state.entities = action.payload.data;
 				state.offersStatus = FetchStatus.FULFILLED;
 			})
 			.addCase(fetchOffersAction.rejected, (state, action) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header, Map, ApartmentCard, ApartmentGallery, ApartmentInfo, ReviewList, ReviewForm, VerticalCardSkeleton } from '../../components';
-import { offers, reviews } from '../../mockData';
+import { reviews } from '../../mockData';
 import { useNavigate, useParams } from "react-router-dom";
 import offerService from '../../services/offerService';
 import { IOffer } from '../../types/offer.type';
@@ -78,15 +78,15 @@ export const Apartment = () => {
 						<h2 className="near-places__title">Other places in the neighbourhood</h2>
 
 						<div className="near-places__list places__list">
-							{!isNeighbourhoodOfferLoading ? offers.slice(0, 3).map(offer => (
+							{/* {!isNeighbourhoodOfferLoading ? offers.slice(0, 3).map(offer => (
 								<ApartmentCard
 									className="near-places__card"
-									key={offer.id}
+									key={offer._id}
 									data={offer}
 								/>
 							)) :
 								Array.from(new Array(3)).map((_, i) => <VerticalCardSkeleton key={i} />)
-							}
+							} */}
 						</div>
 					</section>
 				</div>

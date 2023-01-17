@@ -4,6 +4,7 @@ import cn from 'classnames';
 import { ApartmentCardProps } from './ApartmentCard.type';
 import { APPRoute } from '../../const';
 import { Rating } from '../rating/Rating';
+import { BACKEND_URL } from "../../services/api";
 
 export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, ...props }) => {
 
@@ -13,8 +14,8 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 				<span>Premium</span>
 			</div>}
 			<div className="place-card__image-wrapper">
-				<Link to={`${APPRoute.APARTMENT}/${data.id}`}>
-					<img className="place-card__image" src={data.previewImage} width={260} height={200} alt={data.title} />
+				<Link to={`${APPRoute.APARTMENT}/${data._id}`}>
+					<img className="place-card__image" src={BACKEND_URL + data.previewImage} width={260} height={200} alt={data.title} />
 				</Link>
 			</div>
 			<div className="place-card__info">
@@ -37,7 +38,7 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 				</div>
 				<Rating value={data.rating} size="s" />
 				<h2 className="place-card__name">
-					<Link to={`${APPRoute.APARTMENT}/${data.id}`}>
+					<Link to={`${APPRoute.APARTMENT}/${data._id}`}>
 						{data.title}
 					</Link>
 				</h2>

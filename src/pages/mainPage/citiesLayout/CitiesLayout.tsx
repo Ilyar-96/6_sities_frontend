@@ -18,6 +18,7 @@ export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
 }) => {
 	const status = useAppSelector(getOffersFetchingStatus);
 	const isLoading = status === FetchStatus.IDLE || status === FetchStatus.PENDING;
+	console.log(isLoading, status);
 
 	return (<div className="cities">
 		<div className="cities__places-container container">
@@ -39,7 +40,7 @@ export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
 							<Sort active={sortType} onSortChange={sortChangeHandler} />
 
 							<div className="cities__places-list places__list tabs__content">
-								{offers.map((offer) => <ApartmentCard key={offer.id} className="cities__card" data={offer} />)}
+								{offers.map((offer) => <ApartmentCard key={offer._id} className="cities__card" data={offer} />)}
 							</div>
 						</>
 					}

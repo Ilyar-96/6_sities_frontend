@@ -25,7 +25,7 @@ export const Favorites = () => {
 									</div>
 									<div className="favorites__places">
 										{offers.map((offer) => (
-											<ApartmentCard className="favorites__card" key={offer.id} data={offer} />
+											<ApartmentCard className="favorites__card" key={offer._id} data={offer} />
 										))}
 									</div>
 								</li>

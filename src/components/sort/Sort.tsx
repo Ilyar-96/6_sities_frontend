@@ -3,14 +3,14 @@ import cn from 'classnames';
 import { SortProps, SortTypes } from './Sort.type';
 
 export const sortItems = [
-	{ title: "Popular", dataLabel: SortTypes.POPULAR },
+	{ title: "Date", dataLabel: SortTypes.DATE },
 	{ title: "Price: low to high", dataLabel: SortTypes.PRICE_ASC },
 	{ title: "Price: high to low", dataLabel: SortTypes.PRICE_DESC },
 	{ title: "Top rated first", dataLabel: SortTypes.RATE },
 ];
 
 export const Sort: React.FC<SortProps> = ({
-	active = SortTypes.POPULAR,
+	active = SortTypes.DATE,
 	onSortChange,
 	className,
 	...props
