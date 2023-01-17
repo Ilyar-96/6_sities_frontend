@@ -13,10 +13,16 @@ export interface IUserState {
 }
 
 export interface IOfferState {
+	pagesCount: number;
+	offersCount: number;
 	entities: IOffer[];
-	cities: ICity[];
-	offersStatus: FetchStatus;
-	citiesStatus: FetchStatus;
+	status: FetchStatus;
+	error: string | null;
+}
+
+export interface ICityState {
+	entities: ICity[];
+	status: FetchStatus;
 	error: string | null;
 }
 

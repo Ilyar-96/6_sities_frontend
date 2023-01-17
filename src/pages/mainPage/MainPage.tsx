@@ -7,32 +7,41 @@ import 'simplebar-react/dist/simplebar.min.css';
 import { CitiesLayout } from './citiesLayout/CitiesLayout';
 import { EmptyCitiesLayout } from "./emptyCitiesLayout/EmptyCitiesLayout";
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchOffersAction } from '../../store/apiActions';
-import { getOffers, getCities, getOffersFetchingStatus } from '../../store/offers/selectors';
+import { fetchCitiesAction, fetchOffersAction } from '../../store/apiActions';
+import { getOffers, getOffersFetchingStatus } from '../../store/offers/selectors';
 import { FetchStatus, limits } from '../../const';
+import { getCities } from "../../store/city/selectors";
+import { CitiesLayoutSkeleton } from './citiesLayout/CitiesLayout.Skeleton';
 
 export const MainPage: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const offers = useAppSelector(getOffers);
 	const cities = useAppSelector(getCities);
 	const status = useAppSelector(getOffersFetchingStatus);
+	const isLoading = status === FetchStatus.IDLE || status === FetchStatus.PENDING;
 
-	const [activeCity, setActiveCity] = React.useState<ICity>(cities[3]);
+	const [activeCity, setActiveCity] = React.useState<ICity>(cities[0]);
 	const [activeSort, setActiveSort] = React.useState<SortTypes>(SortTypes.DATE);
-	const filteredOffers = offers
-		.filter(offer => offer.city.name === activeCity.name);
-	const isEmpty = filteredOffers.length === 0;
+	const isEmpty = offers.length === 0;
+
+	React.useEffect(() => {
+		if (cities.length) {
+			setActiveCity(cities[0]);
+		}
+	}, [cities]);
 
 	React.useEffect(() => {
 		const [sortBy, order] = activeSort.split('_');
-		dispatch(fetchOffersAction({
-			page: 1,
-			limit: limits.offersPerPage,
-			sortBy,
-			order,
-			cityId: "63c5379a308caae6c7f56d51"
-		}));
-	}, [activeSort]);
+		if (activeCity) {
+			dispatch(fetchOffersAction({
+				page: 1,
+				limit: limits.offersPerPage,
+				sortBy,
+				order,
+				cityId: activeCity._id
+			}));
+		}
+	}, [activeSort, activeCity]);
 
 	const sortChangeHandler = (value: SortTypes) => {
 		setActiveSort(value);
@@ -59,12 +68,13 @@ export const MainPage: React.FC = () => {
 					<EmptyCitiesLayout title="No places to stay available">
 						<>We could not find any property available at the moment in {activeCity.name}</>
 					</EmptyCitiesLayout>}
-				{status !== FetchStatus.REJECTED && <CitiesLayout
+				{!isEmpty && status === FetchStatus.FULFILLED && <CitiesLayout
 					sortType={activeSort}
 					city={activeCity}
-					offers={filteredOffers}
+					offers={offers}
 					sortChangeHandler={sortChangeHandler}
 				/>}
+				{isLoading && <CitiesLayoutSkeleton />}
 				{status === FetchStatus.REJECTED &&
 					<EmptyCitiesLayout title="Something went wrong...">
 						<>Try again later.</>

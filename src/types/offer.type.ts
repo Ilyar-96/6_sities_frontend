@@ -5,6 +5,7 @@ export interface ILocation {
 }
 
 export interface ICity {
+	_id: string;
 	name: string;
 	location: ILocation;
 }

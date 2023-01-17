@@ -1,6 +1,7 @@
 import React from 'react';
 import { ApartmentGalleryProps } from './ApartmentGallery.type';
 import { limits } from '../../const';
+import { BACKEND_URL } from "../../services/api";
 
 export const ApartmentGallery: React.FC<ApartmentGalleryProps> = ({ offer }) => {
 	return (
@@ -9,7 +10,7 @@ export const ApartmentGallery: React.FC<ApartmentGalleryProps> = ({ offer }) => 
 				{
 					offer.images.slice(0, limits.maxImagesOnApartmentPage).map(i => (
 						<div className="property__image-wrapper" key={i}>
-							<img className="property__image" src={i} alt={offer.type} />
+							<img className="property__image" src={BACKEND_URL + i} alt={offer.type} />
 						</div>
 					))
 				}

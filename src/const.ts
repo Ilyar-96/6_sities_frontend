@@ -1,5 +1,6 @@
 export enum APIRoute {
 	OFFERS = "offer",
+	CITY = "city",
 }
 
 export enum APPRoute {
@@ -18,6 +19,7 @@ export const limits = {
 export enum NameSpace {
 	USER = "user",
 	OFFER = "offer",
+	CITY = "city",
 }
 
 export enum AuthorizationStatus {

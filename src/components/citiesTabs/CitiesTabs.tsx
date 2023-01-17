@@ -1,8 +1,8 @@
 import React from 'react';
 import cn from "classnames";
 import { useAppSelector } from '../../hooks';
-import { getCities } from '../../store/offers/selectors';
 import { CitiesTabsProps } from './CitiesTabs.type';
+import { getCities } from "../../store/city/selectors";
 
 export const CitiesTabs: React.FC<CitiesTabsProps> = ({ onClick, activeCity }) => {
 	const cities = useAppSelector(getCities);
@@ -17,7 +17,7 @@ export const CitiesTabs: React.FC<CitiesTabsProps> = ({ onClick, activeCity }) =
 								className={cn(
 									"locations__item-link",
 									"tabs__item",
-									{ "tabs__item--active": activeCity.name === city.name }
+									{ "tabs__item--active": activeCity?.name === city?.name }
 								)}
 								onClick={() => onClick(city)}
 							>

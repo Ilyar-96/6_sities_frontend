@@ -1,5 +1,5 @@
 import { Header, Footer } from '../../components';
-import { favoriteList } from '../../mockData';
+// import { favoriteList } from '../../mockData';
 import { ApartmentCard } from '../../components/apartmentCard/ApartmentCard';
 import { Link } from "react-router-dom";
 import { APPRoute } from "../../const";
@@ -14,7 +14,7 @@ export const Favorites = () => {
 					<section className="favorites">
 						<h1 className="favorites__title">Saved listing</h1>
 						<ul className="favorites__list">
-							{Object.entries(favoriteList).map(([city, offers]) => (
+							{/* {Object.entries(favoriteList).map(([city, offers]) => (
 								<li className="favorites__locations-items" key={city}>
 									<div className="favorites__locations locations locations--current">
 										<div className="locations__item">
@@ -29,7 +29,7 @@ export const Favorites = () => {
 										))}
 									</div>
 								</li>
-							))}
+							))} */}
 						</ul>
 					</section>
 				</div>
