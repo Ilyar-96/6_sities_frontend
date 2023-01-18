@@ -3,7 +3,7 @@ import SimpleBar from 'simplebar-react';
 import { ApartmentCard, Sort } from '../../../components';
 import 'simplebar-react/dist/simplebar.min.css';
 import { CitiesLayoutProps } from './CitiesLayout.type';
-import { Map } from '../../../components/map/Map';
+import { MapSection } from '../../../components/map/Map';
 import { getOffersOffersCount } from "../../../store/offers/selectors";
 import { useAppSelector } from "../../../hooks";
 const pluralize = require('pluralize');
@@ -38,7 +38,7 @@ export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
 			</SimpleBar>
 
 			<div className="cities__right-section">
-				<Map className="cities__map" />
+				<MapSection className="cities__map" city={city} offers={offers} />
 			</div>
 		</div>
 	</div>);

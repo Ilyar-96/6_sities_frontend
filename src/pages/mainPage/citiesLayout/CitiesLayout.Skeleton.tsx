@@ -2,7 +2,6 @@ import React from 'react';
 import SimpleBar from 'simplebar-react';
 import { VerticalCardSkeleton } from '../../../components';
 import 'simplebar-react/dist/simplebar.min.css';
-import { Map } from '../../../components/map/Map';
 import { CitiesHeadSkeleton } from "./CitiesHeadSkeleton";
 
 export const CitiesLayoutSkeleton: React.FC = () => {
@@ -24,7 +23,6 @@ export const CitiesLayoutSkeleton: React.FC = () => {
 			</SimpleBar>
 
 			<div className="cities__right-section">
-				<Map className="cities__map" />
 			</div>
 		</div>
 	</div>);

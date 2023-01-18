@@ -2037,4 +2037,59 @@ img {
 	opacity: .5
 }
 
-/*# sourceMappingURL=main.css.map */
+.map {
+	position: relative;
+}
+
+.map__wrapper {
+	position: absolute;
+	width: 100% !important;
+	height: 100% !important;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.map__popup {
+	position: absolute;
+	bottom: 5px;
+	left: 5px;
+	right: 5px;
+	width: calc(100% - 10px);
+	min-height: 100px;
+	background-color: #fff;
+	padding: 15px;
+	z-index: 2;
+	border-radius: 10px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.map-popup__title {
+	margin: 0 0 5px;
+	padding-right: 30px;
+}
+
+.map-popup__rating {
+	display: flex;
+	align-items: center;
+}
+
+.map-popup__rating .rating__value {
+	margin-left: 5px;
+}
+
+.map-popup__address {}
+
+.map-popup__close {
+	position: absolute;
+	top: 15px;
+	right: 10px;
+
+	width: 18px;
+	height: 18px;
+	padding: 0;
+
+	background: none;
+	border: none;
+	cursor: pointer;
+}

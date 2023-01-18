@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Map, ApartmentCard, ApartmentGallery, ApartmentInfo, ReviewList, ReviewForm, VerticalCardSkeleton } from '../../components';
+import { Header, ApartmentCard, ApartmentGallery, ApartmentInfo, ReviewList, ReviewForm, VerticalCardSkeleton, MapSection } from '../../components';
 import { reviews } from '../../mockData';
 import { useNavigate, useParams } from "react-router-dom";
 import offerService from '../../services/offerService';
@@ -70,7 +70,7 @@ export const Apartment = () => {
 						</div>
 					</div>
 
-					<Map className="property__map" />
+					{/* <MapSection className="property__map" /> */}
 				</section>
 
 				<div className="container">
