@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -8,13 +8,13 @@ import { APPRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth } from "../../store/user/selectors";
 import { ILoginFormValues } from "../../types/form.type";
-import { ILoginData } from "../../services/authService";
-import { fetchLoginAction } from "../../store/apiActions";
+import { loginAction } from "../../store/apiActions";
+import { notifyError } from '../../utils/notify';
+import { ILoginData } from "../../types/user.type";
 
 export const Login: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const isAuth = useAppSelector(getIsAuth);
-	const navigate = useNavigate();
 
 	const formSchema = Yup.object().shape({
 		email: Yup.string()
@@ -34,19 +34,25 @@ export const Login: React.FC = () => {
 		mode: "onChange",
 	});
 
-	// if (isAuth) {
-	// 	return <Navigate to={APPRoute.MAIN} />;
-	// }
+	React.useEffect(() => {
+		if (isAuth) {
+			reset();
+		}
+	}, [isAuth]);
 
 	const onSubmit: SubmitHandler<ILoginFormValues> = (values: ILoginData) => {
 		try {
-			dispatch(fetchLoginAction(values));
-			// reset();
-			// navigate(APPRoute.MAIN);
+			dispatch(loginAction(values));
 		} catch (err) {
-
+			if (err instanceof Error) {
+				notifyError(err.message);
+			}
 		}
 	};
+
+	if (isAuth) {
+		return <Navigate to={APPRoute.MAIN} />;
+	}
 
 	return (
 		<div className="page page--gray page--login">

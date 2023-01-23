@@ -1,3 +1,5 @@
+import { IUser } from "./user.type";
+
 export interface ILocation {
 	latitude: number;
 	longitude: number;
@@ -8,18 +10,6 @@ export interface ICity {
 	_id: string;
 	name: string;
 	location: ILocation;
-}
-
-export interface IUser {
-	id: string;
-	name: string;
-	isPro: boolean;
-	avatarUrl: string;
-	role: string[];
-	phone: number;
-	email: string;
-	favorites: string[];
-	token?: string;
 }
 
 export interface IReview {

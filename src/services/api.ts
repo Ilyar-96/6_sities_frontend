@@ -1,17 +1,25 @@
-import axios, { AxiosHeaders, AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, {
+	AxiosError,
+	AxiosHeaders,
+	AxiosInstance,
+	AxiosRequestConfig,
+	AxiosResponse,
+} from "axios";
+import { StatusCodes } from "http-status-codes";
 import { getToken } from "./token";
 // import { StatusCodes } from "http-status-codes";
 // import { toast } from "react-toastify";
 // import { getToken } from "./token";
+import { notifyWarning } from "../utils/notify";
 
-// const StatusCodeMapping: Record<number, boolean> = {
-// 	[StatusCodes.BAD_REQUEST]: true,
-// 	[StatusCodes.UNAUTHORIZED]: true,
-// 	[StatusCodes.NOT_FOUND]: true,
-// };
+const StatusCodeMapping: Record<number, boolean> = {
+	[StatusCodes.BAD_REQUEST]: true,
+	[StatusCodes.UNAUTHORIZED]: true,
+	[StatusCodes.NOT_FOUND]: true,
+};
 
-// const shouldDisplayError = (response: AxiosResponse) =>
-// 	!!StatusCodeMapping[response.status];
+const shouldDisplayError = (response: AxiosResponse) =>
+	!!StatusCodeMapping[response.status];
 
 export const BACKEND_URL = "http://localhost:5000/";
 // export const BACKEND_URL = "https://six-sities.onrender.com/";
@@ -33,16 +41,16 @@ export const createAPI = (): AxiosInstance => {
 		return config;
 	});
 
-	// api.interceptors.response.use(
-	//   (response) => response,
-	//   (error: AxiosError<{error: string}>) => {
-	//     if (error.response && shouldDisplayError(error.response)) {
-	//       toast.warn(error.response.data.error);
-	//     }
+	api.interceptors.response.use(
+		(response) => response,
+		(error: AxiosError<{ message: string }>) => {
+			if (error.response && shouldDisplayError(error.response)) {
+				notifyWarning(error.response.data.message);
+			}
 
-	//     throw error;
-	//   }
-	// );
+			throw error;
+		}
+	);
 
 	return api;
 };

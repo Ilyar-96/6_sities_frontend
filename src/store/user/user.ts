@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { NameSpace, AuthorizationStatus } from "../../const";
 import { IUserState } from "../../types/state";
-import { fetchAuthMeAction, fetchLoginAction } from "../apiActions";
+import { authMeAction, loginAction } from "../apiActions";
 import { dropToken } from "../../services/token";
 
 const initialState: IUserState = {
@@ -21,19 +21,19 @@ export const userSlice = createSlice({
 	},
 	extraReducers(builder) {
 		builder
-			.addCase(fetchLoginAction.fulfilled, (state, action) => {
+			.addCase(loginAction.fulfilled, (state, action) => {
 				state.authorizationStatus = AuthorizationStatus.AUTH;
 				state.user = action.payload;
 			})
-			.addCase(fetchLoginAction.rejected, (state) => {
+			.addCase(loginAction.rejected, (state) => {
 				state.authorizationStatus = AuthorizationStatus.NO_AUTH;
 				state.user = null;
 			})
-			.addCase(fetchAuthMeAction.fulfilled, (state, action) => {
+			.addCase(authMeAction.fulfilled, (state, action) => {
 				state.authorizationStatus = AuthorizationStatus.AUTH;
 				state.user = action.payload;
 			})
-			.addCase(fetchAuthMeAction.rejected, (state) => {
+			.addCase(authMeAction.rejected, (state) => {
 				state.authorizationStatus = AuthorizationStatus.NO_AUTH;
 				state.user = null;
 			});

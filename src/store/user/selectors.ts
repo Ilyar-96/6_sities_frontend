@@ -1,6 +1,6 @@
 import { RootState } from "../../types/state";
 import { NameSpace, AuthorizationStatus } from "../../const";
-import { IUser } from "../../types/offer.type";
+import { IUser } from "../../types/user.type";
 
 export const getAuthStatus = (state: RootState): AuthorizationStatus =>
 	state[NameSpace.USER].authorizationStatus;

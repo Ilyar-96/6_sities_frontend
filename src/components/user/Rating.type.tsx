@@ -1,4 +1,4 @@
-import { IUser } from '../../types/offer.type';
+import { IUser } from "../../types/user.type";
 
 export interface UserProps extends
 	React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

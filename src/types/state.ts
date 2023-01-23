@@ -1,6 +1,7 @@
 import { store } from "../store";
 import { AuthorizationStatus, FetchStatus } from "../const";
-import { IUser, IOffer, ICity } from "./offer.type";
+import { IOffer, ICity } from "./offer.type";
+import { IUser } from "./user.type";
 
 export interface IUserState {
 	authorizationStatus: AuthorizationStatus;
