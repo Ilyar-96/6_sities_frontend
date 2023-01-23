@@ -2,20 +2,24 @@ import React from 'react';
 import SimpleBar from 'simplebar-react';
 import { ApartmentCard, Sort } from '../../../components';
 import 'simplebar-react/dist/simplebar.min.css';
-import { CitiesLayoutProps } from './CitiesLayout.type';
 import { MapSection } from '../../../components/map/Map';
-import { getOffersOffersCount } from "../../../store/offers/selectors";
-import { useAppSelector } from "../../../hooks";
+import { getActiveSort, getOffersOffersCount, getOffers } from '../../../store/offers/selectors';
+import { useAppSelector, useAppDispatch } from '../../../hooks';
 import { getActiveCity } from '../../../store/city/selectors';
+import { changeActiveSort } from "../../../store/offers/offer";
+import { SortTypes } from "../../../components/sort/Sort.type";
 const pluralize = require('pluralize');
 
-export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
-	offers,
-	sortChangeHandler,
-	sortType
-}) => {
+export const CitiesLayout: React.FC = () => {
+	const dispatch = useAppDispatch();
 	const offersCount = useAppSelector(getOffersOffersCount);
+	const activeSort = useAppSelector(getActiveSort);
 	const city = useAppSelector(getActiveCity);
+	const offers = useAppSelector(getOffers);
+
+	const onSortChange = (sort: SortTypes) => {
+		dispatch(changeActiveSort(sort));
+	};
 
 	if (!city) {
 		return <h1>Loading</h1>;
@@ -33,7 +37,7 @@ export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
 						{offersCount} {pluralize("places", offersCount)} to stay in {city?.name}
 					</b>
 
-					<Sort active={sortType} onSortChange={sortChangeHandler} />
+					<Sort active={activeSort} onSortChange={onSortChange} />
 
 					<div className="cities__places-list places__list tabs__content">
 						{offers.map((offer) => <ApartmentCard key={offer._id} className="cities__card" data={offer} />)}

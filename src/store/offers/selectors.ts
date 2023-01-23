@@ -10,3 +10,5 @@ export const getOffersFetchingStatus = (state: RootState) =>
 	state[NameSpace.OFFER].status;
 export const getOffersErrorMessage = (state: RootState) =>
 	state[NameSpace.OFFER].error;
+export const getActiveSort = (state: RootState) =>
+	state[NameSpace.OFFER].activeSort;

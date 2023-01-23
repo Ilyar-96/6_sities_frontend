@@ -2,6 +2,7 @@ import { store } from "../store";
 import { AuthorizationStatus, FetchStatus } from "../const";
 import { IOffer, ICity } from "./offer.type";
 import { IUser } from "./user.type";
+import { SortTypes } from "../components/sort/Sort.type";
 
 export interface IUserState {
 	authorizationStatus: AuthorizationStatus;
@@ -14,6 +15,7 @@ export interface IOfferState {
 	entities: IOffer[];
 	status: FetchStatus;
 	error: string | null;
+	activeSort: SortTypes;
 }
 
 export interface ICityState {

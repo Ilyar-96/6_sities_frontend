@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NameSpace, FetchStatus } from "../../const";
 import { IOfferState } from "../../types/state";
 import { fetchOffersAction } from "../apiActions";
+import { SortTypes } from "../../components/sort/Sort.type";
 
 const initialState: IOfferState = {
 	pagesCount: 0,
@@ -9,12 +10,17 @@ const initialState: IOfferState = {
 	entities: [],
 	status: FetchStatus.IDLE,
 	error: null,
+	activeSort: SortTypes.DATE,
 };
 
 export const offerSlice = createSlice({
 	name: NameSpace.OFFER,
 	initialState,
-	reducers: {},
+	reducers: {
+		changeActiveSort: (state, action: PayloadAction<SortTypes>) => {
+			state.activeSort = action.payload;
+		},
+	},
 	extraReducers(builder) {
 		builder
 			.addCase(fetchOffersAction.pending, (state) => {
@@ -33,3 +39,5 @@ export const offerSlice = createSlice({
 			});
 	},
 });
+
+export const { changeActiveSort } = offerSlice.actions;
