@@ -6,15 +6,20 @@ import { CitiesLayoutProps } from './CitiesLayout.type';
 import { MapSection } from '../../../components/map/Map';
 import { getOffersOffersCount } from "../../../store/offers/selectors";
 import { useAppSelector } from "../../../hooks";
+import { getActiveCity } from '../../../store/city/selectors';
 const pluralize = require('pluralize');
 
 export const CitiesLayout: React.FC<CitiesLayoutProps> = ({
-	city,
 	offers,
 	sortChangeHandler,
 	sortType
 }) => {
 	const offersCount = useAppSelector(getOffersOffersCount);
+	const city = useAppSelector(getActiveCity);
+
+	if (!city) {
+		return <h1>Loading</h1>;
+	}
 
 	return (<div className="cities">
 		<div className="cities__places-container container">

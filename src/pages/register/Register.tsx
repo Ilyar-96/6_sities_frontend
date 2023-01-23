@@ -1,19 +1,20 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from "yup";
 import { Header, Input } from "../../components";
 import { APPRoute } from "../../const";
 import { getIsAuth } from '../../store/user/selectors';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { yupResolver } from "@hookform/resolvers/yup";
 import emptyAvatarUrl from '../../assets/img/avatar.svg';
 import { useImagePreview } from '../../hooks/useImagePreview';
-import { IRegisterFormValues } from "../../types/form.type";
+import { registerAction } from "../../store/apiActions";
+import { IRegisterData } from "../../types/user.type";
 
 export const Register: React.FC = () => {
+	const dispatch = useAppDispatch();
 	const isAuth = useAppSelector(getIsAuth);
-	const navigate = useNavigate();
 	const fileInputRef = React.useRef<HTMLInputElement>(null);
 	const { selectedFile, setSelectedFile, preview } = useImagePreview();
 
@@ -32,7 +33,7 @@ export const Register: React.FC = () => {
 		handleSubmit,
 		reset,
 		formState: { errors, isValid },
-	} = useForm<IRegisterFormValues>({
+	} = useForm<IRegisterData>({
 		resolver: yupResolver(formSchema),
 		mode: "onChange",
 	});
@@ -41,24 +42,28 @@ export const Register: React.FC = () => {
 		fileInputRef.current?.click();
 	};
 
-	// if (isAuth) {
-	// 	return <Navigate to={APPRoute.MAIN} />;
-	// }
+	React.useEffect(() => {
+		if (isAuth) {
+			reset();
+		}
+	}, [isAuth]);
 
-
-	const onSubmit: SubmitHandler<IRegisterFormValues> = (values) => {
+	const onSubmit: SubmitHandler<IRegisterData> = (values) => {
 		try {
 			const formData = {
-				avatar: selectedFile ? selectedFile : null,
-				...values
+				...values,
+				image: selectedFile ? selectedFile : ''
 			};
-			console.log(formData);
-			// reset();
-			// navigate(APPRoute.MAIN);
+			console.log(selectedFile);
+			dispatch(registerAction(formData));
 		} catch (err) {
 
 		}
 	};
+
+	if (isAuth) {
+		return <Navigate to={APPRoute.MAIN} />;
+	}
 
 	return (
 		<div className="page page--gray page--login">

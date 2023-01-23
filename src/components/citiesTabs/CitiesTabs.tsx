@@ -1,11 +1,19 @@
 import React from 'react';
 import cn from "classnames";
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { CitiesTabsProps } from './CitiesTabs.type';
-import { getCities } from "../../store/city/selectors";
+import { getActiveCity, getCities } from "../../store/city/selectors";
+import { changeActiveCity } from "../../store/city/city";
+import { ICity } from '../../types/offer.type';
 
-export const CitiesTabs: React.FC<CitiesTabsProps> = ({ onClick, activeCity }) => {
+export const CitiesTabs: React.FC<CitiesTabsProps> = () => {
+	const dispatch = useAppDispatch();
+	const activeCity = useAppSelector(getActiveCity);
 	const cities = useAppSelector(getCities);
+
+	const onClick = (city: ICity) => {
+		dispatch(changeActiveCity(city));
+	};
 
 	return (
 		<div className="tabs">

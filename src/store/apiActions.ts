@@ -10,6 +10,7 @@ import { AxiosInstance } from "axios";
 import { APIRoute, NameSpace } from "../const";
 import { saveToken } from "../services/token";
 import { ILoginData, IRegisterData, IUser } from "../types/user.type";
+import { notifySuccess, notifyError } from "../utils/notify";
 
 export const fetchOffersAction = createAsyncThunk<
 	IOfferData,
@@ -54,12 +55,18 @@ export const loginAction = createAsyncThunk<
 		if (data.token) {
 			saveToken(data.token);
 		}
+		notifySuccess("Successfully authorized");
 		return data;
 	} catch (err) {
 		if (err instanceof Error) {
+			if ("response" in err) {
+				notifyError(err.message);
+			}
 			throw new Error(err.message);
+		} else {
+			notifyError("Something went wrong...");
+			throw new Error("Something went wrong...");
 		}
-		throw new Error("Something went wrong...");
 	}
 });
 
@@ -75,16 +82,26 @@ export const registerAction = createAsyncThunk<
 	`${NameSpace.USER}/register`,
 	async (registerData, { dispatch, extra: api }) => {
 		try {
-			const { data } = await api.post<IUser>(APIRoute.REGISTER, registerData);
+			const { data } = await api.post<IUser>(
+				APIRoute.REGISTRATION,
+				registerData
+			);
 			if (data.token) {
 				saveToken(data.token);
 			}
+			console.log(data);
+			notifySuccess("Successfully registred");
 			return data;
 		} catch (err) {
 			if (err instanceof Error) {
+				if ("response" in err) {
+					notifyError(err.message);
+				}
 				throw new Error(err.message);
+			} else {
+				notifyError("Something went wrong...");
+				throw new Error("Something went wrong...");
 			}
-			throw new Error("Something went wrong...");
 		}
 	}
 );
@@ -104,8 +121,9 @@ export const authMeAction = createAsyncThunk<
 	} catch (err) {
 		if (err instanceof Error) {
 			throw new Error(err.message);
+		} else {
+			throw new Error("Something went wrong...");
 		}
-		throw new Error("Something went wrong...");
 	}
 });
 

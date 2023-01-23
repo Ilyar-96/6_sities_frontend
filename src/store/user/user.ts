@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { NameSpace, AuthorizationStatus } from "../../const";
 import { IUserState } from "../../types/state";
-import { authMeAction, loginAction } from "../apiActions";
+import { authMeAction, loginAction, registerAction } from "../apiActions";
 import { dropToken } from "../../services/token";
 
 const initialState: IUserState = {
@@ -26,6 +26,14 @@ export const userSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(loginAction.rejected, (state) => {
+				state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+				state.user = null;
+			})
+			.addCase(registerAction.fulfilled, (state, action) => {
+				state.authorizationStatus = AuthorizationStatus.AUTH;
+				state.user = action.payload;
+			})
+			.addCase(registerAction.rejected, (state) => {
 				state.authorizationStatus = AuthorizationStatus.NO_AUTH;
 				state.user = null;
 			})

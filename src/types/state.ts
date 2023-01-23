@@ -20,6 +20,7 @@ export interface ICityState {
 	entities: ICity[];
 	status: FetchStatus;
 	error: string | null;
+	activeCity: ICity | null;
 }
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -7,10 +7,9 @@ import { Header, Input } from "../../components";
 import { APPRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth } from "../../store/user/selectors";
-import { ILoginFormValues } from "../../types/form.type";
 import { loginAction } from "../../store/apiActions";
 import { notifyError } from '../../utils/notify';
-import { ILoginData } from "../../types/user.type";
+import { ILoginData, IRegisterData } from "../../types/user.type";
 
 export const Login: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -29,7 +28,7 @@ export const Login: React.FC = () => {
 		handleSubmit,
 		reset,
 		formState: { errors, isValid },
-	} = useForm<ILoginFormValues>({
+	} = useForm<IRegisterData>({
 		resolver: yupResolver(formSchema),
 		mode: "onChange",
 	});
@@ -40,7 +39,7 @@ export const Login: React.FC = () => {
 		}
 	}, [isAuth]);
 
-	const onSubmit: SubmitHandler<ILoginFormValues> = (values: ILoginData) => {
+	const onSubmit: SubmitHandler<IRegisterData> = (values: ILoginData) => {
 		try {
 			dispatch(loginAction(values));
 		} catch (err) {

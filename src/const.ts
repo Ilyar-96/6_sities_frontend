@@ -3,7 +3,7 @@ export enum APIRoute {
 	CITY = "city",
 	USER = "host",
 	LOGIN = "auth/login",
-	REGISTER = "auth/register",
+	REGISTRATION = "auth/registration",
 	AUTH_ME = "auth/me",
 }
 
