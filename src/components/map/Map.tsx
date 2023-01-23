@@ -52,7 +52,7 @@ export const MapSection: React.FC<MapProps> = ({ city, offers, className, ...pro
 					className="map-popup__rating"
 					isCountVisible
 				/>
-				<div className="map-popup__address">Адресс</div>
+				<div className="map-popup__address">{selectedOffer.address}</div>
 
 				<button
 					className="map-popup__close"

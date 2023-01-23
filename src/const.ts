@@ -1,6 +1,7 @@
 export enum APIRoute {
 	OFFERS = "offer",
 	CITY = "city",
+	USER = "host",
 }
 
 export enum APPRoute {

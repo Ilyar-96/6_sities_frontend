@@ -1,6 +1,5 @@
 import React from 'react';
 import { Header, ApartmentCard, ApartmentGallery, ApartmentInfo, ReviewList, ReviewForm, VerticalCardSkeleton, MapSection } from '../../components';
-import { reviews } from '../../mockData';
 import { useNavigate, useParams } from "react-router-dom";
 import offerService from '../../services/offerService';
 import { IOffer } from '../../types/offer.type';
@@ -52,9 +51,9 @@ export const Apartment = () => {
 									<ApartmentInfo offer={offer} />
 
 									<section className={"reviews"}>
-										<h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviews.length}</span></h2>
+										<h2 className="reviews__title">Reviews · <span className="reviews__amount">{offer.comments.length}</span></h2>
 
-										<ReviewList reviews={reviews} />
+										<ReviewList reviews={offer.comments} />
 									</section>
 								</div>
 							</div>

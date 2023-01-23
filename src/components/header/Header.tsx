@@ -27,7 +27,7 @@ export const Header: React.FC = () => {
 								<li className="header__nav-item user">
 									<Link className="header__nav-link header__nav-link--profile" to={APPRoute.FAVORITES}>
 										<img className="header__avatar" src={user.avatarUrl ? user.avatarUrl : emptyAvatarUrl} alt={`${user.name} avatar`} />
-										<span className="header__user-name">{user.login}</span>
+										<span className="header__user-name">{user.email}</span>
 										<span className="header__favorite-count">{user.favorites.length}</span>
 									</Link>
 								</li>

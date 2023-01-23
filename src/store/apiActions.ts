@@ -1,4 +1,9 @@
-import { ICity, IOfferData, IOfferFetchParams } from "../types/offer.type";
+import {
+	ICity,
+	IOfferData,
+	IOfferFetchParams,
+	IUser,
+} from "../types/offer.type";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "../types/state";
 import { AxiosInstance } from "axios";
@@ -19,6 +24,19 @@ export const fetchOffersAction = createAsyncThunk<
 		return data;
 	}
 );
+
+export const fetchUserAction = createAsyncThunk<
+	IUser,
+	undefined,
+	{
+		dispatch: AppDispatch;
+		state: RootState;
+		extra: AxiosInstance;
+	}
+>(`${NameSpace.USER}/fetchUser`, async (params, { dispatch, extra: api }) => {
+	const { data } = await api.get<IUser>(APIRoute.USER, { params });
+	return data;
+});
 
 export const fetchCitiesAction = createAsyncThunk<
 	ICity[],

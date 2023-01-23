@@ -11,21 +11,37 @@ export interface ICity {
 }
 
 export interface IUser {
-	id: number;
+	id: string;
 	name: string;
 	isPro: boolean;
 	avatarUrl: string;
+	role: string[];
+	phone: number;
+	email: string;
+	favorites: string[];
+}
+
+export interface IReview {
+	id: string;
+	user: IUser;
+	offer?: string;
+	rating: number;
+	description: string;
+	createdAt: string;
+	updatedAt: string;
 }
 
 export interface IOffer {
 	city: ICity;
 	previewImage: string;
 	images: string[];
+	comments: IReview[];
 	title: string;
 	isFavorite: boolean;
 	isPremium: boolean;
 	rating: number;
 	type: string;
+	address: string;
 	bedrooms: number;
 	maxAdults: number;
 	price: number;
@@ -34,14 +50,6 @@ export interface IOffer {
 	description: string;
 	location: ILocation;
 	_id: number;
-}
-
-export interface IReview {
-	id: number;
-	user: IUser;
-	rating: number;
-	comment: string;
-	date: string;
 }
 
 export type FavoriteListType = Record<ICity["name"], IOffer[]>;

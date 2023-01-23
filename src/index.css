@@ -671,10 +671,6 @@ img {
 	width: 100%;
 	-ms-flex-item-align: stretch;
 	align-self: stretch;
-	background-image: url(./assets/img/map.jpg);
-	background-size: 682px auto;
-	background-repeat: no-repeat;
-	background-position: -170px center
 }
 
 @media (-webkit-min-device-pixel-ratio:1.5),
@@ -907,7 +903,11 @@ img {
 }
 
 .place-card__image-wrapper {
-	margin-bottom: 9px
+	margin-bottom: 9px;
+	background-image: url("./assets/img/noImagePreview.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .place-card__image {
@@ -1492,6 +1492,10 @@ img {
 	}
 }
 
+.reviews {
+	width: 100%;
+}
+
 .reviews__title {
 	margin-top: 0;
 	margin-bottom: 37px;
@@ -2039,6 +2043,7 @@ img {
 
 .map {
 	position: relative;
+	background-color: #fcfcf7;
 }
 
 .map__wrapper {
@@ -2067,6 +2072,10 @@ img {
 .map-popup__title {
 	margin: 0 0 5px;
 	padding-right: 30px;
+}
+
+.map-popup__title a:hover {
+	color: #4481c3;
 }
 
 .map-popup__rating {

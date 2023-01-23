@@ -2,14 +2,9 @@ import { store } from "../store";
 import { AuthorizationStatus, FetchStatus } from "../const";
 import { IUser, IOffer, ICity } from "./offer.type";
 
-export interface ICurrentUser extends Omit<IUser, "isPro"> {
-	favorites: string[];
-	login: string;
-}
-
 export interface IUserState {
 	authorizationStatus: AuthorizationStatus;
-	user: ICurrentUser;
+	user: IUser;
 }
 
 export interface IOfferState {

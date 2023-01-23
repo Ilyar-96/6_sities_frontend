@@ -5,8 +5,10 @@ import { ApartmentCardProps } from './ApartmentCard.type';
 import { APPRoute } from '../../const';
 import { Rating } from '../rating/Rating';
 import { BACKEND_URL } from "../../services/api";
+import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
 
 export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, ...props }) => {
+	const previewImageUrl = data.previewImage ? BACKEND_URL + data.previewImage : noImagePreviewUrl;
 
 	return (
 		<div className={cn(className, "place-card")} {...props}>
@@ -15,7 +17,7 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 			</div>}
 			<div className="place-card__image-wrapper">
 				<Link to={`${APPRoute.APARTMENT}/${data._id}`}>
-					<img className="place-card__image" src={BACKEND_URL + data.previewImage} width={260} height={200} alt={data.title} />
+					<img className="place-card__image" src={previewImageUrl} width={260} height={200} alt="" />
 				</Link>
 			</div>
 			<div className="place-card__info">

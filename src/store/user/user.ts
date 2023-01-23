@@ -5,11 +5,14 @@ import { IUserState } from "../../types/state";
 const initialState: IUserState = {
 	authorizationStatus: AuthorizationStatus.AUTH,
 	user: {
-		id: 1,
+		id: "1",
 		name: "Oliver Tyler",
-		login: "Oliver.conner@gmail.com",
+		email: "Oliver.conner@gmail.com",
 		favorites: [],
 		avatarUrl: "",
+		isPro: false,
+		role: [],
+		phone: 879456,
 	},
 };
 

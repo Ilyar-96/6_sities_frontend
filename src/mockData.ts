@@ -1,21 +1,5 @@
 import { IReview } from "./types/offer.type";
 
-export const reviews: IReview[] = [
-	{
-		id: 1,
-		user: {
-			id: 19,
-			isPro: false,
-			name: "Christina",
-			avatarUrl: "https://11.react.pages.academy/static/avatar/10.jpg",
-		},
-		rating: 3,
-		comment:
-			"The deluxe room was a quite comfortable one with all the adequate facilities. The only thing that made me feel uncomfortable was the rude behavior of an impolite staff at the reception desk.",
-		date: "2022-10-08T13:58:46.511Z",
-	},
-];
-
 // export const favoriteList: FavoriteListType = {
 // 	Amsterdam: [
 // 		{
