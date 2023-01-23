@@ -1,4 +1,5 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosHeaders, AxiosInstance, AxiosRequestConfig } from "axios";
+import { getToken } from "./token";
 // import { StatusCodes } from "http-status-codes";
 // import { toast } from "react-toastify";
 // import { getToken } from "./token";
@@ -22,17 +23,15 @@ export const createAPI = (): AxiosInstance => {
 		timeout: REQUEST_TIMEOUT,
 	});
 
-	// api.interceptors.request.use(
-	//   (config: AxiosRequestConfig) => {
-	//     const token = getToken();
+	api.interceptors.request.use((config: AxiosRequestConfig) => {
+		const token = getToken();
 
-	//     if (token && config.headers) {
-	//       config.headers['x-token'] = token;
-	//     }
+		if (token && config.headers) {
+			(config.headers as AxiosHeaders).set("authorization", token);
+		}
 
-	//     return config;
-	//   },
-	// );
+		return config;
+	});
 
 	// api.interceptors.response.use(
 	//   (response) => response,

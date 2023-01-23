@@ -2,6 +2,9 @@ export enum APIRoute {
 	OFFERS = "offer",
 	CITY = "city",
 	USER = "host",
+	LOGIN = "auth/login",
+	REGISTER = "auth/register",
+	AUTH_ME = "auth/me",
 }
 
 export enum APPRoute {

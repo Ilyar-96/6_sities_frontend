@@ -4,7 +4,7 @@ import { IUser, IOffer, ICity } from "./offer.type";
 
 export interface IUserState {
 	authorizationStatus: AuthorizationStatus;
-	user: IUser;
+	user: IUser | null;
 }
 
 export interface IOfferState {

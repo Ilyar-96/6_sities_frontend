@@ -5,11 +5,14 @@ import * as Yup from "yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Header, Input } from "../../components";
 import { APPRoute } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth } from "../../store/user/selectors";
 import { ILoginFormValues } from "../../types/form.type";
+import { ILoginData } from "../../services/authService";
+import { fetchLoginAction } from "../../store/apiActions";
 
 export const Login: React.FC = () => {
+	const dispatch = useAppDispatch();
 	const isAuth = useAppSelector(getIsAuth);
 	const navigate = useNavigate();
 
@@ -35,9 +38,9 @@ export const Login: React.FC = () => {
 	// 	return <Navigate to={APPRoute.MAIN} />;
 	// }
 
-	const onSubmit: SubmitHandler<ILoginFormValues> = (values: any) => {
+	const onSubmit: SubmitHandler<ILoginFormValues> = (values: ILoginData) => {
 		try {
-			console.log(values);
+			dispatch(fetchLoginAction(values));
 			// reset();
 			// navigate(APPRoute.MAIN);
 		} catch (err) {

@@ -492,7 +492,10 @@ img {
 	font-size: 14px;
 	line-height: 1.2143;
 	-webkit-transition: text-shadow .3s;
-	transition: text-shadow .3s
+	transition: text-shadow .3s;
+	background: none;
+	border: none;
+	cursor: pointer;
 }
 
 .header__nav-link:focus,
@@ -503,7 +506,9 @@ img {
 .header__avatar {
 	width: 20px;
 	height: 20px;
-	margin-right: 8px
+	margin-right: 8px;
+	border-radius: 50%;
+	object-fit: cover;
 }
 
 .header__login {
@@ -1185,6 +1190,11 @@ img {
 	text-align: center
 }
 
+.property__address {
+	margin-bottom: 10px;
+	font-size: 18px;
+}
+
 .property__bookmark-button {
 	position: absolute;
 	top: 41px;
@@ -1448,6 +1458,33 @@ img {
 	line-height: 1.187;
 	font-weight: 700;
 	color: #000
+}
+
+.user__contacts {
+	margin-top: 10px;
+}
+
+.user__contacts,
+.user__email {
+	margin-bottom: 7px;
+
+}
+
+.user__contacts,
+.user__phone,
+.user__email {
+	display: block;
+	font-size: 18px;
+}
+
+.user__phone a,
+.user__email a {
+	font-weight: 500;
+}
+
+.user__phone a:hover,
+.user__email a:hover {
+	color: #4481c3;
 }
 
 .user__status {

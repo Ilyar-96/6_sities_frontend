@@ -1,41 +1,43 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { NameSpace, AuthorizationStatus } from "../../const";
 import { IUserState } from "../../types/state";
+import { fetchAuthMeAction, fetchLoginAction } from "../apiActions";
+import { dropToken } from "../../services/token";
 
 const initialState: IUserState = {
-	authorizationStatus: AuthorizationStatus.AUTH,
-	user: {
-		id: "1",
-		name: "Oliver Tyler",
-		email: "Oliver.conner@gmail.com",
-		favorites: [],
-		avatarUrl: "",
-		isPro: false,
-		role: [],
-		phone: 879456,
-	},
+	authorizationStatus: AuthorizationStatus.NO_AUTH,
+	user: null,
 };
 
 export const userSlice = createSlice({
 	name: NameSpace.USER,
 	initialState,
-	reducers: {},
-	// extraReducers(builder) {
-	// 	builder
-	// 		.addCase(checkAuthAction.fulfilled, (state) => {
-	// 			state.authorizationStatus = AuthorizationStatus.AUTH;
-	// 		})
-	// 		.addCase(checkAuthAction.rejected, (state) => {
-	// 			state.authorizationStatus = AuthorizationStatus.NO_AUTH;
-	// 		})
-	// 		.addCase(loginAction.fulfilled, (state) => {
-	// 			state.authorizationStatus = AuthorizationStatus.AUTH;
-	// 		})
-	// 		.addCase(loginAction.rejected, (state) => {
-	// 			state.authorizationStatus = AuthorizationStatus.NO_AUTH;
-	// 		})
-	// 		.addCase(logoutAction.fulfilled, (state, action) => {
-	// 			state.authorizationStatus = AuthorizationStatus.NO_AUTH;
-	// 		});
-	// },
+	reducers: {
+		logout: (state) => {
+			dropToken();
+			state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+			state.user = null;
+		},
+	},
+	extraReducers(builder) {
+		builder
+			.addCase(fetchLoginAction.fulfilled, (state, action) => {
+				state.authorizationStatus = AuthorizationStatus.AUTH;
+				state.user = action.payload;
+			})
+			.addCase(fetchLoginAction.rejected, (state) => {
+				state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+				state.user = null;
+			})
+			.addCase(fetchAuthMeAction.fulfilled, (state, action) => {
+				state.authorizationStatus = AuthorizationStatus.AUTH;
+				state.user = action.payload;
+			})
+			.addCase(fetchAuthMeAction.rejected, (state) => {
+				state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+				state.user = null;
+			});
+	},
 });
+
+export const { logout } = userSlice.actions;

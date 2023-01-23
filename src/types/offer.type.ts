@@ -19,6 +19,7 @@ export interface IUser {
 	phone: number;
 	email: string;
 	favorites: string[];
+	token?: string;
 }
 
 export interface IReview {

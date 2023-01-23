@@ -8,5 +8,5 @@ export const getIsAuth = (state: RootState): boolean =>
 	state[NameSpace.USER].authorizationStatus === AuthorizationStatus.AUTH;
 export const getAuthCheckedStatus = (state: RootState): boolean =>
 	state[NameSpace.USER].authorizationStatus !== AuthorizationStatus.UNKNOWN;
-export const getUserData = (state: RootState): IUser =>
+export const getUserData = (state: RootState): IUser | null =>
 	state[NameSpace.USER].user;

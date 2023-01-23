@@ -19,6 +19,9 @@ export const ApartmentInfo: React.FC<ApartmentInfoProps> = ({ offer }) => {
 					</svg>
 					<span className="visually-hidden">{offer.isFavorite ? "In bookmarks" : "To bookmarks"}</span>
 				</button>
+
+				<div className="property__address">{offer.address}</div>
+
 			</div>
 
 			<Rating value={offer.rating} isCountVisible size="l" />
