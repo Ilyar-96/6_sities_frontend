@@ -4,11 +4,11 @@ import cn from 'classnames';
 import { ApartmentCardProps } from './ApartmentCard.type';
 import { APPRoute } from '../../const';
 import { Rating } from '../rating/Rating';
-import { BACKEND_URL } from "../../services/api";
 import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
+import { getImageAbsoluteUrl } from "../../utils";
 
 export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, ...props }) => {
-	const previewImageUrl = data.previewImage ? BACKEND_URL + data.previewImage : noImagePreviewUrl;
+	const previewImageUrl = data.previewImage ? getImageAbsoluteUrl(data.previewImage) : noImagePreviewUrl;
 
 	return (
 		<div className={cn(className, "place-card")} {...props}>

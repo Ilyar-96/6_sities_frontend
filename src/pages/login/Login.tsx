@@ -8,7 +8,7 @@ import { APPRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth } from "../../store/user/selectors";
 import { loginAction } from "../../store/apiActions";
-import { notifyError } from '../../utils/notify';
+import { notifyError } from '../../utils';
 import { ILoginData, IRegisterData } from "../../types/user.type";
 
 export const Login: React.FC = () => {

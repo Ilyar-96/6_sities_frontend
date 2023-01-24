@@ -10,7 +10,7 @@ import { AxiosInstance } from "axios";
 import { APIRoute, NameSpace } from "../const";
 import { saveToken } from "../services/token";
 import { ILoginData, IRegisterData, IUser } from "../types/user.type";
-import { notifySuccess, notifyError } from "../utils/notify";
+import { notifySuccess, notifyError } from "../utils";
 
 export const fetchOffersAction = createAsyncThunk<
 	IOfferData,

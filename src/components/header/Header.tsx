@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth, getUserData } from "../../store/user/selectors";
 import emptyAvatarUrl from './avatar.svg';
 import { logout } from '../../store/user/user';
-import { BACKEND_URL } from '../../services/api';
+import { getImageAbsoluteUrl } from "../../utils";
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
 							{(isAuth && user) ? (<>
 								<li className="header__nav-item user">
 									<Link className="header__nav-link header__nav-link--profile" to={APPRoute.FAVORITES}>
-										<img className="header__avatar" src={user.avatarUrl ? BACKEND_URL + user.avatarUrl : emptyAvatarUrl} alt={`${user.name} avatar`} />
+										<img className="header__avatar" src={user.avatarUrl ? getImageAbsoluteUrl(user.avatarUrl) : emptyAvatarUrl} alt={`${user.name} avatar`} />
 										<span className="header__user-name">{user.email}</span>
 										<span className="header__favorite-count">{user.favorites.length}</span>
 									</Link>

@@ -10,7 +10,7 @@ import { getToken } from "./token";
 // import { StatusCodes } from "http-status-codes";
 // import { toast } from "react-toastify";
 // import { getToken } from "./token";
-import { notifyWarning } from "../utils/notify";
+import { notifyWarning } from "../utils";
 
 const StatusCodeMapping: Record<number, boolean> = {
 	[StatusCodes.BAD_REQUEST]: true,

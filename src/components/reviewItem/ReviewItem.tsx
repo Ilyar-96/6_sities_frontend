@@ -1,8 +1,8 @@
 import React from 'react';
 import { ReviewItemProps } from './ReviewItem.type';
 import { Rating } from '..';
-import { convertDateToMYYYY } from '../../utils/convertDateToMYYYY';
-import { BACKEND_URL } from "../../services/api";
+import emptyAvatarUrl from '../../assets/img/avatar.svg';
+import { getImageAbsoluteUrl, convertDateToMYYYY } from "../../utils";
 
 export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
 	const { user, description, createdAt, rating } = review;
@@ -11,7 +11,7 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
 		<li className="reviews__item">
 			<div className="reviews__user user">
 				<div className="reviews__avatar-wrapper user__avatar-wrapper">
-					<img className="reviews__avatar user__avatar" src={BACKEND_URL + user.avatarUrl} width={54} height={54} alt={user.name} />
+					<img className="reviews__avatar user__avatar" src={user.avatarUrl ? getImageAbsoluteUrl(user.avatarUrl) : emptyAvatarUrl} width={54} height={54} alt={user.name} />
 				</div>
 				<span className="reviews__user-name">{user.name}</span>
 			</div>

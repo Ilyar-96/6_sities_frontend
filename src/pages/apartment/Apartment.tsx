@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import offerService from '../../services/offerService';
 import { IOffer } from '../../types/offer.type';
 import { ApartmentLoadingLayout } from './ApartmentLoadingLayout';
-import { notifyError } from '../../utils/notify';
+import { notifyError } from '../../utils';
 import { APPRoute } from '../../const';
 
 export const Apartment = () => {
