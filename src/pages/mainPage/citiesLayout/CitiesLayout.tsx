@@ -47,7 +47,7 @@ export const CitiesLayout: React.FC = () => {
 			</SimpleBar>
 
 			<div className="cities__right-section">
-				<MapSection className="cities__map" city={city} offers={offers} />
+				<MapSection className="cities__map" centralLocation={city.location} offers={offers} />
 			</div>
 		</div>
 	</div>);

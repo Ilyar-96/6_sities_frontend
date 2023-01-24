@@ -41,6 +41,7 @@ export interface IOffer {
 	description: string;
 	location: ILocation;
 	_id: string;
+	nearbyOffers: IOffer[];
 }
 
 export type FavoriteListType = Record<ICity["name"], IOffer[]>;

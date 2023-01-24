@@ -2,23 +2,24 @@ import React from 'react';
 import cn from 'classnames';
 import { MapProps } from './Map.type';
 import { YMaps, Map, Placemark, Clusterer } from "@pbe/react-yandex-maps";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { IOffer } from "../../types/offer.type";
 import { Rating } from '../rating/Rating';
 import { APPRoute } from "../../const";
 import closeSvg from '../../assets/img/close.svg';
 
-export const MapSection: React.FC<MapProps> = ({ city, offers, className, ...props }) => {
-	const [selectedOffer, setSelectedOffer] = React.useState<IOffer | null>(null);
+export const MapSection: React.FC<MapProps> = ({ centralLocation, offers, activeOffer = null, className, ...props }) => {
+	const [selectedOffer, setSelectedOffer] = React.useState<IOffer | null>(activeOffer);
+	const { id: currentOfferId } = useParams();
 
 	return (
 		<section className={cn(className, "map")} {...props} >
 			<YMaps>
-				{city && <Map
+				{centralLocation && <Map
 					className="map__wrapper"
 					defaultState={{
-						center: [city.location.latitude, city.location.longitude],
-						zoom: city.location.zoom,
+						center: [centralLocation.latitude, centralLocation.longitude],
+						zoom: centralLocation.zoom,
 						controls: ["zoomControl", "fullscreenControl"],
 					}}
 					modules={["control.ZoomControl", "control.FullscreenControl"]}
@@ -45,7 +46,10 @@ export const MapSection: React.FC<MapProps> = ({ city, offers, className, ...pro
 			</YMaps>
 
 			{selectedOffer && <div className="map__popup map-popup">
-				<h2 className="map-popup__title"><Link to={APPRoute.APARTMENT + '/' + selectedOffer._id}>{selectedOffer?.title}</Link></h2>
+				<h2 className="map-popup__title">
+					{selectedOffer._id === currentOfferId ? selectedOffer?.title
+						: <Link to={APPRoute.APARTMENT + '/' + selectedOffer._id}>{selectedOffer?.title}</Link>}
+				</h2>
 				<Rating
 					value={selectedOffer.rating}
 					size="s"
