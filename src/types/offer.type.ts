@@ -40,7 +40,7 @@ export interface IOffer {
 	host: IUser;
 	description: string;
 	location: ILocation;
-	_id: number;
+	_id: string;
 }
 
 export type FavoriteListType = Record<ICity["name"], IOffer[]>;

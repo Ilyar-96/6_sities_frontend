@@ -1193,6 +1193,7 @@ img {
 .property__address {
 	margin-bottom: 10px;
 	font-size: 18px;
+	text-align: center;
 }
 
 .property__bookmark-button {
@@ -1209,7 +1210,7 @@ img {
 	stroke: #4481c3
 }
 
-.property__bookmark-button--active .place-card__bookmark-icon {
+.property__bookmark-button--active .property__bookmark-icon {
 	stroke: #4481c3;
 	fill: #4481c3
 }

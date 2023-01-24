@@ -48,6 +48,7 @@ export const Apartment = () => {
 							<ApartmentGallery offer={offer} />
 							<div className="property__container container">
 								<div className="property__wrapper">
+
 									<ApartmentInfo offer={offer} />
 
 									<section className={"reviews"}>

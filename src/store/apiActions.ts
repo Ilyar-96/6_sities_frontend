@@ -9,7 +9,12 @@ import { AppDispatch, RootState } from "../types/state";
 import { AxiosInstance } from "axios";
 import { APIRoute, NameSpace } from "../const";
 import { saveToken } from "../services/token";
-import { ILoginData, IRegisterData, IUser } from "../types/user.type";
+import {
+	ILoginData,
+	IOfferAndUserIDs,
+	IRegisterData,
+	IUser,
+} from "../types/user.type";
 import { notifySuccess, notifyError } from "../utils";
 
 export const fetchOffersAction = createAsyncThunk<
@@ -126,6 +131,54 @@ export const authMeAction = createAsyncThunk<
 		}
 	}
 });
+
+export const addFavoriteOfferAction = createAsyncThunk<
+	IUser,
+	IOfferAndUserIDs,
+	{
+		dispatch: AppDispatch;
+		state: RootState;
+		extra: AxiosInstance;
+	}
+>(`${NameSpace.USER}/addFavorites`, async (ids, { dispatch, extra: api }) => {
+	try {
+		const { data } = await api.patch<IUser>(
+			`${APIRoute.USER}/${ids.userId}/${ids.offerId}`
+		);
+		return data;
+	} catch (err) {
+		if (err instanceof Error) {
+			throw new Error(err.message);
+		} else {
+			throw new Error("Something went wrong...");
+		}
+	}
+});
+export const removeFavoriteOfferAction = createAsyncThunk<
+	IUser,
+	IOfferAndUserIDs,
+	{
+		dispatch: AppDispatch;
+		state: RootState;
+		extra: AxiosInstance;
+	}
+>(
+	`${NameSpace.USER}/removeFavorites`,
+	async (ids, { dispatch, extra: api }) => {
+		try {
+			const { data } = await api.delete<IUser>(
+				`${APIRoute.USER}/${ids.userId}/${ids.offerId}`
+			);
+			return data;
+		} catch (err) {
+			if (err instanceof Error) {
+				throw new Error(err.message);
+			} else {
+				throw new Error("Something went wrong...");
+			}
+		}
+	}
+);
 
 export const fetchCitiesAction = createAsyncThunk<
 	ICity[],

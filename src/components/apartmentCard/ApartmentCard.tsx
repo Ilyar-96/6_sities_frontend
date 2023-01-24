@@ -2,13 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import { ApartmentCardProps } from './ApartmentCard.type';
-import { APPRoute } from '../../const';
+import { APPRoute, FetchStatus } from '../../const';
 import { Rating } from '../rating/Rating';
 import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
-import { getImageAbsoluteUrl } from "../../utils";
+import { addingFavoriteOfferHandler as addFavoriteOfferHandler, getImageAbsoluteUrl, getIsFavorite } from "../../utils";
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getFavoritesStatus, getUserFavorites, getUserData } from '../../store/user/selectors';
 
 export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, ...props }) => {
+	const dispatch = useAppDispatch();
+	const favoritesStatus = useAppSelector(getFavoritesStatus);
 	const previewImageUrl = data.previewImage ? getImageAbsoluteUrl(data.previewImage) : noImagePreviewUrl;
+	const favoritesList = useAppSelector(getUserFavorites);
+	const user = useAppSelector(getUserData);
 
 	return (
 		<div className={cn(className, "place-card")} {...props}>
@@ -29,7 +35,9 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 					<button className={cn(
 						"place-card__bookmark-button",
 						" button",
-						{ "place-card__bookmark-button--active": data.isFavorite })}
+						{ "place-card__bookmark-button--active": getIsFavorite(favoritesList, data._id) })}
+						disabled={favoritesStatus === FetchStatus.PENDING}
+						onClick={() => addFavoriteOfferHandler(dispatch, data._id, user, favoritesList)}
 						type="button"
 					>
 						<svg className="place-card__bookmark-icon" width={18} height={19}>

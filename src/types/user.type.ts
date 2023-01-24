@@ -1,12 +1,14 @@
+import { IOffer } from "./offer.type";
+
 export interface IUser {
-	id: string;
+	_id: string;
 	name: string;
 	isPro: boolean;
 	avatarUrl: string;
 	role: string[];
 	phone: number;
 	email: string;
-	favorites: string[];
+	favorites: IOffer[];
 	token?: string;
 }
 
@@ -18,4 +20,9 @@ export interface ILoginData {
 export interface IRegisterData extends ILoginData {
 	image: File | string;
 	name: string;
+}
+
+export interface IOfferAndUserIDs {
+	offerId: string;
+	userId: string;
 }

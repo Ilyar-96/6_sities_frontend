@@ -7,6 +7,7 @@ import { SortTypes } from "../components/sort/Sort.type";
 export interface IUserState {
 	authorizationStatus: AuthorizationStatus;
 	user: IUser | null;
+	addingFavoritesStatus: FetchStatus;
 }
 
 export interface IOfferState {

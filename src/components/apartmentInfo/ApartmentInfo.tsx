@@ -1,11 +1,20 @@
 import React from 'react';
-import { toCapitalize } from "../../utils";
+import { addingFavoriteOfferHandler, getIsFavorite, toCapitalize } from "../../utils";
 import { User } from '../user/User';
 import { ApartmentInfoProps } from './ApartmentInfo.type';
 import { Rating } from '../rating/Rating';
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { getFavoritesStatus, getUserData, getUserFavorites as getFavorites } from "../../store/user/selectors";
+import { FetchStatus } from "../../const";
+import cn from 'classnames';
 const pluralize = require('pluralize');
 
 export const ApartmentInfo: React.FC<ApartmentInfoProps> = ({ offer }) => {
+	const dispatch = useAppDispatch();
+	const favoritesStatus = useAppSelector(getFavoritesStatus);
+	const favoritesList = useAppSelector(getFavorites);
+	const user = useAppSelector(getUserData);
+
 	return (
 		<>
 			{offer.isPremium && <div className="property__mark">
@@ -13,7 +22,14 @@ export const ApartmentInfo: React.FC<ApartmentInfoProps> = ({ offer }) => {
 			</div>}
 			<div className="property__name-wrapper">
 				<h1 className="property__name">{offer.title}</h1>
-				<button className="property__bookmark-button button" type="button">
+				<button
+					className={cn("property__bookmark-button", "button", {
+						"property__bookmark-button--active": getIsFavorite(favoritesList, offer._id)
+					})}
+					type="button"
+					disabled={favoritesStatus === FetchStatus.PENDING}
+					onClick={() => addingFavoriteOfferHandler(dispatch, offer._id, user, favoritesList)}
+				>
 					<svg className="property__bookmark-icon" width={31} height={33}>
 						<use xlinkHref="#icon-bookmark" />
 					</svg>
