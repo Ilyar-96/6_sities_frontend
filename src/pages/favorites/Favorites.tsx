@@ -2,12 +2,15 @@ import { Header, Footer } from '../../components';
 // import { favoriteList } from '../../mockData';
 import { ApartmentCard } from '../../components/apartmentCard/ApartmentCard';
 import { Link } from "react-router-dom";
-import { APPRoute } from "../../const";
-import { useAppSelector } from '../../hooks';
+import { APPRoute, cityHashBase } from '../../const';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getUserFavorites } from "../../store/user/selectors";
 import { FavoritesObjectType } from "../../types/user.type";
+import { changeActiveCity } from "../../store/city/city";
+import { ICity } from '../../types/offer.type';
 
 export const Favorites = () => {
+	const dispatch = useAppDispatch();
 	const favoritesList = useAppSelector(getUserFavorites);
 	const favoritesObject = favoritesList.reduce((a, b) => {
 		(b.city.name in a) ?
@@ -15,6 +18,10 @@ export const Favorites = () => {
 			: a[b.city.name] = [b];
 		return a;
 	}, {} as FavoritesObjectType);
+
+	const onClick = (city: ICity) => {
+		dispatch(changeActiveCity(city));
+	};
 
 	return (
 		<div className="page">
@@ -28,7 +35,11 @@ export const Favorites = () => {
 								<li className="favorites__locations-items" key={city}>
 									<div className="favorites__locations locations locations--current">
 										<div className="locations__item">
-											<Link className="locations__item-link" to={APPRoute.APARTMENT}>
+											<Link
+												className="locations__item-link"
+												to={`${APPRoute.MAIN}#${cityHashBase}${city}`}
+												onClick={() => onClick(offers[0].city)}
+											>
 												<span>{city}</span>
 											</Link>
 										</div>

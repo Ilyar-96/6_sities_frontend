@@ -5,13 +5,17 @@ import { CitiesTabsProps } from './CitiesTabs.type';
 import { getActiveCity, getCities } from "../../store/city/selectors";
 import { changeActiveCity } from "../../store/city/city";
 import { ICity } from '../../types/offer.type';
+import { useNavigate } from "react-router-dom";
+import { APPRoute, cityHashBase } from '../../const';
 
 export const CitiesTabs: React.FC<CitiesTabsProps> = () => {
 	const dispatch = useAppDispatch();
 	const activeCity = useAppSelector(getActiveCity);
 	const cities = useAppSelector(getCities);
+	const navigate = useNavigate();
 
 	const onClick = (city: ICity) => {
+		navigate(APPRoute.MAIN + "#" + cityHashBase + city.name);
 		dispatch(changeActiveCity(city));
 	};
 

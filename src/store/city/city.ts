@@ -26,9 +26,19 @@ export const citySlice = createSlice({
 				state.status = FetchStatus.PENDING;
 			})
 			.addCase(fetchCitiesAction.fulfilled, (state, action) => {
-				state.entities = action.payload;
+				const { data, initialCityName } = action.payload;
+				const targetCity = data.filter(
+					(city) => city.name === initialCityName
+				)?.[0];
+
+				state.entities = data;
 				state.status = FetchStatus.FULFILLED;
-				state.activeCity = action.payload[0];
+
+				if (initialCityName && targetCity) {
+					state.activeCity = targetCity;
+				} else {
+					state.activeCity = data[0];
+				}
 			})
 			.addCase(fetchCitiesAction.rejected, (state) => {
 				state.error = "Something went wrong. Try later again.";

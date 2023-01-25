@@ -2,17 +2,19 @@ import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Header, Input } from "../../components";
 import { APPRoute } from "../../const";
 import { getIsAuth } from '../../store/user/selectors';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { yupResolver } from "@hookform/resolvers/yup";
 import emptyAvatarUrl from '../../assets/img/avatar.svg';
 import { useImagePreview } from '../../hooks/useImagePreview';
 import { registerAction } from "../../store/apiActions";
 import { IRegisterData } from "../../types/user.type";
+import { getActiveCity } from '../../store/city/selectors';
 
 export const Register: React.FC = () => {
+	const activeCity = useAppSelector(getActiveCity);
 	const dispatch = useAppDispatch();
 	const isAuth = useAppSelector(getIsAuth);
 	const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -125,9 +127,9 @@ export const Register: React.FC = () => {
 					</section>
 					<section className="locations locations--login locations--current">
 						<div className="locations__item">
-							<a className="locations__item-link" href="#">
-								<span>Amsterdam</span>
-							</a>
+							{activeCity && <Link className="locations__item-link" to={APPRoute.MAIN}>
+								<span>{activeCity.name}</span>
+							</Link>}
 						</div>
 					</section>
 				</div>

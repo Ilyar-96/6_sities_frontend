@@ -9,11 +9,13 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth } from "../../store/user/selectors";
 import { loginAction } from "../../store/apiActions";
 import { notifyError } from '../../utils';
-import { ILoginData, IRegisterData } from "../../types/user.type";
+import { ILoginData } from "../../types/user.type";
+import { getActiveCity } from "../../store/city/selectors";
 
 export const Login: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const isAuth = useAppSelector(getIsAuth);
+	const activeCity = useAppSelector(getActiveCity);
 
 	const formSchema = Yup.object().shape({
 		email: Yup.string()
@@ -85,13 +87,13 @@ export const Login: React.FC = () => {
 					</section>
 					<section className="locations locations--login locations--current">
 						<div className="locations__item">
-							<a className="locations__item-link" href="#">
-								<span>Amsterdam</span>
-							</a>
+							{activeCity && <Link className="locations__item-link" to={APPRoute.MAIN} >
+								<span>{activeCity.name}</span>
+							</Link>}
 						</div>
 					</section>
 				</div>
-			</main>
-		</div>
+			</main >
+		</div >
 	);
 };

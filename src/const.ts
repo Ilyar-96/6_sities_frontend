@@ -39,3 +39,5 @@ export enum FetchStatus {
 	FULFILLED = "fulfilled",
 	REJECTED = "rejected",
 }
+
+export const cityHashBase = "city=";

@@ -1,9 +1,10 @@
 import {
 	ICity,
-	IOfferData,
+	FetchOffersActionType,
 	IOfferFetchParams,
 	IReview,
 	IOffer,
+	FetchCitiesActionType,
 } from "../types/offer.type";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "../types/state";
@@ -20,7 +21,7 @@ import {
 import { notifySuccess, notifyError } from "../utils";
 
 export const fetchOffersAction = createAsyncThunk<
-	IOfferData,
+	FetchOffersActionType,
 	IOfferFetchParams,
 	{
 		dispatch: AppDispatch;
@@ -30,7 +31,9 @@ export const fetchOffersAction = createAsyncThunk<
 >(
 	`${NameSpace.OFFER}/fetchOffers`,
 	async (params, { dispatch, extra: api }) => {
-		const { data } = await api.get<IOfferData>(APIRoute.OFFERS, { params });
+		const { data } = await api.get<FetchOffersActionType>(APIRoute.OFFERS, {
+			params,
+		});
 		return data;
 	}
 );
@@ -196,14 +199,20 @@ export const removeFavoriteOfferAction = createAsyncThunk<
 );
 
 export const fetchCitiesAction = createAsyncThunk<
-	ICity[],
-	undefined,
+	FetchCitiesActionType,
+	string | undefined,
 	{
 		dispatch: AppDispatch;
 		state: RootState;
 		extra: AxiosInstance;
 	}
->(`${NameSpace.CITY}/fetchCities`, async (_, { dispatch, extra: api }) => {
-	const { data } = await api.get<ICity[]>(APIRoute.CITY);
-	return data;
-});
+>(
+	`${NameSpace.CITY}/fetchCities`,
+	async (initialCityName, { dispatch, extra: api }) => {
+		const { data } = await api.get<ICity[]>(APIRoute.CITY);
+		return {
+			data,
+			initialCityName,
+		};
+	}
+);

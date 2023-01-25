@@ -1,14 +1,13 @@
 import React from 'react';
 import cn from 'classnames';
 import { Header, CitiesTabs } from '../../components';
-import { SortTypes } from "../../components/sort/Sort.type";
 import 'simplebar-react/dist/simplebar.min.css';
 import { CitiesLayout } from './citiesLayout/CitiesLayout';
 import { EmptyCitiesLayout } from "./emptyCitiesLayout/EmptyCitiesLayout";
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchOffersAction } from '../../store/apiActions';
 import { getActiveSort, getOffers, getOffersFetchingStatus } from '../../store/offers/selectors';
-import { FetchStatus, limits } from '../../const';
+import { FetchStatus } from '../../const';
 import { getActiveCity, getCitiesFetchingStatus } from '../../store/city/selectors';
 import { CitiesLayoutSkeleton } from './citiesLayout/CitiesLayout.Skeleton';
 
@@ -27,7 +26,6 @@ export const MainPage: React.FC = () => {
 		if (activeCity) {
 			dispatch(fetchOffersAction({
 				page: 1,
-				limit: limits.offersPerPage,
 				sortBy,
 				order,
 				cityId: activeCity._id

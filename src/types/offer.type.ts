@@ -54,8 +54,13 @@ export interface IOfferFetchParams {
 	cityId?: string;
 }
 
-export type IOfferData = {
+export type FetchOffersActionType = {
 	offersCount: number;
 	pagesCount: number;
 	data: IOffer[];
+};
+
+export type FetchCitiesActionType = {
+	initialCityName: string | undefined;
+	data: ICity[];
 };
