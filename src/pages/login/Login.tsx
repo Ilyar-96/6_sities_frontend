@@ -46,6 +46,7 @@ export const Login: React.FC = () => {
 			dispatch(loginAction(values));
 		} catch (err) {
 			if (err instanceof Error) {
+				console.log(err);
 				notifyError(err.message);
 			}
 		}
