@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { NameSpace, AuthorizationStatus, FetchStatus } from "../../const";
 import { IUserState } from "../../types/state";
 import {
-	addFavoriteOfferAction as addFavoritesAction,
+	addFavoriteAction,
 	authMeAction,
 	loginAction,
 	registerAction,
@@ -48,14 +48,17 @@ export const userSlice = createSlice({
 				state.authorizationStatus = AuthorizationStatus.AUTH;
 				state.user = action.payload;
 			})
+			.addCase(authMeAction.pending, (state) => {
+				state.authorizationStatus = AuthorizationStatus.PENDING;
+			})
 			.addCase(authMeAction.rejected, (state) => {
 				state.authorizationStatus = AuthorizationStatus.NO_AUTH;
 				state.user = null;
 			})
-			.addCase(addFavoritesAction.pending, (state) => {
+			.addCase(addFavoriteAction.pending, (state) => {
 				state.addingFavoritesStatus = FetchStatus.PENDING;
 			})
-			.addCase(addFavoritesAction.fulfilled, (state, action) => {
+			.addCase(addFavoriteAction.fulfilled, (state, action) => {
 				state.addingFavoritesStatus = FetchStatus.FULFILLED;
 				if (state.user) {
 					state.user.favorites = action.payload.favorites;

@@ -150,7 +150,7 @@ export const authMeAction = createAsyncThunk<
 	}
 });
 
-export const addFavoriteOfferAction = createAsyncThunk<
+export const addFavoriteAction = createAsyncThunk<
 	IUser,
 	IOfferAndUserIDs,
 	{

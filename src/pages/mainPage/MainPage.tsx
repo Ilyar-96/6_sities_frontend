@@ -18,8 +18,10 @@ export const MainPage: React.FC = () => {
 	const activeSort = useAppSelector(getActiveSort);
 	const fetchOffersStatus = useAppSelector(getOffersFetchingStatus);
 	const fetchCitiesStatus = useAppSelector(getCitiesFetchingStatus);
-	const isLoading = fetchOffersStatus === FetchStatus.IDLE || fetchOffersStatus === FetchStatus.PENDING;
+	const isLoading = (fetchOffersStatus === FetchStatus.IDLE || fetchOffersStatus === FetchStatus.PENDING) && FetchStatus.REJECTED !== fetchCitiesStatus;
 	const isEmpty = offers.length === 0;
+	const isSuccess = !isEmpty && fetchOffersStatus === FetchStatus.FULFILLED;
+	const isError = fetchOffersStatus === FetchStatus.REJECTED || FetchStatus.REJECTED === fetchCitiesStatus;
 
 	React.useEffect(() => {
 		const [sortBy, order] = activeSort.split('_');
@@ -31,6 +33,7 @@ export const MainPage: React.FC = () => {
 				cityId: activeCity._id
 			}));
 		}
+		// eslint-disable-next-line
 	}, [activeSort, activeCity]);
 
 	return (
@@ -51,11 +54,11 @@ export const MainPage: React.FC = () => {
 						<>We could not find any property available at the moment in {activeCity?.name}</>
 					</EmptyCitiesLayout>}
 
-				{!isEmpty && fetchOffersStatus === FetchStatus.FULFILLED && <CitiesLayout />}
+				{isSuccess && <CitiesLayout />}
 
-				{isLoading && FetchStatus.REJECTED !== fetchCitiesStatus && <CitiesLayoutSkeleton />}
+				{isLoading && <CitiesLayoutSkeleton />}
 
-				{(fetchOffersStatus === FetchStatus.REJECTED || FetchStatus.REJECTED === fetchCitiesStatus) &&
+				{isError &&
 					<EmptyCitiesLayout title="Something went wrong...">
 						<>Try again later.</>
 					</EmptyCitiesLayout>}

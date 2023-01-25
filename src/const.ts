@@ -29,6 +29,7 @@ export enum NameSpace {
 
 export enum AuthorizationStatus {
 	AUTH = "AUTH",
+	PENDING = "PENDING",
 	NO_AUTH = "NO_AUTH",
 	UNKNOWN = "UNKNOWN",
 }

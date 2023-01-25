@@ -39,6 +39,7 @@ export const Login: React.FC = () => {
 		if (isAuth) {
 			reset();
 		}
+		// eslint-disable-next-line
 	}, [isAuth]);
 
 	const onSubmit: SubmitHandler<ILoginData> = (values: ILoginData) => {

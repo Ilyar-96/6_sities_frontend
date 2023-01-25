@@ -23,6 +23,7 @@ export const CitiesLayoutSkeleton: React.FC = () => {
 			</SimpleBar>
 
 			<div className="cities__right-section">
+				<div className="cities__map map"></div>
 			</div>
 		</div>
 	</div>);

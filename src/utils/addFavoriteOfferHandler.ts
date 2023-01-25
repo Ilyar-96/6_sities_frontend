@@ -1,5 +1,5 @@
 import {
-	addFavoriteOfferAction,
+	addFavoriteAction,
 	removeFavoriteOfferAction,
 } from "../store/apiActions";
 import { IOffer } from "../types/offer.type";
@@ -21,5 +21,5 @@ export const addingFavoriteOfferHandler = (
 
 	isFavorite
 		? dispatch(removeFavoriteOfferAction({ offerId, userId: user._id }))
-		: dispatch(addFavoriteOfferAction({ offerId, userId: user._id }));
+		: dispatch(addFavoriteAction({ offerId, userId: user._id }));
 };
