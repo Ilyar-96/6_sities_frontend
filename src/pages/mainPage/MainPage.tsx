@@ -22,7 +22,6 @@ export const MainPage: React.FC = () => {
 	const isLoading = fetchOffersStatus === FetchStatus.IDLE || fetchOffersStatus === FetchStatus.PENDING;
 	const isEmpty = offers.length === 0;
 
-
 	React.useEffect(() => {
 		const [sortBy, order] = activeSort.split('_');
 		if (activeCity) {

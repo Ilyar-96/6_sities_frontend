@@ -1,25 +1,28 @@
 import React from 'react';
-import { Header, ApartmentCard, ApartmentGallery, ApartmentInfo, ReviewList, ReviewForm, VerticalCardSkeleton, MapSection } from '../../components';
-import { useNavigate, useParams } from "react-router-dom";
-import offerService from '../../services/offerService';
-import { IOffer } from '../../types/offer.type';
+import { Header, ApartmentCard, ApartmentGallery, ApartmentInfo, ReviewList, ReviewForm, MapSection } from '../../components';
+import { useParams } from "react-router-dom";
 import { ApartmentLoadingLayout } from './ApartmentLoadingLayout';
-import { notifyError } from '../../utils';
-import { APPRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getOffers } from '../../store/offers/selectors';
-import { fetchOffersAction } from "../../store/apiActions";
+import {
+	getOffers,
+	getSingleOfferFetchingStatus,
+	getSingleOffer,
+	getSingleOfferErrorMessage
+} from '../../store/offers/selectors';
+import { fetchOffersAction, fetchSingleOfferAction } from '../../store/apiActions';
 import { getActiveCity } from "../../store/city/selectors";
+import { getIsAuth } from '../../store/user/selectors';
+import { FetchStatus } from '../../const';
 
 export const Apartment = () => {
 	const dispatch = useAppDispatch();
 	const { id } = useParams();
-	const [offer, setOffer] = React.useState<IOffer>();
-	const [isOfferLoading, setIsOfferLoading] = React.useState<boolean>(true);
 	const offers = useAppSelector(getOffers);
 	const activeCity = useAppSelector(getActiveCity);
-	const navigate = useNavigate();
-
+	const isAuth = useAppSelector(getIsAuth);
+	const offerLoadingStatus = useAppSelector(getSingleOfferFetchingStatus);
+	const offer = useAppSelector(getSingleOffer);
+	const errorMessage = useAppSelector(getSingleOfferErrorMessage);
 	React.useEffect(() => {
 		if (!offers.length && activeCity) {
 			dispatch(fetchOffersAction({
@@ -30,24 +33,11 @@ export const Apartment = () => {
 		}
 	}, [activeCity]);
 
-	const getOffer = async () => {
-		if (id) {
-			try {
-				const data = await offerService.getOne(id);
-				setOffer(data);
-				setIsOfferLoading(false);
-			} catch (err) {
-				if (err instanceof Error) {
-					notifyError(err.message);
-					console.log(err);
-				}
-				navigate(APPRoute.MAIN);
-			}
-		}
-	};
 
 	React.useEffect(() => {
-		getOffer();
+		if (id) {
+			dispatch(fetchSingleOfferAction(id));
+		}
 	}, [id]);
 
 	return (
@@ -55,7 +45,7 @@ export const Apartment = () => {
 			<Header />
 			<main className="page__main page__main--property">
 				<section className="property">
-					{offer && !isOfferLoading ?
+					{offer && offerLoadingStatus !== FetchStatus.PENDING ?
 						<>
 							<ApartmentGallery offer={offer} />
 
@@ -72,13 +62,13 @@ export const Apartment = () => {
 						<ApartmentLoadingLayout />
 					}
 
-					<div className="property__container container">
+					{isAuth && <div className="property__container container">
 						<div className="property__wrapper">
 							<section className={"property__reviews reviews"}>
 								<ReviewForm />
 							</section>
 						</div>
-					</div>
+					</div>}
 
 					{offer && <MapSection className="property__map" centralLocation={offer.location} offers={offers} activeOffer={offer} />}
 				</section>

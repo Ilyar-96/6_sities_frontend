@@ -12,3 +12,10 @@ export const getOffersErrorMessage = (state: RootState) =>
 	state[NameSpace.OFFER].error;
 export const getActiveSort = (state: RootState) =>
 	state[NameSpace.OFFER].activeSort;
+
+export const getSingleOffer = (state: RootState) =>
+	state[NameSpace.OFFER].singleOffer;
+export const getSingleOfferFetchingStatus = (state: RootState) =>
+	state[NameSpace.OFFER].singleOfferStatus;
+export const getSingleOfferErrorMessage = (state: RootState) =>
+	state[NameSpace.OFFER].singleOfferError;

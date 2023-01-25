@@ -13,7 +13,7 @@ export interface ICity {
 }
 
 export interface IReview {
-	id: string;
+	_id: string;
 	user: IUser;
 	offer?: string;
 	rating: number;

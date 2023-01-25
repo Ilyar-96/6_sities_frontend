@@ -3,6 +3,7 @@ import {
 	IOfferData,
 	IOfferFetchParams,
 	IReview,
+	IOffer,
 } from "../types/offer.type";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "../types/state";
@@ -14,6 +15,7 @@ import {
 	IOfferAndUserIDs,
 	IRegisterData,
 	IUser,
+	IReviewData,
 } from "../types/user.type";
 import { notifySuccess, notifyError } from "../utils";
 
@@ -33,16 +35,29 @@ export const fetchOffersAction = createAsyncThunk<
 	}
 );
 
-export const addCommentAction = createAsyncThunk<
-	IOfferData,
-	IReview,
+export const fetchSingleOfferAction = createAsyncThunk<
+	IOffer,
+	string,
 	{
 		dispatch: AppDispatch;
 		state: RootState;
 		extra: AxiosInstance;
 	}
->(`${NameSpace.OFFER}/addComment`, async (params, { dispatch, extra: api }) => {
-	const { data } = await api.get<IOfferData>(APIRoute.OFFERS, { params });
+>(`${NameSpace.OFFER}/fetchOffer`, async (id, { dispatch, extra: api }) => {
+	const { data } = await api.get<IOffer>(APIRoute.OFFERS + "/" + id);
+	return data;
+});
+
+export const addCommentAction = createAsyncThunk<
+	IReview,
+	IReviewData,
+	{
+		dispatch: AppDispatch;
+		state: RootState;
+		extra: AxiosInstance;
+	}
+>(`${NameSpace.OFFER}/addComment`, async (body, { dispatch, extra: api }) => {
+	const { data } = await api.post<IReview>(APIRoute.COMMENT, body);
 	return data;
 });
 

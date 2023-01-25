@@ -678,21 +678,6 @@ img {
 	align-self: stretch;
 }
 
-@media (-webkit-min-device-pixel-ratio:1.5),
-(min-resolution:144dpi),
-(min-resolution:1.5dppx) {
-	.cities__map {
-		background-image: url(./assets/img/map@2x.jpg);
-		background-size: 682px 794px
-	}
-}
-
-@media (min-height:980px) {
-	.cities__map {
-		background-size: cover
-	}
-}
-
 .cities__status-wrapper {
 	position: relative;
 	z-index: 1;
@@ -1515,19 +1500,6 @@ img {
 	width: 100%;
 	height: 579px;
 	margin-bottom: 50px;
-	background-image: url(./assets/img/map-big.jpg);
-	background-repeat: no-repeat;
-	background-size: 1144px auto;
-	background-position: center top
-}
-
-@media (-webkit-min-device-pixel-ratio:1.5),
-(min-resolution:144dpi),
-(min-resolution:1.5dppx) {
-	.property__map {
-		background-image: url(./assets/img/map-big@2x.jpg);
-		background-size: 1144px auto
-	}
 }
 
 .reviews {
@@ -1795,7 +1767,9 @@ img {
 	color: #cc0000;
 }
 
-.form__avatar-wrapper {}
+.form__rating-wrapper {
+	position: relative;
+}
 
 .form__input--avatar {
 	display: none;

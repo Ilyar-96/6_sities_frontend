@@ -28,7 +28,7 @@ export const Login: React.FC = () => {
 		handleSubmit,
 		reset,
 		formState: { errors, isValid },
-	} = useForm<IRegisterData>({
+	} = useForm<ILoginData>({
 		resolver: yupResolver(formSchema),
 		mode: "onChange",
 	});
@@ -39,7 +39,7 @@ export const Login: React.FC = () => {
 		}
 	}, [isAuth]);
 
-	const onSubmit: SubmitHandler<IRegisterData> = (values: ILoginData) => {
+	const onSubmit: SubmitHandler<ILoginData> = (values: ILoginData) => {
 		try {
 			dispatch(loginAction(values));
 		} catch (err) {

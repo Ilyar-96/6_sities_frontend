@@ -1,4 +1,4 @@
-import { IOffer } from "./offer.type";
+import { ICity, IOffer } from "./offer.type";
 
 export interface IUser {
 	_id: string;
@@ -10,6 +10,13 @@ export interface IUser {
 	email: string;
 	favorites: IOffer[];
 	token?: string;
+}
+
+export interface IReviewData {
+	rating: number;
+	description: string;
+	user: string;
+	offer: string;
 }
 
 export interface ILoginData {
@@ -26,3 +33,5 @@ export interface IOfferAndUserIDs {
 	offerId: string;
 	userId: string;
 }
+
+export type FavoritesObjectType = Record<ICity["name"], IOffer[]>;

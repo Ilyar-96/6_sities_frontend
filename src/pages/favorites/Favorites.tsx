@@ -3,8 +3,18 @@ import { Header, Footer } from '../../components';
 import { ApartmentCard } from '../../components/apartmentCard/ApartmentCard';
 import { Link } from "react-router-dom";
 import { APPRoute } from "../../const";
+import { useAppSelector } from '../../hooks';
+import { getUserFavorites } from "../../store/user/selectors";
+import { FavoritesObjectType } from "../../types/user.type";
 
 export const Favorites = () => {
+	const favoritesList = useAppSelector(getUserFavorites);
+	const favoritesObject = favoritesList.reduce((a, b) => {
+		(b.city.name in a) ?
+			a[b.city.name].push(b)
+			: a[b.city.name] = [b];
+		return a;
+	}, {} as FavoritesObjectType);
 
 	return (
 		<div className="page">
@@ -14,7 +24,7 @@ export const Favorites = () => {
 					<section className="favorites">
 						<h1 className="favorites__title">Saved listing</h1>
 						<ul className="favorites__list">
-							{/* {Object.entries(favoriteList).map(([city, offers]) => (
+							{Object.entries(favoritesObject).map(([city, offers]) => (
 								<li className="favorites__locations-items" key={city}>
 									<div className="favorites__locations locations locations--current">
 										<div className="locations__item">
@@ -29,7 +39,7 @@ export const Favorites = () => {
 										))}
 									</div>
 								</li>
-							))} */}
+							))}
 						</ul>
 					</section>
 				</div>

@@ -5,7 +5,7 @@ import { ReviewItem } from '../reviewItem/ReviewItem';
 export const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
 	return (
 		<ul className="reviews__list">
-			{reviews.map(r => <ReviewItem key={r.id} review={r} />)}
+			{reviews.map(r => <ReviewItem key={r._id} review={r} />)}
 		</ul>
 	);
 };

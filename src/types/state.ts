@@ -17,6 +17,9 @@ export interface IOfferState {
 	status: FetchStatus;
 	error: string | null;
 	activeSort: SortTypes;
+	singleOffer: IOffer | null;
+	singleOfferStatus: FetchStatus;
+	singleOfferError: string | null;
 }
 
 export interface ICityState {

@@ -2,6 +2,7 @@ export enum APIRoute {
 	OFFERS = "offer",
 	CITY = "city",
 	USER = "host",
+	COMMENT = "comment",
 	LOGIN = "auth/login",
 	REGISTRATION = "auth/registration",
 	AUTH_ME = "auth/me",
