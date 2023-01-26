@@ -14,6 +14,7 @@ export enum APPRoute {
 	LOGIN = "/login",
 	REGISTER = "/register",
 	FAVORITES = "/favorites",
+	ADD_OFFER = "/add-offer",
 }
 
 export const limits = {

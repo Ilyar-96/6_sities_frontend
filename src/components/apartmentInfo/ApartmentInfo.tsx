@@ -33,7 +33,7 @@ export const ApartmentInfo: React.FC<ApartmentInfoProps> = ({ offer }) => {
 					<svg className="property__bookmark-icon" width={31} height={33}>
 						<use xlinkHref="#icon-bookmark" />
 					</svg>
-					<span className="visually-hidden">{offer.isFavorite ? "In bookmarks" : "To bookmarks"}</span>
+					<span className="visually-hidden">{getIsFavorite(favoritesList, offer._id) ? "In bookmarks" : "To bookmarks"}</span>
 				</button>
 
 				<div className="property__address">{offer.address}</div>

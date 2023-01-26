@@ -95,7 +95,7 @@ export const loginAction = createAsyncThunk<
 
 export const registerAction = createAsyncThunk<
 	IUser,
-	IRegisterData,
+	FormData,
 	{
 		dispatch: AppDispatch;
 		state: RootState;
@@ -117,7 +117,7 @@ export const registerAction = createAsyncThunk<
 			return data;
 		} catch (err) {
 			if (err instanceof Error) {
-				if ("response" in err) {
+				if (!("response" in err)) {
 					notifyError(err.message);
 				}
 				throw new Error(err.message);

@@ -25,7 +25,7 @@ export interface ILoginData {
 }
 
 export interface IRegisterData extends ILoginData {
-	image: File | string;
+	avatar: File | string;
 	name: string;
 }
 

@@ -7,9 +7,6 @@ import axios, {
 } from "axios";
 import { StatusCodes } from "http-status-codes";
 import { getToken } from "./token";
-// import { StatusCodes } from "http-status-codes";
-// import { toast } from "react-toastify";
-// import { getToken } from "./token";
 import { notifyWarning } from "../utils";
 
 const StatusCodeMapping: Record<number, boolean> = {

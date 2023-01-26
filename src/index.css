@@ -1695,6 +1695,11 @@ img {
 	align-items: flex-start
 }
 
+.form__label {
+	display: block;
+	margin-bottom: 5px;
+}
+
 .form__rating-label {
 	display: block;
 	width: 37px;
@@ -1721,6 +1726,7 @@ img {
 }
 
 .form__textarea {
+	width: 100%;
 	font-size: 16px;
 	line-height: 1.1875;
 	color: #383838;
@@ -1768,6 +1774,10 @@ img {
 	background-color: #fff;
 	border: 1px solid #e6e6e6;
 	border-radius: 2px
+}
+
+.form__textarea--large {
+	min-height: 100px;
 }
 
 .form__error {

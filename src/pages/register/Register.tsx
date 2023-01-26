@@ -52,15 +52,20 @@ export const Register: React.FC = () => {
 	}, [isAuth]);
 
 	const onSubmit: SubmitHandler<IRegisterData> = (values) => {
-		try {
-			const formData = {
-				...values,
-				image: selectedFile ? selectedFile : ''
-			};
-			console.log(selectedFile);
-			dispatch(registerAction(formData));
-		} catch (err) {
+		const formData = new FormData();
+		formData.append("email", values.email);
+		if (selectedFile && !Array.isArray(selectedFile)) {
+			formData.append("avatar", selectedFile);
+		}
+		formData.append("name", values.name);
+		formData.append("password", values.password);
+		dispatch(registerAction(formData));
+	};
 
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			setSelectedFile(file);
 		}
 	};
 
@@ -79,23 +84,18 @@ export const Register: React.FC = () => {
 							<div className="form__avatar-wrapper">
 								<img
 									className="form__avatar"
-									src={preview ? preview : emptyAvatarUrl}
+									src={typeof preview === "string" ? preview : emptyAvatarUrl}
 									onClick={onAvatarClick}
 									alt="Avatar preview"
 								/>
-								<label className="visually-hidden">Avatar</label>
-								<input
+								<Input
 									className="form__input form__input--avatar"
 									type="file"
-									placeholder="Name"
+									placeholder="Avatar"
 									accept="image/*"
+									name="avatarUrl"
 									ref={fileInputRef}
-									onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-										const file = e.target.files?.[0];
-										if (file) {
-											setSelectedFile(file);
-										}
-									}}
+									onChange={onChange}
 								/>
 							</div>
 							<Input

@@ -28,7 +28,6 @@ export interface IOffer {
 	images: string[];
 	comments: IReview[];
 	title: string;
-	isFavorite: boolean;
 	isPremium: boolean;
 	rating: number;
 	type: string;
@@ -64,3 +63,22 @@ export type FetchCitiesActionType = {
 	initialCityName: string | undefined;
 	data: ICity[];
 };
+
+export type CreateOfferTypeWithoutLocation = Omit<
+	IOffer,
+	| "previewImage"
+	| "images"
+	| "comments"
+	| "rating"
+	| "host"
+	| "_id"
+	| "nearbyOffers"
+	| "city"
+>;
+
+export interface CreateOfferType extends CreateOfferTypeWithoutLocation {
+	city: string;
+	latitude: number;
+	longitude: number;
+	zoom: number;
+}
