@@ -48,6 +48,7 @@ export const Register: React.FC = () => {
 		if (isAuth) {
 			reset();
 		}
+		// eslint-disable-next-line
 	}, [isAuth]);
 
 	const onSubmit: SubmitHandler<IRegisterData> = (values) => {

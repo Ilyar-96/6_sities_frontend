@@ -2,7 +2,7 @@ import { ApartmentCard } from '../../components/apartmentCard/ApartmentCard';
 import { Link } from "react-router-dom";
 import { APPRoute, cityHashBase, AuthorizationStatus } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getUserFavorites, getAuthStatus } from '../../store/user/selectors';
+import { getFavorites, getAuthStatus } from '../../store/user/selectors';
 import { FavoritesObjectType } from "../../types/user.type";
 import { changeActiveCity } from "../../store/city/city";
 import { ICity } from '../../types/offer.type';
@@ -11,7 +11,7 @@ import { FavoritesSkeleton } from './FavoritesSkeleton';
 
 export const FavoritesLayout = () => {
 	const dispatch = useAppDispatch();
-	const favoritesList = useAppSelector(getUserFavorites);
+	const favoritesList = useAppSelector(getFavorites);
 	const authStatus = useAppSelector(getAuthStatus);
 	const isLoading = authStatus === AuthorizationStatus.PENDING;
 	const favoritesObject = favoritesList.reduce((a, b) => {

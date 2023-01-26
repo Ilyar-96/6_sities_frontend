@@ -1,19 +1,19 @@
 import React from 'react';
-import { addingFavoriteOfferHandler, getIsFavorite, toCapitalize } from "../../utils";
+import { getIsFavorite, toCapitalize } from "../../utils";
 import { User } from '../user/User';
 import { ApartmentInfoProps } from './ApartmentInfo.type';
 import { Rating } from '../rating/Rating';
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { getFavoritesStatus, getUserData, getUserFavorites as getFavorites } from "../../store/user/selectors";
+import { useAppSelector } from "../../hooks";
+import { getFavoritesStatus, getFavorites } from "../../store/user/selectors";
 import { FetchStatus } from "../../const";
 import cn from 'classnames';
+import { useFavoriteOffer } from "../../hooks/useFavoriteOfferHandler";
 const pluralize = require('pluralize');
 
 export const ApartmentInfo: React.FC<ApartmentInfoProps> = ({ offer }) => {
-	const dispatch = useAppDispatch();
 	const favoritesStatus = useAppSelector(getFavoritesStatus);
 	const favoritesList = useAppSelector(getFavorites);
-	const user = useAppSelector(getUserData);
+	const { toggleFavoriteOfferHandler } = useFavoriteOffer();
 
 	return (
 		<>
@@ -28,7 +28,7 @@ export const ApartmentInfo: React.FC<ApartmentInfoProps> = ({ offer }) => {
 					})}
 					type="button"
 					disabled={favoritesStatus === FetchStatus.PENDING}
-					onClick={() => addingFavoriteOfferHandler(dispatch, offer._id, user, favoritesList)}
+					onClick={() => toggleFavoriteOfferHandler(offer._id)}
 				>
 					<svg className="property__bookmark-icon" width={31} height={33}>
 						<use xlinkHref="#icon-bookmark" />

@@ -5,16 +5,16 @@ import { ApartmentCardProps } from './ApartmentCard.type';
 import { APPRoute, FetchStatus } from '../../const';
 import { Rating } from '../rating/Rating';
 import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
-import { addingFavoriteOfferHandler as addFavoriteOfferHandler, getImageAbsoluteUrl, getIsFavorite } from "../../utils";
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getFavoritesStatus, getUserFavorites, getUserData } from '../../store/user/selectors';
+import { getImageAbsoluteUrl, getIsFavorite } from "../../utils";
+import { useAppSelector } from '../../hooks';
+import { getFavoritesStatus, getFavorites } from '../../store/user/selectors';
+import { useFavoriteOffer } from "../../hooks/useFavoriteOfferHandler";
 
 export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, ...props }) => {
-	const dispatch = useAppDispatch();
 	const favoritesStatus = useAppSelector(getFavoritesStatus);
 	const previewImageUrl = data.previewImage ? getImageAbsoluteUrl(data.previewImage) : noImagePreviewUrl;
-	const favoritesList = useAppSelector(getUserFavorites);
-	const user = useAppSelector(getUserData);
+	const favoritesList = useAppSelector(getFavorites);
+	const { toggleFavoriteOfferHandler } = useFavoriteOffer();
 
 	return (
 		<div className={cn(className, "place-card")} {...props}>
@@ -37,7 +37,7 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 						" button",
 						{ "place-card__bookmark-button--active": getIsFavorite(favoritesList, data._id) })}
 						disabled={favoritesStatus === FetchStatus.PENDING}
-						onClick={() => addFavoriteOfferHandler(dispatch, data._id, user, favoritesList)}
+						onClick={() => toggleFavoriteOfferHandler(data._id)}
 						type="button"
 					>
 						<svg className="place-card__bookmark-icon" width={18} height={19}>

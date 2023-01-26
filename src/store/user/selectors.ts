@@ -12,7 +12,7 @@ export const getAuthCheckedStatus = (state: RootState): boolean =>
 
 export const getUserData = (state: RootState): IUser | null =>
 	state[NameSpace.USER].user;
-export const getUserFavorites = (state: RootState): IOffer[] => {
+export const getFavorites = (state: RootState): IOffer[] => {
 	if (state[NameSpace.USER].user) {
 		return state[NameSpace.USER].user.favorites;
 	}

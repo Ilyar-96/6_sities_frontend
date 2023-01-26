@@ -947,10 +947,22 @@ img {
 	stroke: #4481c3
 }
 
-.place-card__bookmark-button--active .place-card__bookmark-icon {
+.place-card__bookmark-button--active .place-card__bookmark-icon,
+.property__bookmark-button--active .property__bookmark-icon {
 	stroke: #4481c3;
 	fill: #4481c3
 }
+
+.place-card__bookmark-button:disabled,
+.property__bookmark-button:disabled {
+	opacity: 0.4;
+}
+
+/* .place-card__bookmark-button:disabled .place-card__bookmark-button--active .place-card__bookmark-icon,
+.property__bookmark-button:disabled .property__bookmark-button--active .property__bookmark-icon {
+	stroke: red;
+	fill: #979797;
+} */
 
 .place-card__bookmark-icon {
 	fill: none;
@@ -1195,10 +1207,6 @@ img {
 	stroke: #4481c3
 }
 
-.property__bookmark-button--active .property__bookmark-icon {
-	stroke: #4481c3;
-	fill: #4481c3
-}
 
 .property__bookmark-icon {
 	fill: none;
