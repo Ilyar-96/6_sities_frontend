@@ -33,7 +33,7 @@ export const FavoritesLayout = () => {
 					{Object.entries(favoritesObject).map(([city, offers]) => <li className="favorites__locations-items" key={city}>
 						<div className="favorites__locations locations locations--current">
 							<div className="locations__item">
-								<Link className="locations__item-link" to={`${APPRoute.MAIN}#${cityHashBase}${city}`} onClick={() => onClick(offers[0].city)}>
+								<Link className="locations__item-link" to={`${APPRoute.HOME}#${cityHashBase}${city}`} onClick={() => onClick(offers[0].city)}>
 									<span>{city}</span>
 								</Link>
 							</div>

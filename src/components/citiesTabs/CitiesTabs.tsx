@@ -19,8 +19,8 @@ export const CitiesTabs: React.FC<CitiesTabsProps> = () => {
 	const isError = fetchingStatus === FetchStatus.REJECTED;
 
 	const onClick = (city: ICity) => {
-		navigate(APPRoute.MAIN + "#" + cityHashBase + city.name);
-		navigate(APPRoute.MAIN + "#" + cityHashBase + city.name);
+		navigate(APPRoute.HOME + "#" + cityHashBase + city.name);
+		navigate(APPRoute.HOME + "#" + cityHashBase + city.name);
 		dispatch(changeActiveCity(city));
 	};
 

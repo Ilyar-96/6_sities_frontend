@@ -7,7 +7,7 @@ export const Footer: React.FC = () => {
 
 	return (
 		<footer className="footer container">
-			<Link className="footer__logo-link" to={APPRoute.MAIN}>
+			<Link className="footer__logo-link" to={APPRoute.HOME}>
 				<img className="footer__logo" src={logoUrl} alt="6 cities logo" width={64} height={33} />
 			</Link>
 		</footer>

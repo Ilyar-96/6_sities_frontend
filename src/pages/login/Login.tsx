@@ -54,7 +54,7 @@ export const Login: React.FC = () => {
 	};
 
 	if (isAuth) {
-		return <Navigate to={APPRoute.MAIN} />;
+		return <Navigate to={APPRoute.HOME} />;
 	}
 
 	return (
@@ -89,7 +89,7 @@ export const Login: React.FC = () => {
 					</section>
 					<section className="locations locations--login locations--current">
 						<div className="locations__item">
-							{activeCity && <Link className="locations__item-link" to={APPRoute.MAIN} >
+							{activeCity && <Link className="locations__item-link" to={APPRoute.HOME} >
 								<span>{activeCity.name}</span>
 							</Link>}
 						</div>

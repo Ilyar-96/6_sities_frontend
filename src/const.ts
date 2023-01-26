@@ -9,7 +9,7 @@ export enum APIRoute {
 }
 
 export enum APPRoute {
-	MAIN = "/",
+	HOME = "/",
 	APARTMENT = "/apartment",
 	LOGIN = "/login",
 	REGISTER = "/register",
