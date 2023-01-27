@@ -14,7 +14,6 @@ import { saveToken } from "../services/token";
 import {
 	ILoginData,
 	IOfferAndUserIDs,
-	IRegisterData,
 	IUser,
 	IReviewData,
 } from "../types/user.type";
@@ -82,7 +81,7 @@ export const loginAction = createAsyncThunk<
 		return data;
 	} catch (err) {
 		if (err instanceof Error) {
-			if ("response" in err) {
+			if (!("response" in err)) {
 				notifyError(err.message);
 			}
 			throw new Error(err.message);

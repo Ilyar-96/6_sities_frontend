@@ -183,6 +183,10 @@ template {
 	display: none
 }
 
+:focus {
+	outline-color: #3069a6;
+}
+
 @font-face {
 	font-family: rubik;
 	font-style: normal;
@@ -1102,9 +1106,13 @@ img {
 	right: 0;
 	width: 34px;
 	height: 100%;
-	background-image: url(./assets/img/triangle.svg);
 	background-repeat: no-repeat;
 	background-size: 34px 452px
+}
+
+.property__dark-gallery-container .property__gallery::before,
+.property__dark-gallery-container .property__gallery::after {
+	background-image: url(./assets/img/triangleGray.svg);
 }
 
 .property__image-wrapper {
@@ -1697,7 +1705,66 @@ img {
 
 .form__label {
 	display: block;
-	margin-bottom: 5px;
+	margin-bottom: 8px;
+}
+
+[type="radio"]+label {
+	margin-right: 10px;
+}
+
+[type="radio"]:checked,
+[type="radio"]:not(:checked) {
+	position: absolute;
+	left: -9999px;
+}
+
+[type="radio"]:checked+label,
+[type="radio"]:not(:checked)+label {
+	position: relative;
+	padding-left: 22px;
+	cursor: pointer;
+	line-height: 20px;
+	display: inline-block;
+	color: #666;
+}
+
+[type="radio"]:checked+label:before,
+[type="radio"]:not(:checked)+label:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 18px;
+	height: 18px;
+	border: 1px solid #ddd;
+	border-radius: 100%;
+	background: #fff;
+}
+
+[type="radio"]:checked+label:after,
+[type="radio"]:not(:checked)+label:after {
+	content: '';
+	width: 12px;
+	height: 12px;
+	background: #4481c3;
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	border-radius: 100%;
+	-webkit-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+}
+
+[type="radio"]:not(:checked)+label:after {
+	opacity: 0;
+	-webkit-transform: scale(0);
+	transform: scale(0);
+}
+
+[type="radio"]:checked+label:after {
+	opacity: 1;
+	-webkit-transform: scale(1);
+	transform: scale(1);
 }
 
 .form__rating-label {
@@ -1727,6 +1794,7 @@ img {
 
 .form__textarea {
 	width: 100%;
+	padding: 15px 14px 13px;
 	font-size: 16px;
 	line-height: 1.1875;
 	color: #383838;
@@ -1932,8 +2000,15 @@ img {
 }
 
 
-.form__input-wrapper {
+.form__input-wrapper,
+.form__file-wrapper {
 	position: relative;
+}
+
+.form__file-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .form__input-wrapper,
@@ -2179,4 +2254,63 @@ img {
 
 .not-found__status-direction a:hover {
 	text-decoration: none;
+}
+
+.property {
+	position: relative;
+}
+
+.tools {
+	position: fixed;
+	top: 80px;
+	right: 15px;
+	display: flex;
+	align-items: center;
+	padding: 5px 10px;
+	border-radius: 5px;
+	background: #dcdcdc;
+	opacity: 0;
+	visibility: hidden;
+	transition:
+		opacity 0.5s ease,
+		visibility 0.5s ease;
+}
+
+.property:hover .tools {
+	opacity: 1;
+	visibility: visible;
+}
+
+.tools>*+* {
+	margin-left: 7px;
+}
+
+.tools__edit,
+.tools__delete {
+	display: block;
+	width: 28px;
+	height: 28px;
+	border: none;
+	border-radius: 3px;
+	background-repeat: no-repeat;
+	background-size: 18px;
+	background-position: center;
+	cursor: pointer;
+}
+
+.tools__edit {
+	background-image: url(./assets//img/pen-to-square.svg);
+	background-color: #4481c3;
+}
+
+.tools__delete {
+	background-image: url(./assets//img/trash.svg);
+	background-color: #cc0000;
+	background-size: 15px;
+}
+
+.form__row {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
 }

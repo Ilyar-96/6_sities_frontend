@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header, ApartmentCard, ApartmentGallery, ApartmentInfo, ReviewList, ReviewForm, MapSection } from '../../components';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ApartmentLoadingLayout } from './ApartmentLoadingLayout';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
@@ -11,8 +11,8 @@ import {
 } from '../../store/offers/selectors';
 import { fetchOffersAction, fetchSingleOfferAction } from '../../store/apiActions';
 import { getActiveCity } from "../../store/city/selectors";
-import { getIsAuth } from '../../store/user/selectors';
-import { FetchStatus } from '../../const';
+import { getIsAuth, getUserData } from '../../store/user/selectors';
+import { FetchStatus, APPRoute } from '../../const';
 
 export const Apartment = () => {
 	const dispatch = useAppDispatch();
@@ -20,9 +20,12 @@ export const Apartment = () => {
 	const offers = useAppSelector(getOffers);
 	const activeCity = useAppSelector(getActiveCity);
 	const isAuth = useAppSelector(getIsAuth);
+	const user = useAppSelector(getUserData);
 	const offerLoadingStatus = useAppSelector(getSingleOfferFetchingStatus);
 	const offer = useAppSelector(getSingleOffer);
-	const errorMessage = useAppSelector(getSingleOfferErrorMessage);
+	const isEditable = user?._id === offer?.host._id;
+	// const errorMessage = useAppSelector(getSingleOfferErrorMessage);
+
 	React.useEffect(() => {
 		if (!offers.length && activeCity) {
 			dispatch(fetchOffersAction({
@@ -45,9 +48,20 @@ export const Apartment = () => {
 			<Header />
 			<main className="page__main page__main--property">
 				<section className="property">
+					{isEditable &&
+						<div className="property__tools tools">
+							<Link className="tools__edit" to={APPRoute.ADD_OFFER} title="Edit">
+								<span className="visually-hidden">Edit</span>
+							</Link>
+							<button className="tools__delete" type="button" title="Delete">
+								<span className="visually-hidden">Delete</span>
+							</button>
+						</div>
+					}
+
 					{offer && offerLoadingStatus !== FetchStatus.PENDING ?
 						<>
-							<ApartmentGallery offer={offer} />
+							<ApartmentGallery images={offer.images} />
 
 							<div className="property__container container">
 								<div className="property__wrapper">

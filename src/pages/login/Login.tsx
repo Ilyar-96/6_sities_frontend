@@ -29,11 +29,16 @@ export const Login: React.FC = () => {
 		register,
 		handleSubmit,
 		reset,
+		setFocus,
 		formState: { errors, isValid },
 	} = useForm<ILoginData>({
 		resolver: yupResolver(formSchema),
 		mode: "onChange",
 	});
+
+	React.useEffect(() => {
+		setFocus("email");
+	}, [setFocus]);
 
 	React.useEffect(() => {
 		if (isAuth) {

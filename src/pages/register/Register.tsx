@@ -34,6 +34,7 @@ export const Register: React.FC = () => {
 		register,
 		handleSubmit,
 		reset,
+		setFocus,
 		formState: { errors, isValid },
 	} = useForm<IRegisterData>({
 		resolver: yupResolver(formSchema),
@@ -43,6 +44,10 @@ export const Register: React.FC = () => {
 	const onAvatarClick = () => {
 		fileInputRef.current?.click();
 	};
+
+	React.useEffect(() => {
+		setFocus("name");
+	}, [setFocus]);
 
 	React.useEffect(() => {
 		if (isAuth) {

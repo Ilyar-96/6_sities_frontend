@@ -1,4 +1,4 @@
-import { Header } from "../../components";
+import { Footer, Header } from "../../components";
 import { OfferForm } from "../../components/offerForm/OfferForm";
 import { useAppSelector } from "../../hooks";
 import { getIsAuth } from "../../store/user/selectors";
@@ -21,6 +21,7 @@ export const AddOffer = () => {
 					</section>
 				</div>
 			</main >
+			<Footer />
 		</div >
 	);
 };
