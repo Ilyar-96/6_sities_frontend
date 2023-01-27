@@ -3,7 +3,7 @@ import React from 'react';
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { Rating } from "../";
-import { addCommentAction } from "../../store/apiActions";
+import { addCommentAction } from "../../store/apiOfferActions";
 import { IReviewData } from "../../types/user.type";
 import { Textarea } from '../textarea/Textarea';
 import { useAppDispatch, useAppSelector } from '../../hooks';

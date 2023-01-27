@@ -7,7 +7,7 @@ import {
 	loginAction,
 	registerAction,
 	removeFavoriteOfferAction,
-} from "../apiActions";
+} from "../apiUserActions";
 import { dropToken } from "../../services/token";
 
 const initialState: IUserState = {

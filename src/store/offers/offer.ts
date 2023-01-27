@@ -3,11 +3,11 @@ import { NameSpace, FetchStatus } from "../../const";
 import { IOfferState } from "../../types/state";
 import {
 	addCommentAction,
+	createOfferAction,
 	fetchOffersAction,
 	fetchSingleOfferAction,
-} from "../apiActions";
+} from "../apiOfferActions";
 import { SortTypes } from "../../components/sort/Sort.type";
-import { IOffer } from "../../types/offer.type";
 
 const initialState: IOfferState = {
 	pagesCount: 0,
@@ -46,19 +46,31 @@ export const offerSlice = createSlice({
 				state.status = FetchStatus.REJECTED;
 			})
 			.addCase(fetchSingleOfferAction.pending, (state) => {
+				state.error = null;
 				state.singleOfferStatus = FetchStatus.PENDING;
 			})
 			.addCase(fetchSingleOfferAction.fulfilled, (state, action) => {
 				state.singleOffer = action.payload;
 				state.singleOfferStatus = FetchStatus.FULFILLED;
 			})
-			.addCase(fetchSingleOfferAction.rejected, (state, action) => {
+			.addCase(fetchSingleOfferAction.rejected, (state) => {
 				state.singleOffer = null;
 				state.error = "Something went wrong. Try later again.";
 				state.singleOfferStatus = FetchStatus.REJECTED;
 			})
 			.addCase(addCommentAction.fulfilled, (state, action) => {
 				state.singleOffer?.comments.push(action.payload);
+			})
+			.addCase(createOfferAction.pending, (state) => {
+				state.error = null;
+				state.singleOfferStatus = FetchStatus.PENDING;
+			})
+			.addCase(createOfferAction.fulfilled, (state) => {
+				state.singleOfferStatus = FetchStatus.FULFILLED;
+			})
+			.addCase(createOfferAction.rejected, (state) => {
+				state.error = "Something went wrong. Try later again.";
+				state.singleOfferStatus = FetchStatus.REJECTED;
 			});
 	},
 });

@@ -1,76 +1,14 @@
-import {
-	ICity,
-	FetchOffersActionType,
-	IOfferFetchParams,
-	IReview,
-	IOffer,
-	FetchCitiesActionType,
-} from "../types/offer.type";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AppDispatch, RootState } from "../types/state";
-import { AxiosInstance } from "axios";
+import { AsyncThunkParamsType } from "../types/state";
 import { APIRoute, NameSpace } from "../const";
 import { saveToken } from "../services/token";
-import {
-	ILoginData,
-	IOfferAndUserIDs,
-	IUser,
-	IReviewData,
-} from "../types/user.type";
+import { ILoginData, IOfferAndUserIDs, IUser } from "../types/user.type";
 import { notifySuccess, notifyError } from "../utils";
-
-export const fetchOffersAction = createAsyncThunk<
-	FetchOffersActionType,
-	IOfferFetchParams,
-	{
-		dispatch: AppDispatch;
-		state: RootState;
-		extra: AxiosInstance;
-	}
->(
-	`${NameSpace.OFFER}/fetchOffers`,
-	async (params, { dispatch, extra: api }) => {
-		const { data } = await api.get<FetchOffersActionType>(APIRoute.OFFERS, {
-			params,
-		});
-		return data;
-	}
-);
-
-export const fetchSingleOfferAction = createAsyncThunk<
-	IOffer,
-	string,
-	{
-		dispatch: AppDispatch;
-		state: RootState;
-		extra: AxiosInstance;
-	}
->(`${NameSpace.OFFER}/fetchOffer`, async (id, { dispatch, extra: api }) => {
-	const { data } = await api.get<IOffer>(APIRoute.OFFERS + "/" + id);
-	return data;
-});
-
-export const addCommentAction = createAsyncThunk<
-	IReview,
-	IReviewData,
-	{
-		dispatch: AppDispatch;
-		state: RootState;
-		extra: AxiosInstance;
-	}
->(`${NameSpace.OFFER}/addComment`, async (body, { dispatch, extra: api }) => {
-	const { data } = await api.post<IReview>(APIRoute.COMMENT, body);
-	return data;
-});
 
 export const loginAction = createAsyncThunk<
 	IUser,
 	ILoginData,
-	{
-		dispatch: AppDispatch;
-		state: RootState;
-		extra: AxiosInstance;
-	}
+	AsyncThunkParamsType
 >(`${NameSpace.USER}/login`, async (loginData, { dispatch, extra: api }) => {
 	try {
 		const { data } = await api.post<IUser>(APIRoute.LOGIN, loginData);
@@ -95,11 +33,7 @@ export const loginAction = createAsyncThunk<
 export const registerAction = createAsyncThunk<
 	IUser,
 	FormData,
-	{
-		dispatch: AppDispatch;
-		state: RootState;
-		extra: AxiosInstance;
-	}
+	AsyncThunkParamsType
 >(
 	`${NameSpace.USER}/register`,
 	async (registerData, { dispatch, extra: api }) => {
@@ -111,7 +45,6 @@ export const registerAction = createAsyncThunk<
 			if (data.token) {
 				saveToken(data.token);
 			}
-			console.log(data);
 			notifySuccess("Successfully registred");
 			return data;
 		} catch (err) {
@@ -131,11 +64,7 @@ export const registerAction = createAsyncThunk<
 export const authMeAction = createAsyncThunk<
 	IUser,
 	undefined,
-	{
-		dispatch: AppDispatch;
-		state: RootState;
-		extra: AxiosInstance;
-	}
+	AsyncThunkParamsType
 >(`${NameSpace.USER}/authMe`, async (_, { dispatch, extra: api }) => {
 	try {
 		const { data } = await api.get<IUser>(APIRoute.AUTH_ME);
@@ -152,11 +81,7 @@ export const authMeAction = createAsyncThunk<
 export const addFavoriteAction = createAsyncThunk<
 	IUser,
 	IOfferAndUserIDs,
-	{
-		dispatch: AppDispatch;
-		state: RootState;
-		extra: AxiosInstance;
-	}
+	AsyncThunkParamsType
 >(`${NameSpace.USER}/addFavorites`, async (ids, { dispatch, extra: api }) => {
 	try {
 		const { data } = await api.patch<IUser>(
@@ -171,14 +96,11 @@ export const addFavoriteAction = createAsyncThunk<
 		}
 	}
 });
+
 export const removeFavoriteOfferAction = createAsyncThunk<
 	IUser,
 	IOfferAndUserIDs,
-	{
-		dispatch: AppDispatch;
-		state: RootState;
-		extra: AxiosInstance;
-	}
+	AsyncThunkParamsType
 >(
 	`${NameSpace.USER}/removeFavorites`,
 	async (ids, { dispatch, extra: api }) => {
@@ -194,24 +116,5 @@ export const removeFavoriteOfferAction = createAsyncThunk<
 				throw new Error("Something went wrong...");
 			}
 		}
-	}
-);
-
-export const fetchCitiesAction = createAsyncThunk<
-	FetchCitiesActionType,
-	string | undefined,
-	{
-		dispatch: AppDispatch;
-		state: RootState;
-		extra: AxiosInstance;
-	}
->(
-	`${NameSpace.CITY}/fetchCities`,
-	async (initialCityName, { dispatch, extra: api }) => {
-		const { data } = await api.get<ICity[]>(APIRoute.CITY);
-		return {
-			data,
-			initialCityName,
-		};
 	}
 );

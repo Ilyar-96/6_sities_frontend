@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from ".";
 import {
 	removeFavoriteOfferAction,
 	addFavoriteAction,
-} from "../store/apiActions";
+} from "../store/apiUserActions";
 import { getFavorites, getUserData } from "../store/user/selectors";
 import { getIsFavorite } from "../utils";
 import { notifyWarning } from "../utils/notify";

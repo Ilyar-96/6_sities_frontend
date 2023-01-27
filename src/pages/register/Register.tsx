@@ -9,7 +9,7 @@ import { getIsAuth } from '../../store/user/selectors';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import emptyAvatarUrl from '../../assets/img/avatar.svg';
 import { useImagePreview } from '../../hooks/useImagePreview';
-import { registerAction } from "../../store/apiActions";
+import { registerAction } from "../../store/apiUserActions";
 import { IRegisterData } from "../../types/user.type";
 import { getActiveCity } from '../../store/city/selectors';
 

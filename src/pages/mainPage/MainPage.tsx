@@ -5,7 +5,7 @@ import 'simplebar-react/dist/simplebar.min.css';
 import { CitiesLayout } from './citiesLayout/CitiesLayout';
 import { EmptyCitiesLayout } from "./emptyCitiesLayout/EmptyCitiesLayout";
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchOffersAction } from '../../store/apiActions';
+import { fetchOffersAction } from '../../store/apiOfferActions';
 import { getActiveSort, getOffers, getOffersFetchingStatus } from '../../store/offers/selectors';
 import { FetchStatus } from '../../const';
 import { getActiveCity, getCitiesFetchingStatus } from '../../store/city/selectors';

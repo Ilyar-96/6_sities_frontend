@@ -7,7 +7,7 @@ import { Header, Input } from "../../components";
 import { APPRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth } from "../../store/user/selectors";
-import { loginAction } from "../../store/apiActions";
+import { loginAction } from "../../store/apiUserActions";
 import { notifyError } from '../../utils';
 import { ILoginData } from "../../types/user.type";
 import { getActiveCity } from "../../store/city/selectors";

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FetchStatus, NameSpace } from "../../const";
 import { ICity } from "../../types/offer.type";
 import { ICityState } from "../../types/state";
-import { fetchCitiesAction } from "../apiActions";
+import { fetchCitiesAction } from "../apiCityActions";
 
 const initialState: ICityState = {
 	entities: [],

@@ -5,19 +5,27 @@ import * as Yup from "yup";
 import Select from "react-select";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useImagePreview } from "../../hooks/useImagePreview";
-import { getIsAuth } from "../../store/user/selectors";
+import { getIsAuth, getUserData } from '../../store/user/selectors';
 import { CreateOfferType } from "../../types/offer.type";
 import { notifyError } from "../../utils";
 import { ApartmentGallery } from "../apartmentGallery/ApartmentGallery";
 import { Input, InputRadio } from "../";
 import { Textarea } from "../textarea/Textarea";
 import { getCities } from '../../store/city/selectors';
-import { colors } from "react-select/dist/declarations/src/theme";
+import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
+import { createOfferAction } from "../../store/apiOfferActions";
 
 export const OfferForm: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const isAuth = useAppSelector(getIsAuth);
-	const fileInputRef = React.useRef<HTMLInputElement>(null);
+	const user = useAppSelector(getUserData);
+	const fileGalleryInputRef = React.useRef<HTMLInputElement>(null);
+	const filePreviewInputRef = React.useRef<HTMLInputElement>(null);
+	const {
+		preview,
+		selectedFile: selectedPreviewFile,
+		setSelectedFile: setSelectedPreviewFile
+	} = useImagePreview();
 	const {
 		preview: previews,
 		selectedFile: selectedFiles,
@@ -73,17 +81,37 @@ export const OfferForm: React.FC = () => {
 		mode: "onChange",
 	});
 
-	React.useEffect(() => {
-		if (isAuth) {
-			reset();
-		}
-		// eslint-disable-next-line
-	}, [isAuth]);
+	// React.useEffect(() => {
+	// 	if (isAuth) {
+	// 		reset();
+	// 	}
+	// 	// eslint-disable-next-line
+	// }, [isAuth]);
 
-	const onSubmit: SubmitHandler<CreateOfferType> = (values: CreateOfferType) => {
+	const onSubmit: SubmitHandler<CreateOfferType> = (values: Record<string, any>) => {
 		try {
-			console.log(values);
-			// dispatch(loginAction(values));
+			const formData = new FormData();
+			formData.append("rating", "5");
+			if (user) {
+				formData.append("host", user._id);
+			}
+
+			if (selectedFiles && Array.isArray(selectedFiles)) {
+				selectedFiles.forEach((f) => {
+					formData.append("images", f);
+				});
+			}
+
+			if (selectedPreviewFile && !Array.isArray(selectedPreviewFile)) {
+				formData.append("previewImage", selectedPreviewFile);
+			}
+
+			for (const key in values) {
+				if (Object.prototype.hasOwnProperty.call(values, key)) {
+					formData.append(String(key), values[key]);
+				}
+			}
+			dispatch(createOfferAction(formData));
 		} catch (err) {
 			if (err instanceof Error) {
 				console.log(err);
@@ -107,8 +135,20 @@ export const OfferForm: React.FC = () => {
 		}
 	};
 
+	const onPreviewChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+
+		if (file) {
+			setSelectedPreviewFile(file);
+		}
+	};
+
 	const onButtonClick = () => {
-		fileInputRef.current?.click();
+		fileGalleryInputRef.current?.click();
+	};
+
+	const onPreviewClick = () => {
+		filePreviewInputRef.current?.click();
 	};
 
 	return (
@@ -116,6 +156,32 @@ export const OfferForm: React.FC = () => {
 			className="add-offer__form form"
 			onSubmit={handleSubmit(onSubmit)}
 		>
+			<div className="form__file-wrapper">
+				<img
+					className="form__preview"
+					onClick={onPreviewClick}
+					src={preview && typeof preview === "string" ? preview : noImagePreviewUrl}
+					alt="Preview"
+					title="Preview (260*200)"
+				/>
+				<Input
+					className="form__input form__input--avatar"
+					type="file"
+					placeholder="Avatar"
+					accept="image/*"
+					name="avatarUrl"
+					ref={filePreviewInputRef}
+					multiple
+					onChange={onPreviewChange}
+				/>
+				{
+					gallery.length === 0 && isValid &&
+					<div className="form__error">
+						Please select images
+					</div>
+				}
+			</div>
+
 			{gallery?.length > 0 &&
 				<ApartmentGallery
 					images={gallery}
@@ -136,7 +202,7 @@ export const OfferForm: React.FC = () => {
 					placeholder="Avatar"
 					accept="image/*"
 					name="avatarUrl"
-					ref={fileInputRef}
+					ref={fileGalleryInputRef}
 					multiple
 					onChange={onGalleryImagesChange}
 				/>

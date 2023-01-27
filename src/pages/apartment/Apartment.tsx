@@ -9,7 +9,7 @@ import {
 	getSingleOffer,
 	getSingleOfferErrorMessage
 } from '../../store/offers/selectors';
-import { fetchOffersAction, fetchSingleOfferAction } from '../../store/apiActions';
+import { fetchOffersAction, fetchSingleOfferAction } from '../../store/apiOfferActions';
 import { getActiveCity } from "../../store/city/selectors";
 import { getIsAuth, getUserData } from '../../store/user/selectors';
 import { FetchStatus, APPRoute } from '../../const';
