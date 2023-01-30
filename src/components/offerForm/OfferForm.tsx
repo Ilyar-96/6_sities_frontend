@@ -29,6 +29,8 @@ export const OfferForm: React.FC = () => {
 	const user = useAppSelector(getUserData);
 	const offer = useAppSelector(getSingleOffer);
 	const [gallery, setGallery] = React.useState<string[]>([]);
+	const [galleryErrorMessage, setGalleryErrorMessage] = React.useState<string | null>(null);
+	const [previewErrorMessage, setPreviewErrorMessage] = React.useState<string | null>(null);
 	const [previewImage, setPreviewImage] = React.useState<string>(noImagePreviewUrl);
 	const fileGalleryInputRef = React.useRef<HTMLInputElement>(null);
 	const filePreviewInputRef = React.useRef<HTMLInputElement>(null);
@@ -69,14 +71,14 @@ export const OfferForm: React.FC = () => {
 	}, [preview]);
 
 	React.useEffect(() => {
-		if (id) {
+		if (id && id !== offer?._id) {
 			dispatch(fetchSingleOfferAction(id));
 		}
 	}, [id]);
 
 	const formSchema = Yup.object().shape({
 		city: Yup.string()
-			.required("Select city"),
+			.required("Select city").default(offer?.city._id),
 		title: Yup.string()
 			.required("Enter title"),
 		isPremium: Yup.boolean()
@@ -123,7 +125,9 @@ export const OfferForm: React.FC = () => {
 	const onSubmit: SubmitHandler<CreateOfferType> = (values: Record<string, any>) => {
 		try {
 			const formData = new FormData();
+
 			formData.append("rating", "5");
+
 			if (user) {
 				formData.append("host", user._id);
 			}
@@ -180,6 +184,12 @@ export const OfferForm: React.FC = () => {
 			}
 			setSelectedFiles(files);
 		}
+
+		if (fileList && fileList.length && fileList.length % 3 === 0) {
+			setGalleryErrorMessage(null);
+		} else {
+			setGalleryErrorMessage("Please select 3 or 6 images for gallery");
+		}
 	};
 
 	const onPreviewChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -187,6 +197,9 @@ export const OfferForm: React.FC = () => {
 
 		if (file) {
 			setSelectedPreviewFile(file);
+			setPreviewErrorMessage(null);
+		} else {
+			setPreviewErrorMessage("Please select preview image");
 		}
 	};
 
@@ -226,10 +239,8 @@ export const OfferForm: React.FC = () => {
 					onChange={onPreviewChange}
 				/>
 				{
-					gallery.length === 0 && isValid &&
-					<div className="form__error">
-						Please select preview image
-					</div>
+					previewErrorMessage &&
+					<div className="form__error">{previewErrorMessage}</div>
 				}
 			</div>
 
@@ -258,10 +269,8 @@ export const OfferForm: React.FC = () => {
 					onChange={onGalleryImagesChange}
 				/>
 				{
-					(gallery.length === 0 || gallery.length % 3 !== 0) && isValid &&
-					<div className="form__error">
-						Please select 3 or 6 images for gallery
-					</div>
+					galleryErrorMessage &&
+					<div className="form__error">{galleryErrorMessage}</div>
 				}
 			</div>
 
@@ -346,8 +355,13 @@ export const OfferForm: React.FC = () => {
 							render={({ field: { onChange, value } }) => (
 								<Select
 									options={selectOptions}
+									isDisabled={isEditable}
 									value={selectOptions.find(
-										(c) => c.value === value
+										(c) => {
+											return (isEditable && offer) ?
+												c.value === offer.city._id :
+												c.value === value;
+										}
 									)}
 									onChange={(val) => onChange(val?.value)}
 									styles={{
@@ -407,7 +421,7 @@ export const OfferForm: React.FC = () => {
 			<button
 				className="form__submit button"
 				type="submit"
-				disabled={!isValid || gallery.length === 0 || gallery.length % 3 !== 0 || !previewImage}
+				disabled={Boolean(!isValid || galleryErrorMessage || previewErrorMessage)}
 			>
 				{isEditable ? "Update apartment" : "Add apartment"}
 			</button>
