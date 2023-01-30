@@ -50,7 +50,7 @@ export const Apartment = () => {
 				<section className="property">
 					{isEditable &&
 						<div className="property__tools tools">
-							<Link className="tools__edit" to={APPRoute.ADD_OFFER} title="Edit">
+							<Link className="tools__edit" to={APPRoute.ADD_OFFER + "/" + offer?._id} title="Edit">
 								<span className="visually-hidden">Edit</span>
 							</Link>
 							<button className="tools__delete" type="button" title="Delete">

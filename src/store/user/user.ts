@@ -11,7 +11,7 @@ import {
 import { dropToken } from "../../services/token";
 
 const initialState: IUserState = {
-	authorizationStatus: AuthorizationStatus.NO_AUTH,
+	authorizationStatus: AuthorizationStatus.UNKNOWN,
 	user: null,
 	addingFavoritesStatus: FetchStatus.IDLE,
 };

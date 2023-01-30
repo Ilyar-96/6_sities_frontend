@@ -1,14 +1,18 @@
+import { Navigate, useParams } from "react-router-dom";
 import { Footer, Header } from "../../components";
 import { OfferForm } from "../../components/offerForm/OfferForm";
+import { APPRoute } from "../../const";
 import { useAppSelector } from "../../hooks";
-import { getIsAuth } from "../../store/user/selectors";
+import { getAuthCheckedStatus, getIsAuth } from "../../store/user/selectors";
 
-export const AddOffer = () => {
+export const CreateOffer = () => {
+	const { id } = useParams();
 	const isAuth = useAppSelector(getIsAuth);
+	const isAuthChecked = useAppSelector(getAuthCheckedStatus);
 
-	// if (!isAuth) {
-	// 	return <Navigate to={APPRoute.HOME} />;
-	// }
+	if (isAuthChecked && !isAuth) {
+		return <Navigate to={APPRoute.HOME} />;
+	}
 
 	return (
 		<div className="page page--gray">
@@ -16,7 +20,7 @@ export const AddOffer = () => {
 			<main className="page__main page__main--add-offer">
 				<div className="page__add-offer-container container">
 					<section className="add-offer">
-						<h1 className="add-offer__title">Add new apartment</h1>
+						<h1 className="add-offer__title">{id ? "Update apartment" : "Add new apartment"}</h1>
 						<OfferForm />
 					</section>
 				</div>

@@ -7,8 +7,12 @@ export const getAuthStatus = (state: RootState): AuthorizationStatus =>
 	state[NameSpace.USER].authorizationStatus;
 export const getIsAuth = (state: RootState): boolean =>
 	state[NameSpace.USER].authorizationStatus === AuthorizationStatus.AUTH;
-export const getAuthCheckedStatus = (state: RootState): boolean =>
-	state[NameSpace.USER].authorizationStatus !== AuthorizationStatus.UNKNOWN;
+export const getAuthCheckedStatus = (state: RootState): boolean => {
+	return (
+		state[NameSpace.USER].authorizationStatus !== AuthorizationStatus.UNKNOWN &&
+		state[NameSpace.USER].authorizationStatus !== AuthorizationStatus.PENDING
+	);
+};
 
 export const getUserData = (state: RootState): IUser | null =>
 	state[NameSpace.USER].user;

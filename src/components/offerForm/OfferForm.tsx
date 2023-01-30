@@ -5,20 +5,31 @@ import * as Yup from "yup";
 import Select from "react-select";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useImagePreview } from "../../hooks/useImagePreview";
-import { getIsAuth, getUserData } from '../../store/user/selectors';
+import { getUserData } from '../../store/user/selectors';
 import { CreateOfferType } from "../../types/offer.type";
-import { notifyError } from "../../utils";
+import { getImageAbsoluteUrl, notifyError } from "../../utils";
 import { ApartmentGallery } from "../apartmentGallery/ApartmentGallery";
 import { Input, InputRadio } from "../";
 import { Textarea } from "../textarea/Textarea";
 import { getCities } from '../../store/city/selectors';
 import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
-import { createOfferAction } from "../../store/apiOfferActions";
+import {
+	createOfferAction,
+	fetchSingleOfferAction,
+	updateOfferAction
+} from '../../store/apiOfferActions';
+import { useNavigate, useParams } from "react-router-dom";
+import { getSingleOffer } from '../../store/offers/selectors';
+import { APPRoute } from '../../const';
 
 export const OfferForm: React.FC = () => {
+	const { id } = useParams();
 	const dispatch = useAppDispatch();
-	const isAuth = useAppSelector(getIsAuth);
+	const navigate = useNavigate();
 	const user = useAppSelector(getUserData);
+	const offer = useAppSelector(getSingleOffer);
+	const [gallery, setGallery] = React.useState<string[]>([]);
+	const [previewImage, setPreviewImage] = React.useState<string>(noImagePreviewUrl);
 	const fileGalleryInputRef = React.useRef<HTMLInputElement>(null);
 	const filePreviewInputRef = React.useRef<HTMLInputElement>(null);
 	const {
@@ -31,9 +42,37 @@ export const OfferForm: React.FC = () => {
 		selectedFile: selectedFiles,
 		setSelectedFile: setSelectedFiles
 	} = useImagePreview();
-	const gallery = (Array.isArray(previews) && previews?.length) ? previews : [];
 	const cities = useAppSelector(getCities);
 	const selectOptions = cities.map((c) => ({ value: c._id, label: c.name }));
+	const isEditable = Boolean(offer && id);
+
+	React.useEffect(() => {
+		if (isEditable && offer?.images) {
+			setGallery(offer.images);
+		}
+
+		if (isEditable && offer?.previewImage) {
+			setPreviewImage(getImageAbsoluteUrl(offer.previewImage));
+		}
+	}, [offer]);
+
+	React.useEffect(() => {
+		if (Array.isArray(previews)) {
+			setGallery(previews);
+		}
+	}, [previews]);
+
+	React.useEffect(() => {
+		if (typeof preview === "string") {
+			setPreviewImage(preview);
+		}
+	}, [preview]);
+
+	React.useEffect(() => {
+		if (id) {
+			dispatch(fetchSingleOfferAction(id));
+		}
+	}, [id]);
 
 	const formSchema = Yup.object().shape({
 		city: Yup.string()
@@ -41,7 +80,8 @@ export const OfferForm: React.FC = () => {
 		title: Yup.string()
 			.required("Enter title"),
 		isPremium: Yup.boolean()
-			.required("Check this input"),
+			.required()
+			.oneOf([true, false], "Selecting the premium field is required"),
 		type: Yup.string()
 			.required("Enter apartment type"),
 		address: Yup.string()
@@ -73,20 +113,12 @@ export const OfferForm: React.FC = () => {
 	const {
 		register,
 		handleSubmit,
-		reset,
 		control,
 		formState: { errors, isValid },
 	} = useForm<CreateOfferType>({
 		resolver: yupResolver(formSchema),
 		mode: "onChange",
 	});
-
-	// React.useEffect(() => {
-	// 	if (isAuth) {
-	// 		reset();
-	// 	}
-	// 	// eslint-disable-next-line
-	// }, [isAuth]);
 
 	const onSubmit: SubmitHandler<CreateOfferType> = (values: Record<string, any>) => {
 		try {
@@ -106,12 +138,27 @@ export const OfferForm: React.FC = () => {
 				formData.append("previewImage", selectedPreviewFile);
 			}
 
+			if (isEditable && !selectedPreviewFile) {
+				formData.append("previewImage", previewImage);
+			}
+
+			if (isEditable && !selectedFiles) {
+				gallery.forEach((url) => {
+					formData.append("images", url);
+				});
+			}
+
 			for (const key in values) {
 				if (Object.prototype.hasOwnProperty.call(values, key)) {
 					formData.append(String(key), values[key]);
 				}
 			}
-			dispatch(createOfferAction(formData));
+
+			(isEditable && id) ?
+				dispatch(updateOfferAction({ data: formData, _id: id })) :
+				dispatch(createOfferAction(formData));
+
+			navigate(`${APPRoute.APARTMENT}/${id}`);
 		} catch (err) {
 			if (err instanceof Error) {
 				console.log(err);
@@ -151,6 +198,10 @@ export const OfferForm: React.FC = () => {
 		filePreviewInputRef.current?.click();
 	};
 
+	if (id && !offer) {
+		return <h1>Loading</h1>;
+	}
+
 	return (
 		<form
 			className="add-offer__form form"
@@ -160,7 +211,7 @@ export const OfferForm: React.FC = () => {
 				<img
 					className="form__preview"
 					onClick={onPreviewClick}
-					src={preview && typeof preview === "string" ? preview : noImagePreviewUrl}
+					src={previewImage}
 					alt="Preview"
 					title="Preview (260*200)"
 				/>
@@ -177,7 +228,7 @@ export const OfferForm: React.FC = () => {
 				{
 					gallery.length === 0 && isValid &&
 					<div className="form__error">
-						Please select images
+						Please select preview image
 					</div>
 				}
 			</div>
@@ -207,9 +258,9 @@ export const OfferForm: React.FC = () => {
 					onChange={onGalleryImagesChange}
 				/>
 				{
-					gallery.length === 0 && isValid &&
+					(gallery.length === 0 || gallery.length % 3 !== 0) && isValid &&
 					<div className="form__error">
-						Please select images
+						Please select 3 or 6 images for gallery
 					</div>
 				}
 			</div>
@@ -219,6 +270,7 @@ export const OfferForm: React.FC = () => {
 					<Input
 						type="text"
 						label="Title"
+						defaultValue={isEditable ? offer?.title : ""}
 						errorMessage={errors.title?.message}
 						{...register("title")}
 					/>
@@ -226,42 +278,35 @@ export const OfferForm: React.FC = () => {
 					<Input
 						type="text"
 						label="Apartment type"
+						defaultValue={isEditable ? offer?.type : ""}
 						errorMessage={errors.type?.message}
 						{...register("type")}
 					/>
 					<Input
 						type="text"
 						label="Address"
+						defaultValue={isEditable ? offer?.address : ""}
 						errorMessage={errors.address?.message}
 						{...register("address")}
 					/>
 					<Input
 						type="text"
 						label="Bedrooms amount"
+						defaultValue={isEditable ? offer?.bedrooms : ""}
 						errorMessage={errors.bedrooms?.message}
 						{...register("bedrooms")}
 					/>
 					<Input
 						type="text"
 						label="Maximum adults amount"
+						defaultValue={isEditable ? offer?.maxAdults : ""}
 						errorMessage={errors.maxAdults?.message}
 						{...register("maxAdults")}
-					/>
-					<Input
-						type="text"
-						label="Price"
-						errorMessage={errors.price?.message}
-						{...register("price")}
-					/>
-					<Input
-						type="text"
-						label="Goods"
-						errorMessage={errors.goods?.message}
-						{...register("goods")}
 					/>
 					<Textarea
 						className="form__textarea--large"
 						label="Description"
+						defaultValue={isEditable ? offer?.description : ""}
 						errorMessage={errors.description?.message}
 						{...register("description")}
 					/>
@@ -269,31 +314,42 @@ export const OfferForm: React.FC = () => {
 					<div className="form__input-wrapper">
 						<div className="form__label">Is premium?</div>
 						<InputRadio
-							value={"true"}
+							defaultValue={"true"}
 							label="Yes"
 							errorMessage={errors.isPremium?.message}
+							defaultChecked={isEditable && offer?.isPremium}
 							{...register("isPremium")}
 						/>
 						<InputRadio
 							label="No"
-							value={"false"}
+							defaultValue={"false"}
 							errorMessage={errors.isPremium?.message}
+							defaultChecked={isEditable && !offer?.isPremium}
 							{...register("isPremium")}
 						/>
 					</div>
 				</div>
 				<div className="form__col">
+					<Input
+						type="text"
+						label="Price"
+						defaultValue={isEditable ? offer?.price : ""}
+						errorMessage={errors.price?.message}
+						{...register("price")}
+					/>
+
 					<div className="form__input-wrapper">
 						<div className="form__label">City</div>
 						<Controller
 							name="city"
 							control={control}
-							render={({ field: { onChange, value, ref } }) => (
+							render={({ field: { onChange, value } }) => (
 								<Select
 									options={selectOptions}
-									value={selectOptions.find((c) => c.value === value)}
+									value={selectOptions.find(
+										(c) => c.value === value
+									)}
 									onChange={(val) => onChange(val?.value)}
-									defaultValue={null}
 									styles={{
 										control: (baseStyles, state) => ({
 											...baseStyles,
@@ -319,20 +375,31 @@ export const OfferForm: React.FC = () => {
 					<Input
 						type="text"
 						label="Latitude"
+						defaultValue={isEditable ? offer?.location.latitude : ""}
 						errorMessage={errors.latitude?.message}
 						{...register("latitude")}
 					/>
 					<Input
 						type="text"
 						label="Longitude"
+						defaultValue={isEditable ? offer?.location.longitude : ""}
 						errorMessage={errors.longitude?.message}
 						{...register("longitude")}
 					/>
 					<Input
 						type="text"
 						label="Zoom"
+						defaultValue={isEditable ? offer?.location.zoom : ""}
 						errorMessage={errors.zoom?.message}
 						{...register("zoom")}
+					/>
+
+					<Textarea
+						className="form__textarea--large"
+						label="Goods"
+						defaultValue={isEditable ? offer?.goods.join("; ") : ""}
+						errorMessage={errors.goods?.message}
+						{...register("goods")}
 					/>
 				</div>
 			</div>
@@ -340,9 +407,9 @@ export const OfferForm: React.FC = () => {
 			<button
 				className="form__submit button"
 				type="submit"
-				disabled={!isValid || gallery.length === 0}
+				disabled={!isValid || gallery.length === 0 || gallery.length % 3 !== 0 || !previewImage}
 			>
-				Add apartment
+				{isEditable ? "Update apartment" : "Add apartment"}
 			</button>
 		</form>);
 };

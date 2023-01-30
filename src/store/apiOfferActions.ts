@@ -46,7 +46,6 @@ export const createOfferAction = createAsyncThunk<
 	FormData,
 	AsyncThunkParamsType
 >(`${NameSpace.OFFER}/createOffer`, async (body, { dispatch, extra: api }) => {
-	console.log(body);
 	const { data } = await api.post<IOffer>(APIRoute.OFFERS, body);
 	return data;
 });
@@ -58,8 +57,8 @@ export const updateOfferAction = createAsyncThunk<
 >(
 	`${NameSpace.OFFER}/updateOfferAction`,
 	async (body, { dispatch, extra: api }) => {
-		const { data } = await api.patch<IOffer>(
-			APIRoute.OFFERS + body._id,
+		const { data } = await api.post<IOffer>(
+			APIRoute.OFFERS + "/" + body._id,
 			body.data
 		);
 		return data as IOffer;
