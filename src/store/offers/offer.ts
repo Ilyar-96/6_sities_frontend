@@ -56,7 +56,7 @@ export const offerSlice = createSlice({
 				state.singleOfferStatus = FetchStatus.PENDING;
 			})
 			.addCase(fetchSingleOfferAction.fulfilled, (state, action) => {
-				state.singleOffer = action.payload;
+				state.singleOffer = { ...action.payload };
 				state.singleOfferStatus = FetchStatus.FULFILLED;
 			})
 			.addCase(fetchSingleOfferAction.rejected, (state) => {

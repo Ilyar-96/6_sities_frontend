@@ -10,16 +10,27 @@ import closeSvg from '../../assets/img/close.svg';
 
 export const MapSection: React.FC<MapProps> = ({ centralLocation, offers, activeOffer = null, className, ...props }) => {
 	const [selectedOffer, setSelectedOffer] = React.useState<IOffer | null>(activeOffer);
+	const [center, setCenter] = React.useState([centralLocation.latitude, centralLocation.longitude]);
+	const [zoom, setZoom] = React.useState(13);
 	const { id: currentOfferId } = useParams();
+
+	React.useEffect(() => {
+		setSelectedOffer(activeOffer);
+	}, [activeOffer]);
+
+	React.useEffect(() => {
+		setCenter([centralLocation.latitude, centralLocation.longitude]);
+		setZoom(centralLocation.zoom);
+	}, [centralLocation]);
 
 	return (
 		<section className={cn(className, "map")} {...props} >
 			<YMaps>
 				{centralLocation && <Map
 					className="map__wrapper"
-					defaultState={{
-						center: [centralLocation.latitude, centralLocation.longitude],
-						zoom: centralLocation.zoom,
+					state={{
+						center,
+						zoom,
 						controls: ["zoomControl", "fullscreenControl"],
 					}}
 					modules={["control.ZoomControl", "control.FullscreenControl"]}

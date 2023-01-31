@@ -12,10 +12,6 @@ export const Rating: React.FC<RatingProps> = ({
 }) => {
 	const [value, setValue] = React.useState<number>(defaultValue);
 
-	if (type === "checkable") {
-		console.log(value);
-	}
-
 	let classBaseName;
 	switch (size) {
 		case 's':

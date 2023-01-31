@@ -81,5 +81,4 @@ export interface CreateOfferType extends CreateOfferTypeWithoutLocation {
 	latitude: number;
 	longitude: number;
 	zoom: number;
-	rating: number;
 }

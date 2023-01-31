@@ -11,17 +11,17 @@ import { getImageAbsoluteUrl, notifyError } from "../../utils";
 import { ApartmentGallery } from "../apartmentGallery/ApartmentGallery";
 import { Input, InputRadio } from "../";
 import { Textarea } from "../textarea/Textarea";
-import { getCities } from '../../store/city/selectors';
+import { getActiveCity, getCities } from '../../store/city/selectors';
 import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
 import {
 	createOfferAction,
+	fetchOffersAction,
 	fetchSingleOfferAction,
 	updateOfferAction
 } from '../../store/apiOfferActions';
 import { useNavigate, useParams } from "react-router-dom";
-import { getSingleOffer } from '../../store/offers/selectors';
+import { getActiveSort, getSingleOffer } from '../../store/offers/selectors';
 import { APPRoute } from '../../const';
-import { Rating } from '../rating/Rating';
 
 export const OfferForm: React.FC = () => {
 	const { id } = useParams();
@@ -29,12 +29,15 @@ export const OfferForm: React.FC = () => {
 	const navigate = useNavigate();
 	const user = useAppSelector(getUserData);
 	const offer = useAppSelector(getSingleOffer);
+	const activeCity = useAppSelector(getActiveCity);
+	const activeSort = useAppSelector(getActiveSort);
 	const [gallery, setGallery] = React.useState<string[]>([]);
 	const [galleryErrorMessage, setGalleryErrorMessage] = React.useState<string | null>(null);
 	const [previewErrorMessage, setPreviewErrorMessage] = React.useState<string | null>(null);
 	const [previewImage, setPreviewImage] = React.useState<string>(noImagePreviewUrl);
 	const fileGalleryInputRef = React.useRef<HTMLInputElement>(null);
 	const filePreviewInputRef = React.useRef<HTMLInputElement>(null);
+
 	const {
 		preview,
 		selectedFile: selectedPreviewFile,
@@ -82,8 +85,6 @@ export const OfferForm: React.FC = () => {
 			.required("Select city").default(offer?.city._id),
 		title: Yup.string()
 			.required("Enter title"),
-		rating: Yup.number().min(1).max(5)
-			.required("Select rating"),
 		isPremium: Yup.boolean()
 			.required()
 			.oneOf([true, false], "Selecting the premium field is required"),
@@ -119,19 +120,13 @@ export const OfferForm: React.FC = () => {
 		register,
 		handleSubmit,
 		control,
-		setValue,
-		trigger,
 		formState: { errors, isValid },
 	} = useForm<CreateOfferType>({
 		resolver: yupResolver(formSchema),
 		mode: "all",
-		defaultValues: {
-			rating: 0,
-		},
-		shouldUnregister: false,
 	});
 
-	const onSubmit: SubmitHandler<CreateOfferType> = (values: Record<string, any>) => {
+	const onSubmit: SubmitHandler<CreateOfferType> = async (values: Record<string, any>) => {
 		try {
 			const formData = new FormData();
 
@@ -166,11 +161,17 @@ export const OfferForm: React.FC = () => {
 			}
 
 			(isEditable && id) ?
-				dispatch(updateOfferAction({ data: formData, _id: id })) :
-				dispatch(createOfferAction(formData));
+				await dispatch(updateOfferAction({ data: formData, _id: id })) :
+				await dispatch(createOfferAction(formData));
+
+			const [sortBy, order] = activeSort.split('_');
+			dispatch(fetchOffersAction({
+				sortBy,
+				order,
+				cityId: offer?.city._id
+			}));
 
 			navigate(`${APPRoute.APARTMENT}/${id}`);
-			console.log(values);
 		} catch (err) {
 			if (err instanceof Error) {
 				console.log(err);
@@ -217,11 +218,6 @@ export const OfferForm: React.FC = () => {
 
 	const onPreviewClick = () => {
 		filePreviewInputRef.current?.click();
-	};
-
-	const setRating = (val: number) => {
-		setValue("rating", val);
-		trigger("rating");
 	};
 
 	if (id && !offer) {
@@ -428,18 +424,6 @@ export const OfferForm: React.FC = () => {
 						errorMessage={errors.goods?.message}
 						{...register("goods")}
 					/>
-
-
-					<div className="form__input-wrapper">
-						<div className="form__label">Rating</div>
-						<Rating
-							ratingSize="l"
-							ratingType="checkable"
-							getValue={setRating}
-							defaultValue={0}
-						/>
-						{errors.rating && <div className="form__error">{errors.rating?.message}</div>}
-					</div>
 				</div>
 			</div>
 

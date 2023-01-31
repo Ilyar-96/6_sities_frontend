@@ -7,7 +7,8 @@ import {
 	getOffers,
 	getSingleOfferFetchingStatus,
 	getSingleOffer,
-	getSingleOfferErrorMessage
+	getSingleOfferErrorMessage,
+	getActiveSort
 } from '../../store/offers/selectors';
 import { fetchOffersAction, fetchSingleOfferAction } from '../../store/apiOfferActions';
 import { getActiveCity } from "../../store/city/selectors";
@@ -22,6 +23,7 @@ export const Apartment = () => {
 	const { id } = useParams();
 	const offers = useAppSelector(getOffers);
 	const activeCity = useAppSelector(getActiveCity);
+	const activeSort = useAppSelector(getActiveSort);
 	const isAuth = useAppSelector(getIsAuth);
 	const user = useAppSelector(getUserData);
 	const offerLoadingStatus = useAppSelector(getSingleOfferFetchingStatus);
@@ -30,14 +32,12 @@ export const Apartment = () => {
 	const errorMessage = useAppSelector(getSingleOfferErrorMessage);
 
 	React.useEffect(() => {
-		if (!offers.length && activeCity) {
+		if (offer && (offers.length === 0 || offer.city._id !== offers[0].city._id)) {
 			dispatch(fetchOffersAction({
-				page: 1,
-				limit: 0,
-				cityId: activeCity._id
+				cityId: offer.city._id
 			}));
 		}
-	}, [activeCity]);
+	}, [offer, id]);
 
 	React.useEffect(() => {
 		if (id) {
