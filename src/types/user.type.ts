@@ -17,6 +17,7 @@ export interface IReviewData {
 	description: string;
 	user: string;
 	offer: string;
+	commentId?: string;
 }
 
 export interface ILoginData {

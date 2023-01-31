@@ -21,6 +21,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { getSingleOffer } from '../../store/offers/selectors';
 import { APPRoute } from '../../const';
+import { Rating } from '../rating/Rating';
 
 export const OfferForm: React.FC = () => {
 	const { id } = useParams();
@@ -81,6 +82,8 @@ export const OfferForm: React.FC = () => {
 			.required("Select city").default(offer?.city._id),
 		title: Yup.string()
 			.required("Enter title"),
+		rating: Yup.number().min(1).max(5)
+			.required("Select rating"),
 		isPremium: Yup.boolean()
 			.required()
 			.oneOf([true, false], "Selecting the premium field is required"),
@@ -116,17 +119,21 @@ export const OfferForm: React.FC = () => {
 		register,
 		handleSubmit,
 		control,
+		setValue,
+		trigger,
 		formState: { errors, isValid },
 	} = useForm<CreateOfferType>({
 		resolver: yupResolver(formSchema),
-		mode: "onChange",
+		mode: "all",
+		defaultValues: {
+			rating: 0,
+		},
+		shouldUnregister: false,
 	});
 
 	const onSubmit: SubmitHandler<CreateOfferType> = (values: Record<string, any>) => {
 		try {
 			const formData = new FormData();
-
-			formData.append("rating", "5");
 
 			if (user) {
 				formData.append("host", user._id);
@@ -163,6 +170,7 @@ export const OfferForm: React.FC = () => {
 				dispatch(createOfferAction(formData));
 
 			navigate(`${APPRoute.APARTMENT}/${id}`);
+			console.log(values);
 		} catch (err) {
 			if (err instanceof Error) {
 				console.log(err);
@@ -209,6 +217,11 @@ export const OfferForm: React.FC = () => {
 
 	const onPreviewClick = () => {
 		filePreviewInputRef.current?.click();
+	};
+
+	const setRating = (val: number) => {
+		setValue("rating", val);
+		trigger("rating");
 	};
 
 	if (id && !offer) {
@@ -415,6 +428,18 @@ export const OfferForm: React.FC = () => {
 						errorMessage={errors.goods?.message}
 						{...register("goods")}
 					/>
+
+
+					<div className="form__input-wrapper">
+						<div className="form__label">Rating</div>
+						<Rating
+							ratingSize="l"
+							ratingType="checkable"
+							getValue={setRating}
+							defaultValue={0}
+						/>
+						{errors.rating && <div className="form__error">{errors.rating?.message}</div>}
+					</div>
 				</div>
 			</div>
 

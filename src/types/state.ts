@@ -21,6 +21,7 @@ export interface IOfferState {
 	singleOffer: IOffer | null;
 	singleOfferStatus: FetchStatus;
 	singleOfferError: string | null;
+	commentStatus: FetchStatus;
 }
 
 export interface ICityState {

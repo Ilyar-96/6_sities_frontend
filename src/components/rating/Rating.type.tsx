@@ -1,9 +1,11 @@
+import { UseFormSetValue } from "react-hook-form";
+import { CreateOfferType } from "../../types/offer.type";
 
 export interface RatingProps extends
-	React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-	size?: 's' | "m" | "l";
-	type?: 'static' | "checkable";
+	React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+	ratingSize?: 's' | "m" | "l";
+	ratingType?: 'static' | "checkable";
 	isCountVisible?: boolean;
-	onChangeValue?: (val: number) => void;
-	value: number;
+	getValue?: (val: number) => void;
+	defaultValue: number;
 }

@@ -46,7 +46,7 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 						<span className="visually-hidden">{getIsFavorite(favoritesList, data._id) ? "In bookmarks" : "To bookmarks"}</span>
 					</button>
 				</div>
-				<Rating value={data.rating} size="s" />
+				<Rating defaultValue={data.rating} ratingSize="s" />
 				<h2 className="place-card__name">
 					<Link to={`${APPRoute.APARTMENT}/${data._id}`}>
 						{data.title}

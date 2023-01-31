@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header, ApartmentCard, ApartmentGallery, ApartmentInfo, ReviewList, ReviewForm, MapSection } from '../../components';
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { ApartmentLoadingLayout } from './ApartmentLoadingLayout';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
@@ -13,9 +13,12 @@ import { fetchOffersAction, fetchSingleOfferAction } from '../../store/apiOfferA
 import { getActiveCity } from "../../store/city/selectors";
 import { getIsAuth, getUserData } from '../../store/user/selectors';
 import { FetchStatus, APPRoute } from '../../const';
+import { notifyWarning } from '../../utils/notify';
+import { setIdleStatusForSingleOffer } from "../../store/offers/offer";
 
 export const Apartment = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const { id } = useParams();
 	const offers = useAppSelector(getOffers);
 	const activeCity = useAppSelector(getActiveCity);
@@ -24,7 +27,7 @@ export const Apartment = () => {
 	const offerLoadingStatus = useAppSelector(getSingleOfferFetchingStatus);
 	const offer = useAppSelector(getSingleOffer);
 	const isEditable = user?._id === offer?.host._id;
-	// const errorMessage = useAppSelector(getSingleOfferErrorMessage);
+	const errorMessage = useAppSelector(getSingleOfferErrorMessage);
 
 	React.useEffect(() => {
 		if (!offers.length && activeCity) {
@@ -36,12 +39,19 @@ export const Apartment = () => {
 		}
 	}, [activeCity]);
 
-
 	React.useEffect(() => {
 		if (id) {
 			dispatch(fetchSingleOfferAction(id));
 		}
 	}, [id]);
+
+	// React.useEffect(() => {
+	// 	if (offerLoadingStatus === FetchStatus.REJECTED) {
+	// 		navigate(APPRoute.HOME);
+	// 		notifyWarning("Apartment with this id does not exist");
+	// 		dispatch(setIdleStatusForSingleOffer());
+	// 	}
+	// }, [offerLoadingStatus, id]);
 
 	return (
 		<div className="page">
@@ -84,7 +94,12 @@ export const Apartment = () => {
 						</div>
 					</div>}
 
-					{offer && <MapSection className="property__map" centralLocation={offer.location} offers={offers} activeOffer={offer} />}
+					{offer && <MapSection
+						className="property__map"
+						centralLocation={offer.location}
+						offers={offers}
+						activeOffer={offer}
+					/>}
 				</section>
 
 				{offer && offer.nearbyOffers.length > 0 && <div className="container">

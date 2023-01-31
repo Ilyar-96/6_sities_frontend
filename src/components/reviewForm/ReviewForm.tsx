@@ -3,53 +3,74 @@ import React from 'react';
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { Rating } from "../";
-import { addCommentAction } from "../../store/apiOfferActions";
+import { addCommentAction, updateCommentAction } from '../../store/apiOfferActions';
 import { IReviewData } from "../../types/user.type";
 import { Textarea } from '../textarea/Textarea';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { notifyError } from "../../utils";
 import { getUserData } from '../../store/user/selectors';
 import { useParams } from "react-router-dom";
+import { getCommentStatus, getSingleOffer } from '../../store/offers/selectors';
+import { FetchStatus } from "../../const";
 
 export const ReviewForm: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(getUserData);
+	const offer = useAppSelector(getSingleOffer);
+	const commentStatus = useAppSelector(getCommentStatus);
 	const { id: offerId } = useParams();
 	const formSchema = Yup.object().shape({
 		description: Yup.string()
-			.required("Enter comment")
+			.required("Enter comment").min(50, "Review must be at least 50 characters "),
+		rating: Yup.number().min(1).max(5)
+			.required("Select rating"),
 	});
-	const [rating, setRating] = React.useState<number | null>(null);
-	const [ratingError, setRatingError] = React.useState<string | null>(null);
-
+	const userReview = offer?.comments.find((c) => c.user._id === user?._id);
+	const [rating, setRating] = React.useState<number>(0);
 	const {
 		register,
 		handleSubmit,
 		reset,
-		formState: { errors, isValid },
+		trigger,
+		setValue,
+		formState: { errors },
 	} = useForm<IReviewData>({
 		resolver: yupResolver(formSchema),
-		mode: "onChange",
+		mode: "all",
+		defaultValues: {
+			rating: rating,
+		},
+		shouldUnregister: false,
 	});
 
 	React.useEffect(() => {
-		setRatingError(null);
+		setValue("rating", rating);
+		trigger("rating");
 	}, [rating]);
 
-	const onSubmit: SubmitHandler<IReviewData> = (values: IReviewData) => {
-		if (!rating) {
-			return setRatingError("You need to choose a rating.");
+	React.useEffect(() => {
+		if (userReview) {
+			setRating(userReview.rating);
 		}
+	}, [userReview]);
+
+	const onSubmit: SubmitHandler<IReviewData> = (values: IReviewData) => {
 		if (!user || !offerId) return;
 
 		try {
 			const formData = {
 				description: values.description,
-				rating,
+				rating: values.rating,
 				user: user?._id,
-				offer: offerId
+				offer: offerId,
+				commentId: userReview?._id
 			};
-			dispatch(addCommentAction(formData));
+
+			if (userReview) {
+				dispatch(updateCommentAction(formData));
+			} else {
+				dispatch(addCommentAction(formData));
+			}
 		} catch (err) {
 			if (err instanceof Error) {
 				notifyError(err.message);
@@ -57,27 +78,33 @@ export const ReviewForm: React.FC = () => {
 		}
 	};
 
-
 	return (
 		<form className="reviews__form form" onSubmit={handleSubmit(onSubmit)}>
 			<label className="reviews__label form__label" htmlFor="review">Your review</label>
 
 			<div className="form__rating-wrapper">
-				<Rating
-					value={0}
-					size="l"
-					type="checkable"
-					className="reviews__rating-form"
-					onChangeValue={setRating}
-				/>
+				{userReview && <Rating
+					ratingSize="l"
+					ratingType="checkable"
+					getValue={setRating}
+					defaultValue={Number(userReview.rating)}
+				/>}
+				{!userReview &&
+					<Rating
+						ratingSize="l"
+						ratingType="checkable"
+						getValue={setRating}
+						defaultValue={0}
+					/>}
 
-				{ratingError && <div className="form__error">{ratingError}</div>}
+				{offer && errors.rating && <div className="form__error">{errors.rating?.message}</div>}
 			</div>
 
 			<Textarea
 				className="reviews__textarea form__textarea"
 				id="review"
 				placeholder="Tell how was your stay, what you like and what can be improved"
+				defaultValue={userReview ? userReview.description : ""}
 				errorMessage={errors.description?.message}
 				{...register("description")}
 			/>
@@ -87,11 +114,11 @@ export const ReviewForm: React.FC = () => {
 					To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
 				</p>
 				<button
+					disabled={commentStatus === FetchStatus.PENDING}
 					className="reviews__submit form__submit button"
 					type="submit"
-					disabled={!isValid}
 				>
-					Submit
+					{userReview ? "Update" : "Submit"}
 				</button>
 			</div>
 		</form>

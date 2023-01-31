@@ -6,6 +6,7 @@ import {
 	createOfferAction,
 	fetchOffersAction,
 	fetchSingleOfferAction,
+	updateCommentAction,
 } from "../apiOfferActions";
 import { SortTypes } from "../../components/sort/Sort.type";
 
@@ -19,6 +20,7 @@ const initialState: IOfferState = {
 	singleOffer: null,
 	singleOfferStatus: FetchStatus.IDLE,
 	singleOfferError: null,
+	commentStatus: FetchStatus.IDLE,
 };
 
 export const offerSlice = createSlice({
@@ -27,6 +29,10 @@ export const offerSlice = createSlice({
 	reducers: {
 		changeActiveSort: (state, action: PayloadAction<SortTypes>) => {
 			state.activeSort = action.payload;
+		},
+		setIdleStatusForSingleOffer: (state) => {
+			state.singleOfferStatus = FetchStatus.IDLE;
+			state.singleOfferError = null;
 		},
 	},
 	extraReducers(builder) {
@@ -58,8 +64,51 @@ export const offerSlice = createSlice({
 				state.error = "Something went wrong. Try later again.";
 				state.singleOfferStatus = FetchStatus.REJECTED;
 			})
+			.addCase(addCommentAction.pending, (state) => {
+				state.commentStatus = FetchStatus.PENDING;
+			})
+			.addCase(addCommentAction.rejected, (state) => {
+				state.commentStatus = FetchStatus.REJECTED;
+			})
 			.addCase(addCommentAction.fulfilled, (state, action) => {
+				state.commentStatus = FetchStatus.FULFILLED;
 				state.singleOffer?.comments.push(action.payload);
+				if (state.singleOffer?.comments.length) {
+					const ratingSum = state.singleOffer?.comments.reduce(
+						(sum, comment) => sum + Number(comment.rating),
+						0
+					);
+					const len = state.singleOffer?.comments.length;
+					state.singleOffer.rating = Number((ratingSum / len).toFixed(1));
+				}
+			})
+			.addCase(updateCommentAction.pending, (state) => {
+				state.commentStatus = FetchStatus.PENDING;
+			})
+			.addCase(updateCommentAction.rejected, (state) => {
+				state.commentStatus = FetchStatus.REJECTED;
+			})
+			.addCase(updateCommentAction.fulfilled, (state, action) => {
+				state.commentStatus = FetchStatus.FULFILLED;
+				if (state.singleOffer?.comments.length) {
+					const { _id, description, rating } = action.payload;
+					state.singleOffer.comments = state.singleOffer.comments.map((c) => {
+						if (c._id === _id) {
+							return {
+								...c,
+								description,
+								rating,
+							};
+						}
+						return c;
+					});
+					const ratingSum = state.singleOffer?.comments.reduce(
+						(sum, comment) => sum + Number(comment.rating),
+						0
+					);
+					const len = state.singleOffer?.comments.length;
+					state.singleOffer.rating = Number((ratingSum / len).toFixed(1));
+				}
 			})
 			.addCase(createOfferAction.pending, (state) => {
 				state.error = null;
@@ -75,4 +124,5 @@ export const offerSlice = createSlice({
 	},
 });
 
-export const { changeActiveSort } = offerSlice.actions;
+export const { changeActiveSort, setIdleStatusForSingleOffer } =
+	offerSlice.actions;

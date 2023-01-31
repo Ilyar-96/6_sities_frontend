@@ -40,7 +40,7 @@ export const ApartmentInfo: React.FC<ApartmentInfoProps> = ({ offer }) => {
 
 			</div>
 
-			<Rating value={offer.rating} isCountVisible size="l" />
+			<Rating defaultValue={offer.rating} isCountVisible ratingSize="l" />
 
 			<ul className="property__features">
 				<li className="property__feature property__feature--entire">

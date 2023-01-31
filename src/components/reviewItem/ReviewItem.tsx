@@ -16,7 +16,7 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
 				<span className="reviews__user-name">{user.name}</span>
 			</div>
 			<div className="reviews__info">
-				<Rating value={rating} />
+				<Rating defaultValue={rating} />
 				<p className="reviews__text">{description}</p>
 				<time className="reviews__time" dateTime={createdAt.slice(0, 10)}>{convertDateToMYYYY(createdAt)}</time>
 			</div>

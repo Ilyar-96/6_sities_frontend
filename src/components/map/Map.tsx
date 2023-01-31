@@ -30,16 +30,20 @@ export const MapSection: React.FC<MapProps> = ({ centralLocation, offers, active
 							groupByCoordinates: false,
 						}}
 					>
-						{offers.map((offer, i) => (
-							<Placemark
-								key={offer._id}
-								geometry={[offer.location.latitude, offer.location.longitude]}
-								options={{
-									preset: selectedOffer?._id === offer._id ? "islands#redDotIcon" : "islands#blueDotIcon",
-								}}
-								onClick={() => setSelectedOffer(offer)}
-							/>
-						))}
+						{offers.map((offer, i) => {
+							if (offer.location) {
+								return (
+									<Placemark
+										key={offer._id}
+										geometry={[offer.location.latitude, offer.location.longitude]}
+										options={{
+											preset: selectedOffer?._id === offer._id ? "islands#redDotIcon" : "islands#blueDotIcon",
+										}}
+										onClick={() => setSelectedOffer(offer)}
+									/>
+								);
+							}
+						})}
 					</Clusterer>
 				</Map>
 				}
@@ -51,9 +55,8 @@ export const MapSection: React.FC<MapProps> = ({ centralLocation, offers, active
 						: <Link to={APPRoute.APARTMENT + '/' + selectedOffer._id}>{selectedOffer?.title}</Link>}
 				</h2>
 				<Rating
-					value={selectedOffer.rating}
-					size="s"
-					className="map-popup__rating"
+					defaultValue={selectedOffer.rating}
+					ratingSize="s"
 					isCountVisible
 				/>
 				<div className="map-popup__address">{selectedOffer.address}</div>

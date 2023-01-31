@@ -1652,7 +1652,7 @@ img {
 	padding: 15px 16px
 }
 
-.reviews__rating-form {
+.form__rating-wrapper .form__rating {
 	margin-bottom: 21px
 }
 
@@ -2212,7 +2212,7 @@ img {
 	color: #4481c3;
 }
 
-.map-popup__rating {
+.map-popup .rating {
 	display: flex;
 	align-items: center;
 }

@@ -41,6 +41,21 @@ export const addCommentAction = createAsyncThunk<
 	return data;
 });
 
+export const updateCommentAction = createAsyncThunk<
+	IReview,
+	IReviewData,
+	AsyncThunkParamsType
+>(
+	`${NameSpace.OFFER}/updateComment`,
+	async (body, { dispatch, extra: api }) => {
+		const { data } = await api.patch<IReview>(
+			APIRoute.COMMENT + "/" + body.commentId,
+			body
+		);
+		return data;
+	}
+);
+
 export const createOfferAction = createAsyncThunk<
 	IOffer,
 	FormData,
