@@ -263,6 +263,10 @@ img {
 	height: auto
 }
 
+html body.react-confirm-alert-body-element {
+	overflow: visible;
+}
+
 .visually-hidden {
 	position: absolute;
 	width: 1px;
@@ -905,6 +909,8 @@ img {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	border-radius: 4px;
+	overflow: hidden;
 }
 
 .place-card__image {
@@ -968,6 +974,7 @@ img {
 .place-card__bookmark-button:disabled,
 .property__bookmark-button:disabled {
 	opacity: 0.4;
+	cursor: default;
 }
 
 /* .place-card__bookmark-button:disabled .place-card__bookmark-button--active .place-card__bookmark-icon,
@@ -1935,11 +1942,21 @@ img {
 	border-radius: 3px
 }
 
+.react-confirm-alert .react-confirm-alert-button-group button {
+	padding-top: 10px;
+	padding-bottom: 8px;
+	background-color: #4481c3;
+	color: #fff;
+}
+
+.react-confirm-alert .react-confirm-alert-button-group button:focus,
+.react-confirm-alert .react-confirm-alert-button-group button:hover,
 .form__submit:focus,
 .form__submit:hover {
 	background-color: #3069a6
 }
 
+.react-confirm-alert .react-confirm-alert-button-group button:disabled,
 .form__submit:disabled {
 	background-color: #c7c7c7
 }

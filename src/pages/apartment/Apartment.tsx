@@ -10,12 +10,14 @@ import {
 	getSingleOfferErrorMessage,
 	getActiveSort
 } from '../../store/offers/selectors';
-import { fetchOffersAction, fetchSingleOfferAction } from '../../store/apiOfferActions';
+import { deleteOfferAction, fetchOffersAction, fetchSingleOfferAction } from '../../store/apiOfferActions';
 import { getActiveCity } from "../../store/city/selectors";
 import { getIsAuth, getUserData } from '../../store/user/selectors';
 import { FetchStatus, APPRoute } from '../../const';
-import { notifyWarning } from '../../utils/notify';
+import { notifyWarning, notifySuccess } from '../../utils/notify';
 import { setIdleStatusForSingleOffer } from "../../store/offers/offer";
+import { confirmAlert } from "react-confirm-alert";
+import { removeFavorite } from "../../store/user/user";
 
 export const Apartment = () => {
 	const dispatch = useAppDispatch();
@@ -53,17 +55,53 @@ export const Apartment = () => {
 	// 	}
 	// }, [offerLoadingStatus, id]);
 
+	const onDelete = () => {
+		if (id) {
+			try {
+				dispatch(deleteOfferAction(id));
+				dispatch(removeFavorite(id));
+				navigate(APPRoute.HOME);
+				notifySuccess("Successfully deleted");
+			} catch (err) {
+				notifyWarning("Failed to delete");
+			}
+		}
+	};
+
+	const deleteHandler = () => {
+		confirmAlert({
+			title: 'Confirm to submit',
+			message: 'Are you sure you want to delete this?',
+			closeOnEscape: true,
+			closeOnClickOutside: true,
+			buttons: [
+				{
+					label: 'Delete',
+					onClick: onDelete
+				},
+				{
+					label: 'Cancel',
+				}
+			]
+		});
+	};
+
 	return (
 		<div className="page">
 			<Header />
 			<main className="page__main page__main--property">
 				<section className="property">
-					{isEditable &&
+					{
 						<div className="property__tools tools">
 							<Link className="tools__edit" to={APPRoute.ADD_OFFER + "/" + offer?._id} title="Edit">
 								<span className="visually-hidden">Edit</span>
 							</Link>
-							<button className="tools__delete" type="button" title="Delete">
+							<button
+								className="tools__delete"
+								type="button"
+								title="Delete"
+								onClick={deleteHandler}
+							>
 								<span className="visually-hidden">Delete</span>
 							</button>
 						</div>

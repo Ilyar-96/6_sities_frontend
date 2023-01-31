@@ -4,11 +4,13 @@ import { IOfferState } from "../../types/state";
 import {
 	addCommentAction,
 	createOfferAction,
+	deleteOfferAction,
 	fetchOffersAction,
 	fetchSingleOfferAction,
 	updateCommentAction,
 } from "../apiOfferActions";
 import { SortTypes } from "../../components/sort/Sort.type";
+import { useActionData } from "react-router-dom";
 
 const initialState: IOfferState = {
 	pagesCount: 0,
@@ -119,6 +121,19 @@ export const offerSlice = createSlice({
 			})
 			.addCase(createOfferAction.rejected, (state) => {
 				state.error = "Something went wrong. Try later again.";
+				state.singleOfferStatus = FetchStatus.REJECTED;
+			})
+			.addCase(deleteOfferAction.pending, (state) => {
+				state.singleOfferStatus = FetchStatus.PENDING;
+			})
+			.addCase(deleteOfferAction.fulfilled, (state, action) => {
+				state.singleOffer = null;
+				state.entities = state.entities.filter(
+					(offer) => offer._id !== action.payload
+				);
+				state.singleOfferStatus = FetchStatus.FULFILLED;
+			})
+			.addCase(deleteOfferAction.rejected, (state) => {
 				state.singleOfferStatus = FetchStatus.REJECTED;
 			});
 	},

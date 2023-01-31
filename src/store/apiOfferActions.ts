@@ -79,3 +79,12 @@ export const updateOfferAction = createAsyncThunk<
 		return data as IOffer;
 	}
 );
+
+export const deleteOfferAction = createAsyncThunk<
+	string,
+	string,
+	AsyncThunkParamsType
+>(`${NameSpace.OFFER}/deleteOffer`, async (id, { dispatch, extra: api }) => {
+	const { data } = await api.delete<string>(APIRoute.OFFERS + "/" + id);
+	return data;
+});

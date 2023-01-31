@@ -5,6 +5,7 @@ import { App } from './components';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import './index.css';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NameSpace, AuthorizationStatus, FetchStatus } from "../../const";
 import { IUserState } from "../../types/state";
 import {
@@ -24,6 +24,13 @@ export const userSlice = createSlice({
 			dropToken();
 			state.authorizationStatus = AuthorizationStatus.NO_AUTH;
 			state.user = null;
+		},
+		removeFavorite: (state, action: PayloadAction<string>) => {
+			if (state.user?.favorites) {
+				state.user.favorites = state.user.favorites.filter(
+					(f) => f._id !== action.payload
+				);
+			}
 		},
 	},
 	extraReducers(builder) {
@@ -76,4 +83,4 @@ export const userSlice = createSlice({
 	},
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, removeFavorite } = userSlice.actions;
