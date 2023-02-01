@@ -20,3 +20,4 @@ export * from "./apartmentInfo/ApartmentInfo";
 export * from "./apartmentInfo/ApartmentInfoSkeleton";
 export * from "./input/Input";
 export * from "./inputRadio/InputRadio";
+export * from "./loader/Loader";

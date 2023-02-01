@@ -10,7 +10,7 @@ import { getUserData } from '../../store/user/selectors';
 import { CreateOfferType } from "../../types/offer.type";
 import { getImageAbsoluteUrl, notifyError } from "../../utils";
 import { ApartmentGallery } from "../apartmentGallery/ApartmentGallery";
-import { Input, InputRadio } from "../";
+import { Input, InputRadio, Loader } from "../";
 import { Textarea } from "../textarea/Textarea";
 import { getCities } from '../../store/city/selectors';
 import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
@@ -219,7 +219,7 @@ export const OfferForm: React.FC = () => {
 	};
 
 	if (id && !offer) {
-		return <h1>Loading</h1>;
+		return <Loader className="add-offer__loader" />;
 	}
 
 	return (

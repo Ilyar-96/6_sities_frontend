@@ -2379,3 +2379,31 @@ html body.react-confirm-alert-body-element {
 	margin-bottom: 1.5em;
 	text-align: center;
 }
+
+.page__main--add-offer,
+.page__add-offer-container,
+.add-offer {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	flex: 1 1;
+}
+
+.loader {
+	--loader-size: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 50px;
+}
+
+.add-offer__loader {
+	--loader-size: 200px;
+	flex: 1 1;
+}
+
+.loader svg {
+	width: var(--loader-size);
+	height: var(--loader-size);
+	object-fit: contain;
+}
