@@ -1,9 +1,9 @@
 import React from 'react';
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import cn from 'classnames';
 import { ApartmentGalleryProps } from './ApartmentGallery.type';
 import { limits } from '../../const';
 import { getImageAbsoluteUrl } from "../../utils";
-import cn from 'classnames';
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const ApartmentGallery: React.FC<ApartmentGalleryProps> = ({ images, className, ...props }) => {
 	return (

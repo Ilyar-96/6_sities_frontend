@@ -36,6 +36,7 @@ export const Rating: React.FC<RatingProps> = ({
 		}
 
 		onChange();
+		// eslint-disable-next-line
 	}, [value]);
 
 	const onChange = () => {

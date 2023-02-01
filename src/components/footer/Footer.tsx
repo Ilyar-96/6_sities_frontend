@@ -1,8 +1,8 @@
 import React from 'react';
-import logoUrl from './logo.svg';
-import { APPRoute } from '../../const';
-import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Link } from "react-router-dom";
+import { APPRoute } from '../../const';
+import logoUrl from './logo.svg';
 
 export const Footer: React.FC = () => {
 

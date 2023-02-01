@@ -1,11 +1,11 @@
 import React from 'react';
 import cn from "classnames";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { UserProps } from './Rating.type';
 import { useAppSelector } from '../../hooks';
 import { getIsAuth } from "../../store/user/selectors";
 import emptyAvatarUrl from '../../assets/img/avatar.svg';
 import { getImageAbsoluteUrl } from "../../utils";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const User: React.FC<UserProps> = ({ user, className, ...props }) => {
 	const isAuth = useAppSelector(getIsAuth);

@@ -41,45 +41,45 @@ export const MapSection: React.FC<MapProps> = ({ centralLocation, offers, active
 							groupByCoordinates: false,
 						}}
 					>
-						{offers.map((offer, i) => {
-							if (offer.location) {
-								return (
-									<Placemark
-										key={offer._id}
-										geometry={[offer.location.latitude, offer.location.longitude]}
-										options={{
-											preset: selectedOffer?._id === offer._id ? "islands#redDotIcon" : "islands#blueDotIcon",
-										}}
-										onClick={() => setSelectedOffer(offer)}
-									/>
-								);
-							}
-						})}
+						{offers.map((offer, i) => (
+							<Placemark
+								key={offer._id}
+								geometry={[offer.location.latitude, offer.location.longitude]}
+								options={{
+									preset: selectedOffer?._id === offer._id ? "islands#redDotIcon" : "islands#blueDotIcon",
+								}}
+								onClick={() => setSelectedOffer(offer)}
+							/>
+						))}
 					</Clusterer>
 				</Map>
 				}
 			</YMaps>
 
-			{selectedOffer && <div className="map__popup map-popup">
-				<h2 className="map-popup__title">
-					{selectedOffer._id === currentOfferId ? selectedOffer?.title
-						: <Link to={APPRoute.APARTMENT + '/' + selectedOffer._id}>{selectedOffer?.title}</Link>}
-				</h2>
-				<Rating
-					defaultValue={selectedOffer.rating}
-					ratingSize="s"
-					isCountVisible
-				/>
-				<div className="map-popup__address">{selectedOffer.address}</div>
+			<div className={cn("map__popup", "map-popup", {
+				"map-popup--opened": selectedOffer
+			})}>
+				{selectedOffer && <>
+					<h2 className="map-popup__title">
+						{selectedOffer._id === currentOfferId ? selectedOffer.title
+							: <Link to={APPRoute.APARTMENT + '/' + selectedOffer._id}>{selectedOffer?.title}</Link>}
+					</h2>
+					<Rating
+						defaultValue={selectedOffer.rating ? selectedOffer.rating : 0}
+						ratingSize="s"
+						isCountVisible
+					/>
+					<div className="map-popup__address">{selectedOffer.address}</div>
 
-				<button
-					className="map-popup__close"
-					onClick={() => setSelectedOffer(null)}
-				>
-					<img src={closeSvg} alt="Close popup" />
-					<div className="visually-hidden">Close popup</div>
-				</button>
-			</div>}
+					<button
+						className="map-popup__close"
+						onClick={() => setSelectedOffer(null)}
+					>
+						<img src={closeSvg} alt="Close popup" />
+						<div className="visually-hidden">Close popup</div>
+					</button>
+				</>}
+			</div>
 		</section>
 	);
 };

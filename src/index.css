@@ -840,6 +840,7 @@ html body.react-confirm-alert-body-element {
 }
 
 .places__sorting {
+	display: inline-block;
 	position: relative;
 	margin-bottom: 33px;
 	padding-left: 5px
@@ -865,14 +866,22 @@ html body.react-confirm-alert-body-element {
 
 .sort__options--custom {
 	position: absolute;
-	top: calc(100% + 1px);
+	top: calc(100% + 10px);
 	left: 52px;
 	z-index: 1;
-	display: none
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.5s ease,
+		visibility 0.5s ease,
+		top 0.5s ease;
+	pointer-events: none;
 }
 
 .sort__options--opened {
-	display: block
+	top: calc(100% + 1px);
+	opacity: 1;
+	visibility: visible;
+	pointer-events: all;
 }
 
 .sort__option {
@@ -2237,6 +2246,20 @@ html body.react-confirm-alert-body-element {
 	z-index: 20000;
 	border-radius: 10px;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.map-popup {
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.5s ease,
+		visibility 0.5s ease;
+	pointer-events: none;
+}
+
+.map-popup--opened {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: all;
 }
 
 .map-popup__title {

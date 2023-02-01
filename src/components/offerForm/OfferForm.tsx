@@ -4,6 +4,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import * as Yup from "yup";
 import Select from "react-select";
 import { useNavigate, useParams } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useImagePreview } from "../../hooks/useImagePreview";
 import { getUserData } from '../../store/user/selectors';
@@ -21,7 +22,6 @@ import {
 	updateOfferAction
 } from '../../store/apiOfferActions';
 import { getActiveSort, getSingleOffer } from '../../store/offers/selectors';
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const OfferForm: React.FC = () => {
 	const { id } = useParams();
@@ -59,6 +59,7 @@ export const OfferForm: React.FC = () => {
 		if (isEditable && offer?.previewImage) {
 			setPreviewImage(getImageAbsoluteUrl(offer.previewImage));
 		}
+		// eslint-disable-next-line
 	}, [offer]);
 
 	React.useEffect(() => {
@@ -77,6 +78,7 @@ export const OfferForm: React.FC = () => {
 		if (id && id !== offer?._id) {
 			dispatch(fetchSingleOfferAction(id));
 		}
+		// eslint-disable-next-line
 	}, [id]);
 
 	const formSchema = Yup.object().shape({

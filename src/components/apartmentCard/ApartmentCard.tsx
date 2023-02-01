@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ApartmentCardProps } from './ApartmentCard.type';
 import { APPRoute, FetchStatus } from '../../const';
 import { Rating } from '../rating/Rating';
@@ -9,7 +10,6 @@ import { getImageAbsoluteUrl, getIsFavorite } from "../../utils";
 import { useAppSelector } from '../../hooks';
 import { getFavoritesStatus, getFavorites } from '../../store/user/selectors';
 import { useFavoriteOffer } from "../../hooks/useFavoriteOfferHandler";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, ...props }) => {
 	const favoritesStatus = useAppSelector(getFavoritesStatus);

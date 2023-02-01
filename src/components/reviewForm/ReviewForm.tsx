@@ -49,6 +49,7 @@ export const ReviewForm: React.FC = () => {
 			trigger("rating");
 		}
 		isFirstMount.current = false;
+		// eslint-disable-next-line
 	}, [rating]);
 
 	React.useEffect(() => {

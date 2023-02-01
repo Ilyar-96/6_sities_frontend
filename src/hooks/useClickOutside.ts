@@ -16,5 +16,6 @@ export const useClickOutside = (
 		body.addEventListener("click", handleOutsideClick);
 
 		return () => body.removeEventListener("click", handleOutsideClick);
+		// eslint-disable-next-line
 	}, []);
 };

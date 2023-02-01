@@ -1,9 +1,9 @@
 import React from 'react';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ReviewItemProps } from './ReviewItem.type';
 import { Rating } from '..';
-import emptyAvatarUrl from '../../assets/img/avatar.svg';
 import { getImageAbsoluteUrl, convertDateToMYYYY } from "../../utils";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import emptyAvatarUrl from '../../assets/img/avatar.svg';
 
 export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
 	const { user, description, createdAt, rating } = review;

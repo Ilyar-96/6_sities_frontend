@@ -1,13 +1,13 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { APPRoute } from '../../const';
 import logoUrl from './logo.svg';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth, getIsHost, getUserData } from "../../store/user/selectors";
-import emptyAvatarUrl from './avatar.svg';
 import { logout } from '../../store/user/user';
 import { getImageAbsoluteUrl } from "../../utils";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import emptyAvatarUrl from './avatar.svg';
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();

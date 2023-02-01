@@ -10,7 +10,6 @@ import {
 	updateCommentAction,
 } from "../apiOfferActions";
 import { SortTypes } from "../../components/sort/Sort.type";
-import { useActionData } from "react-router-dom";
 
 const initialState: IOfferState = {
 	pagesCount: 0,

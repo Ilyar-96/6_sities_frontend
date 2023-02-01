@@ -1,22 +1,21 @@
 import React from 'react';
 import { Header, ApartmentCard, ApartmentGallery, ApartmentInfo, ReviewList, ReviewForm, MapSection } from '../../components';
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ApartmentLoadingLayout } from './ApartmentLoadingLayout';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
 	getOffers,
 	getSingleOfferFetchingStatus,
 	getSingleOffer,
-	getSingleOfferErrorMessage,
 	getActiveSort
 } from '../../store/offers/selectors';
 import { deleteOfferAction, fetchOffersAction, fetchSingleOfferAction } from '../../store/apiOfferActions';
-import { getActiveCity } from "../../store/city/selectors";
 import { getIsAuth, getUserData } from '../../store/user/selectors';
 import { FetchStatus, APPRoute } from '../../const';
 import { notifyWarning, notifySuccess } from '../../utils/notify';
 import { confirmAlert } from "react-confirm-alert";
 import { removeFavorite } from "../../store/user/user";
+import { setIdleStatusForSingleOffer } from "../../store/offers/offer";
 
 export const Apartment = () => {
 	const dispatch = useAppDispatch();
@@ -29,7 +28,6 @@ export const Apartment = () => {
 	const offerLoadingStatus = useAppSelector(getSingleOfferFetchingStatus);
 	const offer = useAppSelector(getSingleOffer);
 	const isEditable = user?._id === offer?.host._id;
-	const errorMessage = useAppSelector(getSingleOfferErrorMessage);
 
 	React.useEffect(() => {
 		if (offer && (offers.length === 0 || offer.city._id !== offers[0].city._id)) {
@@ -40,21 +38,25 @@ export const Apartment = () => {
 				cityId: offer.city._id
 			}));
 		}
+		// eslint-disable-next-line
 	}, [offer, id]);
 
 	React.useEffect(() => {
 		if (id) {
 			dispatch(fetchSingleOfferAction(id));
 		}
+		// eslint-disable-next-line
 	}, [id]);
 
-	// React.useEffect(() => {
-	// 	if (offerLoadingStatus === FetchStatus.REJECTED) {
-	// 		navigate(APPRoute.HOME);
-	// 		notifyWarning("Apartment with this id does not exist");
-	// 		dispatch(setIdleStatusForSingleOffer());
-	// 	}
-	// }, [offerLoadingStatus, id]);
+	React.useEffect(() => {
+		if (offerLoadingStatus === FetchStatus.REJECTED) {
+			console.log(offerLoadingStatus === FetchStatus.REJECTED);
+			dispatch(setIdleStatusForSingleOffer());
+			navigate(APPRoute.HOME);
+			notifyWarning("Apartment with this id does not exist");
+		}
+		// eslint-disable-next-line
+	}, [offerLoadingStatus, id]);
 
 	const onDelete = () => {
 		if (id) {
