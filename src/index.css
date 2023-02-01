@@ -307,7 +307,14 @@ html body.react-confirm-alert-body-element {
 }
 
 .page {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 	background-color: #fff
+}
+
+.page__main {
+	flex: 1 1;
 }
 
 .page--login {
@@ -380,6 +387,10 @@ html body.react-confirm-alert-body-element {
 	-webkit-box-flex: 1;
 	-ms-flex-positive: 1;
 	flex-grow: 1
+}
+
+.page__main--favorites {
+	border-bottom: 2px solid rgba(222, 222, 222, .5);
 }
 
 .page__main--favorites,
@@ -527,9 +538,14 @@ html body.react-confirm-alert-body-element {
 	padding-right: 8px
 }
 
+.header__apartment,
 .header__signout,
 .header__user-name {
 	padding-top: 2px
+}
+
+.header__apartment {
+	margin-right: 20px;
 }
 
 .header__favorite-count {
@@ -2073,6 +2089,9 @@ html body.react-confirm-alert-body-element {
 .favorites,
 .not-found {
 	padding: 0 15px 93px;
+}
+
+.not-found {
 	border-bottom: 2px solid rgba(222, 222, 222, .5)
 }
 

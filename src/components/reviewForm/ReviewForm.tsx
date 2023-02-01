@@ -17,6 +17,7 @@ export const ReviewForm: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(getUserData);
 	const offer = useAppSelector(getSingleOffer);
+	const isFirstMount = React.useRef(true);
 	const commentStatus = useAppSelector(getCommentStatus);
 	const { id: offerId } = useParams();
 	const formSchema = Yup.object().shape({
@@ -30,13 +31,12 @@ export const ReviewForm: React.FC = () => {
 	const {
 		register,
 		handleSubmit,
-		reset,
 		trigger,
 		setValue,
 		formState: { errors },
 	} = useForm<IReviewData>({
 		resolver: yupResolver(formSchema),
-		mode: "all",
+		mode: "onChange",
 		defaultValues: {
 			rating: rating,
 		},
@@ -45,7 +45,10 @@ export const ReviewForm: React.FC = () => {
 
 	React.useEffect(() => {
 		setValue("rating", rating);
-		trigger("rating");
+		if (!isFirstMount) {
+			trigger("rating");
+		}
+		isFirstMount.current = false;
 	}, [rating]);
 
 	React.useEffect(() => {

@@ -15,7 +15,6 @@ import { getActiveCity } from "../../store/city/selectors";
 import { getIsAuth, getUserData } from '../../store/user/selectors';
 import { FetchStatus, APPRoute } from '../../const';
 import { notifyWarning, notifySuccess } from '../../utils/notify';
-import { setIdleStatusForSingleOffer } from "../../store/offers/offer";
 import { confirmAlert } from "react-confirm-alert";
 import { removeFavorite } from "../../store/user/user";
 
@@ -24,7 +23,6 @@ export const Apartment = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
 	const offers = useAppSelector(getOffers);
-	const activeCity = useAppSelector(getActiveCity);
 	const activeSort = useAppSelector(getActiveSort);
 	const isAuth = useAppSelector(getIsAuth);
 	const user = useAppSelector(getUserData);
@@ -35,7 +33,10 @@ export const Apartment = () => {
 
 	React.useEffect(() => {
 		if (offer && (offers.length === 0 || offer.city._id !== offers[0].city._id)) {
+			const [sortBy, order] = activeSort.split('_');
 			dispatch(fetchOffersAction({
+				sortBy,
+				order,
 				cityId: offer.city._id
 			}));
 		}
@@ -91,7 +92,7 @@ export const Apartment = () => {
 			<Header />
 			<main className="page__main page__main--property">
 				<section className="property">
-					{
+					{offer && isEditable &&
 						<div className="property__tools tools">
 							<Link className="tools__edit" to={APPRoute.ADD_OFFER + "/" + offer?._id} title="Edit">
 								<span className="visually-hidden">Edit</span>

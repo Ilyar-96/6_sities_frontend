@@ -16,6 +16,8 @@ export const getAuthCheckedStatus = (state: RootState): boolean => {
 
 export const getUserData = (state: RootState): IUser | null =>
 	state[NameSpace.USER].user;
+export const getIsHost = (state: RootState): boolean =>
+	Boolean(state[NameSpace.USER].user?.role.some((r) => r === "HOST"));
 export const getFavorites = (state: RootState): IOffer[] => {
 	if (state[NameSpace.USER].user) {
 		return state[NameSpace.USER].user.favorites;

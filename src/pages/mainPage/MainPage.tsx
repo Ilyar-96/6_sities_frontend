@@ -27,7 +27,6 @@ export const MainPage: React.FC = () => {
 		const [sortBy, order] = activeSort.split('_');
 		if (activeCity) {
 			dispatch(fetchOffersAction({
-				page: 1,
 				sortBy,
 				order,
 				cityId: activeCity._id

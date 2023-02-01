@@ -3,6 +3,7 @@ import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import * as Yup from "yup";
 import Select from "react-select";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useImagePreview } from "../../hooks/useImagePreview";
 import { getUserData } from '../../store/user/selectors';
@@ -11,7 +12,7 @@ import { getImageAbsoluteUrl, notifyError } from "../../utils";
 import { ApartmentGallery } from "../apartmentGallery/ApartmentGallery";
 import { Input, InputRadio } from "../";
 import { Textarea } from "../textarea/Textarea";
-import { getActiveCity, getCities } from '../../store/city/selectors';
+import { getCities } from '../../store/city/selectors';
 import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
 import {
 	createOfferAction,
@@ -19,9 +20,7 @@ import {
 	fetchSingleOfferAction,
 	updateOfferAction
 } from '../../store/apiOfferActions';
-import { useNavigate, useParams } from "react-router-dom";
 import { getActiveSort, getSingleOffer } from '../../store/offers/selectors';
-import { APPRoute } from '../../const';
 
 export const OfferForm: React.FC = () => {
 	const { id } = useParams();
@@ -29,7 +28,6 @@ export const OfferForm: React.FC = () => {
 	const navigate = useNavigate();
 	const user = useAppSelector(getUserData);
 	const offer = useAppSelector(getSingleOffer);
-	const activeCity = useAppSelector(getActiveCity);
 	const activeSort = useAppSelector(getActiveSort);
 	const [gallery, setGallery] = React.useState<string[]>([]);
 	const [galleryErrorMessage, setGalleryErrorMessage] = React.useState<string | null>(null);
@@ -82,7 +80,7 @@ export const OfferForm: React.FC = () => {
 
 	const formSchema = Yup.object().shape({
 		city: Yup.string()
-			.required("Select city").default(offer?.city._id),
+			.required("Select city").default(isEditable ? offer?.city._id : undefined),
 		title: Yup.string()
 			.required("Enter title"),
 		isPremium: Yup.boolean()
@@ -164,14 +162,14 @@ export const OfferForm: React.FC = () => {
 				await dispatch(updateOfferAction({ data: formData, _id: id })) :
 				await dispatch(createOfferAction(formData));
 
+			navigate(window.location.pathname);
+
 			const [sortBy, order] = activeSort.split('_');
 			dispatch(fetchOffersAction({
 				sortBy,
 				order,
 				cityId: offer?.city._id
 			}));
-
-			navigate(`${APPRoute.APARTMENT}/${id}`);
 		} catch (err) {
 			if (err instanceof Error) {
 				console.log(err);

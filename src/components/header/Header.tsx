@@ -3,7 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { APPRoute } from '../../const';
 import logoUrl from './logo.svg';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getIsAuth, getUserData } from "../../store/user/selectors";
+import { getIsAuth, getIsHost, getUserData } from "../../store/user/selectors";
 import emptyAvatarUrl from './avatar.svg';
 import { logout } from '../../store/user/user';
 import { getImageAbsoluteUrl } from "../../utils";
@@ -13,6 +13,7 @@ export const Header: React.FC = () => {
 	const { pathname } = useLocation();
 	const isShowNav = pathname !== APPRoute.LOGIN && pathname !== APPRoute.REGISTER;
 	const isAuth = useAppSelector(getIsAuth);
+	const IsHost = useAppSelector(getIsHost);
 	const user = useAppSelector(getUserData);
 
 	const logOut = () => {
@@ -31,6 +32,15 @@ export const Header: React.FC = () => {
 					{isShowNav && <nav className="header__nav">
 						<ul className="header__nav-list">
 							{(isAuth && user) ? (<>
+
+								{IsHost &&
+									<li className="header__nav-item">
+										<Link className="header__nav-link" to={APPRoute.ADD_OFFER}>
+											<span className="header__apartment">Add new Apartment</span>
+										</Link>
+									</li>
+								}
+
 								<li className="header__nav-item user">
 									<Link className="header__nav-link header__nav-link--profile" to={APPRoute.FAVORITES}>
 										<img className="header__avatar" src={user.avatarUrl ? getImageAbsoluteUrl(user.avatarUrl) : emptyAvatarUrl} alt={`${user.name} avatar`} />
