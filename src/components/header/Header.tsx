@@ -7,6 +7,7 @@ import { getIsAuth, getIsHost, getUserData } from "../../store/user/selectors";
 import emptyAvatarUrl from './avatar.svg';
 import { logout } from '../../store/user/user';
 import { getImageAbsoluteUrl } from "../../utils";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -26,7 +27,7 @@ export const Header: React.FC = () => {
 				<div className="header__wrapper">
 					<div className="header__left">
 						<Link className="header__logo-link header__logo-link--active" to={APPRoute.HOME}>
-							<img className="header__logo" src={logoUrl} alt="6 cities logo" width={81} height={41} />
+							<LazyLoadImage className="header__logo" src={logoUrl} alt="6 cities logo" width={81} height={41} />
 						</Link>
 					</div>
 					{isShowNav && <nav className="header__nav">
@@ -43,7 +44,7 @@ export const Header: React.FC = () => {
 
 								<li className="header__nav-item user">
 									<Link className="header__nav-link header__nav-link--profile" to={APPRoute.FAVORITES}>
-										<img className="header__avatar" src={user.avatarUrl ? getImageAbsoluteUrl(user.avatarUrl) : emptyAvatarUrl} alt={`${user.name} avatar`} />
+										<LazyLoadImage className="header__avatar" src={user.avatarUrl ? getImageAbsoluteUrl(user.avatarUrl) : emptyAvatarUrl} alt={`${user.name} avatar`} />
 										<span className="header__user-name">{user.email}</span>
 										<span className="header__favorite-count">{user.favorites.length}</span>
 									</Link>

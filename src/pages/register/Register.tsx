@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from "yup";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Header, Input } from "../../components";
 import { APPRoute } from "../../const";
@@ -87,11 +88,12 @@ export const Register: React.FC = () => {
 						<h1 className="login__title">Sign up</h1>
 						<form className="login__form form" onSubmit={handleSubmit(onSubmit)}>
 							<div className="form__avatar-wrapper">
-								<img
+								<LazyLoadImage
 									className="form__avatar"
 									src={typeof preview === "string" ? preview : emptyAvatarUrl}
 									onClick={onAvatarClick}
 									alt="Avatar preview"
+									effect="blur"
 								/>
 								<Input
 									className="form__input form__input--avatar"

@@ -3,6 +3,7 @@ import { ReviewItemProps } from './ReviewItem.type';
 import { Rating } from '..';
 import emptyAvatarUrl from '../../assets/img/avatar.svg';
 import { getImageAbsoluteUrl, convertDateToMYYYY } from "../../utils";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
 	const { user, description, createdAt, rating } = review;
@@ -11,7 +12,14 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
 		<li className="reviews__item">
 			<div className="reviews__user user">
 				<div className="reviews__avatar-wrapper user__avatar-wrapper">
-					<img className="reviews__avatar user__avatar" src={user.avatarUrl ? getImageAbsoluteUrl(user.avatarUrl) : emptyAvatarUrl} width={54} height={54} alt={user.name} />
+					<LazyLoadImage
+						className="reviews__avatar user__avatar"
+						src={user.avatarUrl ? getImageAbsoluteUrl(user.avatarUrl) : emptyAvatarUrl}
+						width={54}
+						height={54}
+						alt={user.name}
+						effect="blur"
+					/>
 				</div>
 				<span className="reviews__user-name">{user.name}</span>
 			</div>

@@ -9,6 +9,7 @@ import { getImageAbsoluteUrl, getIsFavorite } from "../../utils";
 import { useAppSelector } from '../../hooks';
 import { getFavoritesStatus, getFavorites } from '../../store/user/selectors';
 import { useFavoriteOffer } from "../../hooks/useFavoriteOfferHandler";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, ...props }) => {
 	const favoritesStatus = useAppSelector(getFavoritesStatus);
@@ -23,7 +24,14 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 			</div>}
 			<div className="place-card__image-wrapper">
 				<Link to={`${APPRoute.APARTMENT}/${data._id}`}>
-					<img className="place-card__image" src={previewImageUrl} width={260} height={200} alt="" />
+					<LazyLoadImage
+						className="place-card__image"
+						src={previewImageUrl}
+						width={260}
+						height={200}
+						alt={data.title}
+						effect="blur"
+					/>
 				</Link>
 			</div>
 			<div className="place-card__info">

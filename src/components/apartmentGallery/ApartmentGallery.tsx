@@ -3,6 +3,7 @@ import { ApartmentGalleryProps } from './ApartmentGallery.type';
 import { limits } from '../../const';
 import { getImageAbsoluteUrl } from "../../utils";
 import cn from 'classnames';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const ApartmentGallery: React.FC<ApartmentGalleryProps> = ({ images, className, ...props }) => {
 	return (
@@ -16,7 +17,12 @@ export const ApartmentGallery: React.FC<ApartmentGalleryProps> = ({ images, clas
 						const imageUrl = getImageAbsoluteUrl(i);
 						return (
 							<div className="property__image-wrapper" key={i}>
-								<img className="property__image" src={imageUrl} alt={""} />
+								<LazyLoadImage
+									className="property__image"
+									src={imageUrl}
+									alt={""}
+									effect="blur"
+								/>
 							</div>
 						);
 					})

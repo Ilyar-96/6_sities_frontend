@@ -21,6 +21,7 @@ import {
 	updateOfferAction
 } from '../../store/apiOfferActions';
 import { getActiveSort, getSingleOffer } from '../../store/offers/selectors';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const OfferForm: React.FC = () => {
 	const { id } = useParams();
@@ -228,12 +229,13 @@ export const OfferForm: React.FC = () => {
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="form__file-wrapper">
-				<img
+				<LazyLoadImage
 					className="form__preview"
 					onClick={onPreviewClick}
 					src={previewImage}
 					alt="Preview"
 					title="Preview (260*200)"
+					effect="blur"
 				/>
 				<Input
 					className="form__input form__input--avatar"
