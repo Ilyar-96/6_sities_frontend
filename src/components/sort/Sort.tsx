@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { SortProps, SortTypes } from './Sort.type';
+import { useClickOutside } from "../../hooks/useClickOutside";
 
 export const sortItems = [
 	{ title: "Date", dataLabel: SortTypes.DATE },
@@ -16,9 +17,12 @@ export const Sort: React.FC<SortProps> = ({
 	...props
 }) => {
 	const [isOpened, setIsOpened] = React.useState<boolean>(false);
+	const popupRef = React.useRef<HTMLDivElement>(null);
 	const sortLabel = sortItems.filter(
 		item => item.dataLabel === active
 	)[0]?.title;
+
+	useClickOutside(popupRef, () => setIsOpened(false));
 
 	const sortLabelClickHandler = () => {
 		setIsOpened(prevState => !prevState);
@@ -30,7 +34,7 @@ export const Sort: React.FC<SortProps> = ({
 	};
 
 	return (
-		<div className="places__sorting">
+		<div ref={popupRef} className="places__sorting">
 			<span className="places__sorting-caption">Sort by </span>
 			<span
 				className="places__sorting-type"
@@ -42,11 +46,12 @@ export const Sort: React.FC<SortProps> = ({
 					<use xlinkHref="#icon-arrow-select" />
 				</svg>
 			</span>
-			<ul className={cn(
-				"sort__options",
-				"sort__options--custom",
-				{ "sort__options--opened": isOpened }
-			)}
+			<ul
+				className={cn(
+					"sort__options",
+					"sort__options--custom",
+					{ "sort__options--opened": isOpened }
+				)}
 				{...props}
 			>
 				{sortItems.map(item => (
