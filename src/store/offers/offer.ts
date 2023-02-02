@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NameSpace, FetchStatus } from "../../const";
 import { IOfferState } from "../../types/state";
 import {
-	addCommentAction,
+	addReviewAction,
 	createOfferAction,
 	deleteOfferAction,
 	fetchOffersAction,
 	fetchSingleOfferAction,
-	updateCommentAction,
+	updateReviewAction,
 } from "../apiOfferActions";
 import { SortTypes } from "../../components/sort/Sort.type";
 
@@ -21,7 +21,7 @@ const initialState: IOfferState = {
 	singleOffer: null,
 	singleOfferStatus: FetchStatus.IDLE,
 	singleOfferError: null,
-	commentStatus: FetchStatus.IDLE,
+	reviewStatus: FetchStatus.IDLE,
 };
 
 export const offerSlice = createSlice({
@@ -68,14 +68,14 @@ export const offerSlice = createSlice({
 				state.error = "Something went wrong. Try later again.";
 				state.singleOfferStatus = FetchStatus.REJECTED;
 			})
-			.addCase(addCommentAction.pending, (state) => {
-				state.commentStatus = FetchStatus.PENDING;
+			.addCase(addReviewAction.pending, (state) => {
+				state.reviewStatus = FetchStatus.PENDING;
 			})
-			.addCase(addCommentAction.rejected, (state) => {
-				state.commentStatus = FetchStatus.REJECTED;
+			.addCase(addReviewAction.rejected, (state) => {
+				state.reviewStatus = FetchStatus.REJECTED;
 			})
-			.addCase(addCommentAction.fulfilled, (state, action) => {
-				state.commentStatus = FetchStatus.FULFILLED;
+			.addCase(addReviewAction.fulfilled, (state, action) => {
+				state.reviewStatus = FetchStatus.FULFILLED;
 				state.singleOffer?.comments.push(action.payload);
 				if (state.singleOffer?.comments.length) {
 					const ratingSum = state.singleOffer?.comments.reduce(
@@ -86,14 +86,14 @@ export const offerSlice = createSlice({
 					state.singleOffer.rating = Number((ratingSum / len).toFixed(1));
 				}
 			})
-			.addCase(updateCommentAction.pending, (state) => {
-				state.commentStatus = FetchStatus.PENDING;
+			.addCase(updateReviewAction.pending, (state) => {
+				state.reviewStatus = FetchStatus.PENDING;
 			})
-			.addCase(updateCommentAction.rejected, (state) => {
-				state.commentStatus = FetchStatus.REJECTED;
+			.addCase(updateReviewAction.rejected, (state) => {
+				state.reviewStatus = FetchStatus.REJECTED;
 			})
-			.addCase(updateCommentAction.fulfilled, (state, action) => {
-				state.commentStatus = FetchStatus.FULFILLED;
+			.addCase(updateReviewAction.fulfilled, (state, action) => {
+				state.reviewStatus = FetchStatus.FULFILLED;
 				if (state.singleOffer?.comments.length) {
 					const { _id, description, rating } = action.payload;
 					state.singleOffer.comments = state.singleOffer.comments.map((c) => {

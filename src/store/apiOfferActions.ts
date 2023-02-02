@@ -33,29 +33,26 @@ export const fetchSingleOfferAction = createAsyncThunk<
 	return data;
 });
 
-export const addCommentAction = createAsyncThunk<
+export const addReviewAction = createAsyncThunk<
 	IReview,
 	IReviewData,
 	AsyncThunkParamsType
->(`${NameSpace.OFFER}/addComment`, async (body, { dispatch, extra: api }) => {
-	const { data } = await api.post<IReview>(APIRoute.COMMENT, body);
+>(`${NameSpace.OFFER}/addReview`, async (body, { dispatch, extra: api }) => {
+	const { data } = await api.post<IReview>(APIRoute.REVIEW, body);
 	return data;
 });
 
-export const updateCommentAction = createAsyncThunk<
+export const updateReviewAction = createAsyncThunk<
 	IReview,
 	IReviewData,
 	AsyncThunkParamsType
->(
-	`${NameSpace.OFFER}/updateComment`,
-	async (body, { dispatch, extra: api }) => {
-		const { data } = await api.patch<IReview>(
-			APIRoute.COMMENT + "/" + body.commentId,
-			body
-		);
-		return data;
-	}
-);
+>(`${NameSpace.OFFER}/updateReview`, async (body, { dispatch, extra: api }) => {
+	const { data } = await api.patch<IReview>(
+		APIRoute.REVIEW + "/" + body.reviewId,
+		body
+	);
+	return data;
+});
 
 export const createOfferAction = createAsyncThunk<
 	IOffer,

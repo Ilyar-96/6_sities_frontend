@@ -17,7 +17,7 @@ export interface IReviewData {
 	description: string;
 	user: string;
 	offer: string;
-	commentId?: string;
+	reviewId?: string;
 }
 
 export interface ILoginData {

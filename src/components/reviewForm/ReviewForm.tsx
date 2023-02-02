@@ -3,14 +3,14 @@ import React from 'react';
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { Rating } from "../";
-import { addCommentAction, updateCommentAction } from '../../store/apiOfferActions';
+import { addReviewAction, updateReviewAction } from '../../store/apiOfferActions';
 import { IReviewData } from "../../types/user.type";
 import { Textarea } from '../textarea/Textarea';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { notifyError } from "../../utils";
 import { getUserData } from '../../store/user/selectors';
 import { useParams } from "react-router-dom";
-import { getCommentStatus, getSingleOffer } from '../../store/offers/selectors';
+import { getReviewStatus, getSingleOffer } from '../../store/offers/selectors';
 import { FetchStatus } from "../../const";
 
 export const ReviewForm: React.FC = () => {
@@ -18,16 +18,18 @@ export const ReviewForm: React.FC = () => {
 	const user = useAppSelector(getUserData);
 	const offer = useAppSelector(getSingleOffer);
 	const isFirstMount = React.useRef(true);
-	const commentStatus = useAppSelector(getCommentStatus);
+	const reviewStatus = useAppSelector(getReviewStatus);
 	const { id: offerId } = useParams();
 	const formSchema = Yup.object().shape({
 		description: Yup.string()
-			.required("Enter comment").min(50, "Review must be at least 50 characters "),
+			.required("Enter review").min(50, "Review must be at least 50 characters "),
 		rating: Yup.number().min(1).max(5)
 			.required("Select rating"),
 	});
 	const userReview = offer?.comments.find((c) => c.user._id === user?._id);
 	const [rating, setRating] = React.useState<number>(0);
+	const isLoading = reviewStatus === FetchStatus.PENDING;
+
 	const {
 		register,
 		handleSubmit,
@@ -67,13 +69,13 @@ export const ReviewForm: React.FC = () => {
 				rating: values.rating,
 				user: user?._id,
 				offer: offerId,
-				commentId: userReview?._id
+				reviewId: userReview?._id
 			};
 
 			if (userReview) {
-				dispatch(updateCommentAction(formData));
+				dispatch(updateReviewAction(formData));
 			} else {
-				dispatch(addCommentAction(formData));
+				dispatch(addReviewAction(formData));
 			}
 		} catch (err) {
 			if (err instanceof Error) {
@@ -118,7 +120,7 @@ export const ReviewForm: React.FC = () => {
 					To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
 				</p>
 				<button
-					disabled={commentStatus === FetchStatus.PENDING}
+					disabled={isLoading}
 					className="reviews__submit form__submit button"
 					type="submit"
 				>

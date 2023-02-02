@@ -19,5 +19,5 @@ export const getSingleOfferFetchingStatus = (state: RootState) =>
 	state[NameSpace.OFFER].singleOfferStatus;
 export const getSingleOfferErrorMessage = (state: RootState) =>
 	state[NameSpace.OFFER].singleOfferError;
-export const getCommentStatus = (state: RootState) =>
-	state[NameSpace.OFFER].commentStatus;
+export const getReviewStatus = (state: RootState) =>
+	state[NameSpace.OFFER].reviewStatus;
