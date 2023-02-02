@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { AppRoute } from '../../const';
+import { AppRoute, searchPrevPathnameBase } from '../../const';
 import logoUrl from './logo.svg';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth, getIsHost, getUserData } from "../../store/user/selectors";
@@ -57,7 +57,13 @@ export const Header: React.FC = () => {
 							</>) : (
 								<>
 									<li className="header__nav-item">
-										<Link className="header__nav-link" to={AppRoute.LOGIN}>
+										<Link
+											className="header__nav-link"
+											to={{
+												pathname: AppRoute.LOGIN,
+												search: `${searchPrevPathnameBase}${pathname}`,
+											}}
+										>
 											<span className="header__signout">Sign in</span>
 										</Link>
 									</li>

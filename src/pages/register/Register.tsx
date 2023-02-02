@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from "yup";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Header, Input } from "../../components";
-import { AppRoute } from "../../const";
+import { AppRoute, searchPrevPathnameBase } from "../../const";
 import { getIsAuth } from '../../store/user/selectors';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import emptyAvatarUrl from '../../assets/img/avatar.svg';
@@ -13,6 +13,7 @@ import { useImagePreview } from '../../hooks/useImagePreview';
 import { registerAction } from "../../store/apiUserActions";
 import { IRegisterData } from "../../types/user.type";
 import { getActiveCity } from '../../store/city/selectors';
+import { getPathnameFromLocationSearch, notifyError } from "../../utils";
 
 export const Register: React.FC = () => {
 	const activeCity = useAppSelector(getActiveCity);
@@ -20,6 +21,11 @@ export const Register: React.FC = () => {
 	const isAuth = useAppSelector(getIsAuth);
 	const fileInputRef = React.useRef<HTMLInputElement>(null);
 	const { selectedFile, setSelectedFile, preview } = useImagePreview();
+	const location = useLocation();
+	const prevPath = React.useMemo<string | undefined>(
+		() => getPathnameFromLocationSearch(location.search),
+		[location]);
+	const navPath = prevPath ? prevPath : AppRoute.HOME;
 
 	const formSchema = Yup.object().shape({
 		name: Yup.string()
@@ -36,7 +42,11 @@ export const Register: React.FC = () => {
 		handleSubmit,
 		reset,
 		setFocus,
-		formState: { errors, isValid },
+		formState: {
+			errors,
+			isValid,
+			isSubmitting
+		},
 	} = useForm<IRegisterData>({
 		resolver: yupResolver(formSchema),
 		mode: "onChange",
@@ -57,7 +67,7 @@ export const Register: React.FC = () => {
 		// eslint-disable-next-line
 	}, [isAuth]);
 
-	const onSubmit: SubmitHandler<IRegisterData> = (values) => {
+	const onSubmit: SubmitHandler<IRegisterData> = async (values) => {
 		const formData = new FormData();
 		formData.append("email", values.email);
 		if (selectedFile && !Array.isArray(selectedFile)) {
@@ -65,7 +75,14 @@ export const Register: React.FC = () => {
 		}
 		formData.append("name", values.name);
 		formData.append("password", values.password);
-		dispatch(registerAction(formData));
+		try {
+			await dispatch(registerAction(formData));
+		} catch (err) {
+			if (err instanceof Error) {
+				console.log(err);
+				notifyError(err.message);
+			}
+		}
 	};
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +93,7 @@ export const Register: React.FC = () => {
 	};
 
 	if (isAuth) {
-		return <Navigate to={AppRoute.HOME} />;
+		return <Navigate to={navPath} />;
 	}
 
 	return (
@@ -124,12 +141,19 @@ export const Register: React.FC = () => {
 								{...register("password")}
 							/>
 							<div className="form__input-wrapper">
-								<div className="form__info">Already have an account? <Link className="form__info-link" to={AppRoute.LOGIN}>Sign in</Link></div>
+								<div className="form__info">Already have an account?
+									<Link
+										className="form__info-link"
+										to={{
+											pathname: AppRoute.LOGIN,
+											search: prevPath ? searchPrevPathnameBase + prevPath : undefined
+										}}
+									> Sign in</Link></div>
 							</div>
 							<button
 								className="form__submit button"
 								type="submit"
-								disabled={!isValid}
+								disabled={!isValid || isSubmitting}
 							>Sign up</button>
 						</form>
 					</section>
