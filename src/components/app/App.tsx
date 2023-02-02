@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../hooks';
 import { authMeAction } from '../../store/apiUserActions';
 import { fetchCitiesAction } from '../../store/apiCityActions';
 import { cityHashBase } from "../../const";
+import { HelmetProvider } from "react-helmet-async";
 
 export const App: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -20,9 +21,9 @@ export const App: React.FC = () => {
 	}, []);
 
 	return (
-		<>
+		<HelmetProvider>
 			<AppRouter />
 			<ToastContainer />
-		</>
+		</HelmetProvider>
 	);
 };

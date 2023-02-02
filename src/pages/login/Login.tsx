@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Header, Input } from "../../components";
-import { AppRoute, searchPrevPathnameBase } from '../../const';
+import { AppRoute, citeName, searchPrevPathnameBase, titleSep } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth } from "../../store/user/selectors";
 import { loginAction } from "../../store/apiUserActions";
@@ -12,6 +12,7 @@ import { notifyError } from '../../utils';
 import { ILoginData } from "../../types/user.type";
 import { getActiveCity } from "../../store/city/selectors";
 import { getPathnameFromLocationSearch } from '../../utils/getPathnameFromLocationSearch';
+import { Helmet } from "react-helmet-async";
 
 export const Login: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -70,6 +71,9 @@ export const Login: React.FC = () => {
 
 	return (
 		<div className="page page--gray page--login">
+			<Helmet>
+				<title>{"Sign in" + titleSep + citeName}</title>
+			</Helmet>
 			<Header />
 			<main className="page__main page__main--login">
 				<div className="page__login-container container">

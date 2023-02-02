@@ -11,11 +11,12 @@ import {
 } from '../../store/offers/selectors';
 import { deleteOfferAction, fetchOffersAction, fetchSingleOfferAction } from '../../store/apiOfferActions';
 import { getIsAuth, getUserData } from '../../store/user/selectors';
-import { FetchStatus, AppRoute } from '../../const';
+import { FetchStatus, AppRoute, citeName, titleSep } from '../../const';
 import { notifyWarning, notifySuccess } from '../../utils/notify';
 import { confirmAlert } from "react-confirm-alert";
 import { removeFavorite } from "../../store/user/user";
 import { setIdleStatusForSingleOffer } from "../../store/offers/offer";
+import { Helmet } from "react-helmet-async";
 
 export const Apartment = () => {
 	const dispatch = useAppDispatch();
@@ -50,7 +51,6 @@ export const Apartment = () => {
 
 	React.useEffect(() => {
 		if (offerLoadingStatus === FetchStatus.REJECTED) {
-			console.log(offerLoadingStatus === FetchStatus.REJECTED);
 			dispatch(setIdleStatusForSingleOffer());
 			navigate(AppRoute.HOME);
 			notifyWarning("Apartment with this id does not exist");
@@ -91,6 +91,13 @@ export const Apartment = () => {
 
 	return (
 		<div className="page">
+			<Helmet>
+				<title>
+					{(offer && offerLoadingStatus !== FetchStatus.PENDING) ?
+						offer.title + titleSep + citeName :
+						citeName}
+				</title>
+			</Helmet>
 			<Header />
 			<main className="page__main page__main--property">
 				<section className="property">

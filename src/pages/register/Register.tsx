@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Header, Input } from "../../components";
-import { AppRoute, searchPrevPathnameBase } from "../../const";
+import { AppRoute, citeName, searchPrevPathnameBase, titleSep } from "../../const";
 import { getIsAuth } from '../../store/user/selectors';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import emptyAvatarUrl from '../../assets/img/avatar.svg';
@@ -14,6 +14,7 @@ import { registerAction } from "../../store/apiUserActions";
 import { IRegisterData } from "../../types/user.type";
 import { getActiveCity } from '../../store/city/selectors';
 import { getPathnameFromLocationSearch, notifyError } from "../../utils";
+import { Helmet } from "react-helmet-async";
 
 export const Register: React.FC = () => {
 	const activeCity = useAppSelector(getActiveCity);
@@ -98,6 +99,9 @@ export const Register: React.FC = () => {
 
 	return (
 		<div className="page page--gray page--login">
+			<Helmet>
+				<title>{"Sign up" + titleSep + citeName}</title>
+			</Helmet>
 			<Header />
 			<main className="page__main page__main--login">
 				<div className="page__login-container container">

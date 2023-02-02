@@ -7,9 +7,10 @@ import { EmptyCitiesLayout } from "./emptyCitiesLayout/EmptyCitiesLayout";
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchOffersAction } from '../../store/apiOfferActions';
 import { getActiveSort, getOffers, getOffersFetchingStatus } from '../../store/offers/selectors';
-import { FetchStatus } from '../../const';
+import { citeName, FetchStatus, titleSep } from '../../const';
 import { getActiveCity, getCitiesFetchingStatus } from '../../store/city/selectors';
 import { CitiesLayoutSkeleton } from './citiesLayout/CitiesLayout.Skeleton';
+import { Helmet } from "react-helmet-async";
 
 export const MainPage: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -37,6 +38,12 @@ export const MainPage: React.FC = () => {
 
 	return (
 		<div className="page page--gray page--main">
+			<Helmet>
+				{activeCity ?
+					<title>{citeName + titleSep + activeCity.name}</title> :
+					<title>{citeName}</title>
+				}
+			</Helmet>
 			<Header />
 			<main
 				className={cn(

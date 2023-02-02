@@ -5,9 +5,10 @@ import { getAuthStatus, getFavorites, getIsAuth } from '../../store/user/selecto
 import { FavoritesLayout } from "./FavoritesLayout";
 import { FavoritesEmptyLayout } from "./FavoritesEmptyLayout";
 import { FavoritesNoAuthLayout } from "./FavoritesNoAuthLayout";
-import { AuthorizationStatus, AppRoute } from '../../const';
+import { AuthorizationStatus, AppRoute, citeName, titleSep } from '../../const';
 import { FavoritesSkeleton } from "./FavoritesSkeleton";
 import { Navigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 
 
@@ -26,6 +27,9 @@ export const Favorites = () => {
 		<div className={cn("page", {
 			"page--favorites-empty": isEmpty || !isAuth
 		})}>
+			<Helmet>
+				<title>{"Favorite apartments" + titleSep + citeName}</title>
+			</Helmet>
 			<Header />
 			<main className={cn("page__main", "page__main--favorites", {
 				"page__main--favorites-empty": isEmpty || !isAuth
