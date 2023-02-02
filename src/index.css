@@ -2358,7 +2358,8 @@ html body.react-confirm-alert-body-element {
 		visibility 0.5s ease;
 }
 
-.property:hover .tools {
+.property:hover .tools,
+.tools--update {
 	opacity: 1;
 	visibility: visible;
 }
@@ -2383,6 +2384,13 @@ html body.react-confirm-alert-body-element {
 .tools__edit {
 	background-image: url(./assets//img/pen-to-square.svg);
 	background-color: #4481c3;
+}
+
+.tools__btn {
+	padding: 5px 7px;
+	background-color: #4481c3;
+	color: #fff;
+	border-radius: 3px;
 }
 
 .tools__delete {

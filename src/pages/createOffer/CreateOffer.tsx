@@ -1,4 +1,4 @@
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { Footer, Header } from "../../components";
 import { OfferForm } from "../../components/offerForm/OfferForm";
 import { APPRoute } from "../../const";
@@ -19,6 +19,11 @@ export const CreateOffer = () => {
 			<Header />
 			<main className="page__main page__main--add-offer">
 				<div className="page__add-offer-container container">
+					{id && <div className="tools tools--update">
+						<Link className="tools__btn" to={APPRoute.APARTMENT + "/" + id} title="Edit">
+							Back
+						</Link>
+					</div>}
 					<section className="add-offer">
 						<h1 className="add-offer__title">{id ? "Update apartment" : "Add new apartment"}</h1>
 						<OfferForm />

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MainPage, Register, Login, Apartment, Favorites, NotFound } from '../../pages';
 import { APPRoute } from '../../const';
-import { CreateOffer } from '../../pages/addOffer/CreateOffer';
+import { CreateOffer } from '../../pages/createOffer/CreateOffer';
 
 export const AppRouter: React.FC = () => {
 	return (
