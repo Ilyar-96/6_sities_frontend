@@ -7,9 +7,8 @@ import {
 	getOffers,
 	getSingleOfferFetchingStatus,
 	getSingleOffer,
-	getActiveSort
 } from '../../store/offers/selectors';
-import { deleteOfferAction, fetchOffersAction, fetchSingleOfferAction } from '../../store/apiOfferActions';
+import { deleteOfferAction, fetchSingleOfferAction } from '../../store/apiOfferActions';
 import { getIsAuth, getUserData } from '../../store/user/selectors';
 import { FetchStatus, AppRoute, citeName, titleSep } from '../../const';
 import { notifyWarning, notifySuccess } from '../../utils/notify';
@@ -17,30 +16,31 @@ import { confirmAlert } from "react-confirm-alert";
 import { removeFavorite } from "../../store/user/user";
 import { setIdleStatusForSingleOffer } from "../../store/offers/offer";
 import { Helmet } from "react-helmet-async";
+import { getActiveCity } from "../../store/city/selectors";
+import { changeActiveCity } from "../../store/city/city";
 
 export const Apartment = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { id } = useParams();
 	const offers = useAppSelector(getOffers);
-	const activeSort = useAppSelector(getActiveSort);
 	const isAuth = useAppSelector(getIsAuth);
 	const user = useAppSelector(getUserData);
 	const offerLoadingStatus = useAppSelector(getSingleOfferFetchingStatus);
 	const offer = useAppSelector(getSingleOffer);
 	const isEditable = user?._id === offer?.host._id;
+	const activeCity = useAppSelector(getActiveCity);
 
 	React.useEffect(() => {
-		if (offer && (offers.length === 0 || offer.city._id !== offers[0].city._id)) {
-			const [sortBy, order] = activeSort.split('_');
-			dispatch(fetchOffersAction({
-				sortBy,
-				order,
-				cityId: offer.city._id
-			}));
+		if (
+			offer &&
+			offerLoadingStatus !== FetchStatus.PENDING &&
+			offer.city._id !== activeCity?._id
+		) {
+			dispatch(changeActiveCity(offer.city));
 		}
 		// eslint-disable-next-line
-	}, [offer, id]);
+	}, [offer]);
 
 	React.useEffect(() => {
 		if (id) {

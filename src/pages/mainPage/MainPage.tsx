@@ -4,37 +4,32 @@ import { Header, CitiesTabs } from '../../components';
 import 'simplebar-react/dist/simplebar.min.css';
 import { CitiesLayout } from './citiesLayout/CitiesLayout';
 import { EmptyCitiesLayout } from "./emptyCitiesLayout/EmptyCitiesLayout";
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchOffersAction } from '../../store/apiOfferActions';
-import { getActiveSort, getOffers, getOffersFetchingStatus } from '../../store/offers/selectors';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { getOffers, getOffersFetchingStatus, getSingleOffer } from '../../store/offers/selectors';
 import { citeName, FetchStatus, titleSep } from '../../const';
 import { getActiveCity, getCitiesFetchingStatus } from '../../store/city/selectors';
 import { CitiesLayoutSkeleton } from './citiesLayout/CitiesLayout.Skeleton';
 import { Helmet } from "react-helmet-async";
+import { setNullToSingleOffer } from "../../store/offers/offer";
 
 export const MainPage: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const offers = useAppSelector(getOffers);
 	const activeCity = useAppSelector(getActiveCity);
-	const activeSort = useAppSelector(getActiveSort);
 	const fetchOffersStatus = useAppSelector(getOffersFetchingStatus);
 	const fetchCitiesStatus = useAppSelector(getCitiesFetchingStatus);
+	const singleOffer = useAppSelector(getSingleOffer);
 	const isLoading = (fetchOffersStatus === FetchStatus.IDLE || fetchOffersStatus === FetchStatus.PENDING) && FetchStatus.REJECTED !== fetchCitiesStatus;
 	const isEmpty = offers.length === 0;
 	const isSuccess = !isEmpty && fetchOffersStatus === FetchStatus.FULFILLED;
 	const isError = fetchOffersStatus === FetchStatus.REJECTED || FetchStatus.REJECTED === fetchCitiesStatus;
 
 	React.useEffect(() => {
-		const [sortBy, order] = activeSort.split('_');
-		if (activeCity) {
-			dispatch(fetchOffersAction({
-				sortBy,
-				order,
-				cityId: activeCity._id
-			}));
+		if (singleOffer) {
+			dispatch(setNullToSingleOffer());
 		}
 		// eslint-disable-next-line
-	}, [activeSort, activeCity]);
+	}, []);
 
 	return (
 		<div className="page page--gray page--main">
@@ -51,6 +46,7 @@ export const MainPage: React.FC = () => {
 					"page__main--index",
 					{ "page__main--index-empty": isEmpty || fetchOffersStatus === FetchStatus.REJECTED }
 				)}>
+
 				<h1 className="visually-hidden">Cities</h1>
 
 				<CitiesTabs />

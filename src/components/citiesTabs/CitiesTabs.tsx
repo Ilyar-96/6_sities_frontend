@@ -20,7 +20,6 @@ export const CitiesTabs: React.FC<CitiesTabsProps> = () => {
 
 	const onClick = (city: ICity) => {
 		navigate(AppRoute.HOME + "#" + cityHashBase + city.name);
-		navigate(AppRoute.HOME + "#" + cityHashBase + city.name);
 		dispatch(changeActiveCity(city));
 	};
 
@@ -28,20 +27,22 @@ export const CitiesTabs: React.FC<CitiesTabsProps> = () => {
 		<div className="tabs">
 			<section className="locations container">
 				<ul className="locations__list tabs__list">
-					{!isLoading ? cities.map(city => (
-						<li className="locations__item" key={city.name}>
-							<button
-								className={cn(
-									"locations__item-link",
-									"tabs__item",
-									{ "tabs__item--active": activeCity?.name === city?.name }
-								)}
-								onClick={() => onClick(city)}
-							>
-								<span>{city.name}</span>
-							</button>
-						</li>
-					)) : <CitiesTabsSkeleton />}
+					{!isLoading ?
+						cities.map(city => (
+							<li className="locations__item" key={city.name}>
+								<button
+									className={cn(
+										"locations__item-link",
+										"tabs__item",
+										{ "tabs__item--active": activeCity?.name === city?.name }
+									)}
+									onClick={() => onClick(city)}
+								>
+									<span>{city.name}</span>
+								</button>
+							</li>
+						)) :
+						<CitiesTabsSkeleton />}
 
 					{isError &&
 						<h3>Oops! Cities were not loaded.</h3>}

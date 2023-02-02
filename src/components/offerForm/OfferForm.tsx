@@ -13,22 +13,22 @@ import { getImageAbsoluteUrl, notifyError } from "../../utils";
 import { ApartmentGallery } from "../apartmentGallery/ApartmentGallery";
 import { Input, InputRadio, Loader } from "../";
 import { Textarea } from "../textarea/Textarea";
-import { getCities } from '../../store/city/selectors';
+import { getCities, getActiveCity } from '../../store/city/selectors';
 import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
 import {
 	createOfferAction,
-	fetchOffersAction,
 	fetchSingleOfferAction,
 	updateOfferAction
 } from '../../store/apiOfferActions';
-import { getActiveSort, getSingleOffer } from '../../store/offers/selectors';
+import { getSingleOffer } from '../../store/offers/selectors';
+import { changeActiveCity } from "../../store/city/city";
 
 export const OfferForm: React.FC = () => {
 	const { id } = useParams();
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(getUserData);
 	const offer = useAppSelector(getSingleOffer);
-	const activeSort = useAppSelector(getActiveSort);
+	const activeCity = useAppSelector(getActiveCity);
 	const [gallery, setGallery] = React.useState<string[]>([]);
 	const [galleryErrorMessage, setGalleryErrorMessage] = React.useState<string | null>(null);
 	const [previewErrorMessage, setPreviewErrorMessage] = React.useState<string | null>(null);
@@ -49,6 +49,7 @@ export const OfferForm: React.FC = () => {
 	const cities = useAppSelector(getCities);
 	const selectOptions = cities.map((c) => ({ value: c._id, label: c.name }));
 	const isEditable = Boolean(offer && id);
+
 
 	React.useEffect(() => {
 		if (isEditable && offer?.images) {
@@ -120,7 +121,11 @@ export const OfferForm: React.FC = () => {
 		register,
 		handleSubmit,
 		control,
-		formState: { errors, isValid },
+		formState: {
+			errors,
+			isValid,
+			isSubmitting
+		},
 	} = useForm<CreateOfferType>({
 		resolver: yupResolver(formSchema),
 		mode: "all",
@@ -164,12 +169,9 @@ export const OfferForm: React.FC = () => {
 				await dispatch(updateOfferAction({ data: formData, _id: id })) :
 				await dispatch(createOfferAction(formData));
 
-			const [sortBy, order] = activeSort.split('_');
-			dispatch(fetchOffersAction({
-				sortBy,
-				order,
-				cityId: offer?.city._id
-			}));
+			if (offer && offer.city._id !== activeCity?._id) {
+				dispatch(changeActiveCity(offer.city));
+			}
 		} catch (err) {
 			if (err instanceof Error) {
 				console.log(err);
@@ -429,9 +431,10 @@ export const OfferForm: React.FC = () => {
 			<button
 				className="form__submit button"
 				type="submit"
-				disabled={Boolean(!isValid || galleryErrorMessage || previewErrorMessage)}
+				disabled={Boolean(!isValid || galleryErrorMessage || previewErrorMessage || isSubmitting)}
 			>
-				{isEditable ? "Update apartment" : "Add apartment"}
+				{!isSubmitting && (isEditable ? "Update apartment" : "Add apartment")}
+				{isSubmitting && "Sending..."}
 			</button>
 		</form>);
 };

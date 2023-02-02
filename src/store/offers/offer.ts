@@ -35,6 +35,9 @@ export const offerSlice = createSlice({
 			state.singleOfferStatus = FetchStatus.IDLE;
 			state.singleOfferError = null;
 		},
+		setNullToSingleOffer: (state) => {
+			state.singleOffer = null;
+		},
 	},
 	extraReducers(builder) {
 		builder
@@ -138,5 +141,8 @@ export const offerSlice = createSlice({
 	},
 });
 
-export const { changeActiveSort, setIdleStatusForSingleOffer } =
-	offerSlice.actions;
+export const {
+	changeActiveSort,
+	setIdleStatusForSingleOffer,
+	setNullToSingleOffer,
+} = offerSlice.actions;
