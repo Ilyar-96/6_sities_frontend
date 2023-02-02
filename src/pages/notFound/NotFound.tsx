@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Footer, Header } from "../../components";
-import { APPRoute } from "../../const";
+import { AppRoute } from "../../const";
 import imageUrl from './cat-dog-vacation-summer.jpg';
 
 export const NotFound = () => {
@@ -16,7 +16,7 @@ export const NotFound = () => {
 							<img className="not-found__image" src={imageUrl} alt="Cat and dog on vacation" />
 						</div>
 						<p className="not-found__status-description"><b>Looks like this page went on vacation</b></p>
-						<div className="not-found__status-direction">Try our <Link to={APPRoute.HOME}>homepage</Link> instead</div>
+						<div className="not-found__status-direction">Try our <Link to={AppRoute.HOME}>homepage</Link> instead</div>
 					</div>
 				</section>
 			</div>

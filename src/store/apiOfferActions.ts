@@ -6,7 +6,7 @@ import {
 } from "../types/offer.type";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AsyncThunkParamsType } from "../types/state";
-import { APIRoute, NameSpace, APPRoute } from "../const";
+import { APIRoute, NameSpace, AppRoute } from "../const";
 import { IReviewData } from "../types/user.type";
 import { redirectToRoute } from "./actions";
 
@@ -63,7 +63,7 @@ export const createOfferAction = createAsyncThunk<
 	AsyncThunkParamsType
 >(`${NameSpace.OFFER}/createOffer`, async (body, { dispatch, extra: api }) => {
 	const { data } = await api.post<IOffer>(APIRoute.OFFERS, body);
-	dispatch(redirectToRoute(`${APPRoute.APARTMENT}/${data._id}`));
+	dispatch(redirectToRoute(`${AppRoute.APARTMENT}/${data._id}`));
 	return data;
 });
 
@@ -78,7 +78,7 @@ export const updateOfferAction = createAsyncThunk<
 			APIRoute.OFFERS + "/" + body._id,
 			body.data
 		);
-		dispatch(redirectToRoute(`${APPRoute.APARTMENT}/${body._id}`));
+		dispatch(redirectToRoute(`${AppRoute.APARTMENT}/${body._id}`));
 		return data as IOffer;
 	}
 );

@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Header, Input } from "../../components";
-import { APPRoute } from "../../const";
+import { AppRoute } from "../../const";
 import { getIsAuth } from '../../store/user/selectors';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import emptyAvatarUrl from '../../assets/img/avatar.svg';
@@ -76,7 +76,7 @@ export const Register: React.FC = () => {
 	};
 
 	if (isAuth) {
-		return <Navigate to={APPRoute.HOME} />;
+		return <Navigate to={AppRoute.HOME} />;
 	}
 
 	return (
@@ -124,7 +124,7 @@ export const Register: React.FC = () => {
 								{...register("password")}
 							/>
 							<div className="form__input-wrapper">
-								<div className="form__info">Already have an account? <Link className="form__info-link" to={APPRoute.LOGIN}>Sign in</Link></div>
+								<div className="form__info">Already have an account? <Link className="form__info-link" to={AppRoute.LOGIN}>Sign in</Link></div>
 							</div>
 							<button
 								className="form__submit button"
@@ -135,7 +135,7 @@ export const Register: React.FC = () => {
 					</section>
 					<section className="locations locations--login locations--current">
 						<div className="locations__item">
-							{activeCity && <Link className="locations__item-link" to={APPRoute.HOME}>
+							{activeCity && <Link className="locations__item-link" to={AppRoute.HOME}>
 								<span>{activeCity.name}</span>
 							</Link>}
 						</div>

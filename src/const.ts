@@ -8,7 +8,7 @@ export enum APIRoute {
 	AUTH_ME = "auth/me",
 }
 
-export enum APPRoute {
+export enum AppRoute {
 	HOME = "/",
 	APARTMENT = "/apartment",
 	LOGIN = "/login",

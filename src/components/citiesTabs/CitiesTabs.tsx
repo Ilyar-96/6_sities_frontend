@@ -6,7 +6,7 @@ import { getActiveCity, getCities, getCitiesFetchingStatus } from '../../store/c
 import { changeActiveCity } from "../../store/city/city";
 import { ICity } from '../../types/offer.type';
 import { useNavigate } from "react-router-dom";
-import { APPRoute, cityHashBase, FetchStatus } from '../../const';
+import { AppRoute, cityHashBase, FetchStatus } from '../../const';
 import { CitiesTabsSkeleton } from './CitiesTabsSkeleton';
 
 export const CitiesTabs: React.FC<CitiesTabsProps> = () => {
@@ -19,8 +19,8 @@ export const CitiesTabs: React.FC<CitiesTabsProps> = () => {
 	const isError = fetchingStatus === FetchStatus.REJECTED;
 
 	const onClick = (city: ICity) => {
-		navigate(APPRoute.HOME + "#" + cityHashBase + city.name);
-		navigate(APPRoute.HOME + "#" + cityHashBase + city.name);
+		navigate(AppRoute.HOME + "#" + cityHashBase + city.name);
+		navigate(AppRoute.HOME + "#" + cityHashBase + city.name);
 		dispatch(changeActiveCity(city));
 	};
 

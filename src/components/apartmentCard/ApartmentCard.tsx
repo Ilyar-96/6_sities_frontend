@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ApartmentCardProps } from './ApartmentCard.type';
-import { APPRoute, FetchStatus } from '../../const';
+import { AppRoute, FetchStatus } from '../../const';
 import { Rating } from '../rating/Rating';
 import noImagePreviewUrl from '../../assets/img/noImagePreview.jpg';
 import { getImageAbsoluteUrl, getIsFavorite } from "../../utils";
@@ -23,7 +23,7 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 				<span>Premium</span>
 			</div>}
 			<div className="place-card__image-wrapper">
-				<Link to={`${APPRoute.APARTMENT}/${data._id}`}>
+				<Link to={`${AppRoute.APARTMENT}/${data._id}`}>
 					<LazyLoadImage
 						className="place-card__image"
 						src={previewImageUrl}
@@ -56,7 +56,7 @@ export const ApartmentCard: React.FC<ApartmentCardProps> = ({ data, className, .
 				</div>
 				<Rating defaultValue={data.rating} ratingSize="s" />
 				<h2 className="place-card__name">
-					<Link to={`${APPRoute.APARTMENT}/${data._id}`}>
+					<Link to={`${AppRoute.APARTMENT}/${data._id}`}>
 						{data.title}
 					</Link>
 				</h2>

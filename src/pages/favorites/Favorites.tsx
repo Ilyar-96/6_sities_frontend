@@ -5,7 +5,7 @@ import { getAuthStatus, getFavorites, getIsAuth } from '../../store/user/selecto
 import { FavoritesLayout } from "./FavoritesLayout";
 import { FavoritesEmptyLayout } from "./FavoritesEmptyLayout";
 import { FavoritesNoAuthLayout } from "./FavoritesNoAuthLayout";
-import { AuthorizationStatus, APPRoute } from '../../const';
+import { AuthorizationStatus, AppRoute } from '../../const';
 import { FavoritesSkeleton } from "./FavoritesSkeleton";
 import { Navigate } from "react-router-dom";
 
@@ -19,7 +19,7 @@ export const Favorites = () => {
 	const isLoading = authStatus === AuthorizationStatus.PENDING;
 
 	if (!isAuth) {
-		return <Navigate to={APPRoute.HOME} />;
+		return <Navigate to={AppRoute.HOME} />;
 	}
 
 	return (

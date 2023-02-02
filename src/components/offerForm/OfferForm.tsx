@@ -3,7 +3,7 @@ import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import * as Yup from "yup";
 import Select from "react-select";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useImagePreview } from "../../hooks/useImagePreview";
@@ -26,7 +26,6 @@ import { getActiveSort, getSingleOffer } from '../../store/offers/selectors';
 export const OfferForm: React.FC = () => {
 	const { id } = useParams();
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
 	const user = useAppSelector(getUserData);
 	const offer = useAppSelector(getSingleOffer);
 	const activeSort = useAppSelector(getActiveSort);
@@ -164,8 +163,6 @@ export const OfferForm: React.FC = () => {
 			(isEditable && id) ?
 				await dispatch(updateOfferAction({ data: formData, _id: id })) :
 				await dispatch(createOfferAction(formData));
-
-			navigate(window.location.pathname);
 
 			const [sortBy, order] = activeSort.split('_');
 			dispatch(fetchOffersAction({

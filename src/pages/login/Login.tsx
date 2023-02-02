@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Header, Input } from "../../components";
-import { APPRoute } from '../../const';
+import { AppRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth } from "../../store/user/selectors";
 import { loginAction } from "../../store/apiUserActions";
@@ -59,7 +59,7 @@ export const Login: React.FC = () => {
 	};
 
 	if (isAuth) {
-		return <Navigate to={APPRoute.HOME} />;
+		return <Navigate to={AppRoute.HOME} />;
 	}
 
 	return (
@@ -83,7 +83,7 @@ export const Login: React.FC = () => {
 								{...register("password")}
 							/>
 							<div className="form__input-wrapper">
-								<div className="form__info">Don't have an account? <Link className="form__info-link" to={APPRoute.REGISTER}>Sign up</Link></div>
+								<div className="form__info">Don't have an account? <Link className="form__info-link" to={AppRoute.REGISTER}>Sign up</Link></div>
 							</div>
 							<button
 								className="form__submit button"
@@ -94,7 +94,7 @@ export const Login: React.FC = () => {
 					</section>
 					<section className="locations locations--login locations--current">
 						<div className="locations__item">
-							{activeCity && <Link className="locations__item-link" to={APPRoute.HOME} >
+							{activeCity && <Link className="locations__item-link" to={AppRoute.HOME} >
 								<span>{activeCity.name}</span>
 							</Link>}
 						</div>

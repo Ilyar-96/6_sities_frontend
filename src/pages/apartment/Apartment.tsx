@@ -11,7 +11,7 @@ import {
 } from '../../store/offers/selectors';
 import { deleteOfferAction, fetchOffersAction, fetchSingleOfferAction } from '../../store/apiOfferActions';
 import { getIsAuth, getUserData } from '../../store/user/selectors';
-import { FetchStatus, APPRoute } from '../../const';
+import { FetchStatus, AppRoute } from '../../const';
 import { notifyWarning, notifySuccess } from '../../utils/notify';
 import { confirmAlert } from "react-confirm-alert";
 import { removeFavorite } from "../../store/user/user";
@@ -52,7 +52,7 @@ export const Apartment = () => {
 		if (offerLoadingStatus === FetchStatus.REJECTED) {
 			console.log(offerLoadingStatus === FetchStatus.REJECTED);
 			dispatch(setIdleStatusForSingleOffer());
-			navigate(APPRoute.HOME);
+			navigate(AppRoute.HOME);
 			notifyWarning("Apartment with this id does not exist");
 		}
 		// eslint-disable-next-line
@@ -63,7 +63,7 @@ export const Apartment = () => {
 			try {
 				dispatch(deleteOfferAction(id));
 				dispatch(removeFavorite(id));
-				navigate(APPRoute.HOME);
+				navigate(AppRoute.HOME);
 				notifySuccess("Successfully deleted");
 			} catch (err) {
 				notifyWarning("Failed to delete");
@@ -96,7 +96,7 @@ export const Apartment = () => {
 				<section className="property">
 					{offer && isEditable &&
 						<div className="property__tools tools">
-							<Link className="tools__edit" to={APPRoute.ADD_OFFER + "/" + offer?._id} title="Edit">
+							<Link className="tools__edit" to={AppRoute.ADD_OFFER + "/" + offer?._id} title="Edit">
 								<span className="visually-hidden">Edit</span>
 							</Link>
 							<button

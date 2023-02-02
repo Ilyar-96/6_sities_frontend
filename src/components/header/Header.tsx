@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { APPRoute } from '../../const';
+import { AppRoute } from '../../const';
 import logoUrl from './logo.svg';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getIsAuth, getIsHost, getUserData } from "../../store/user/selectors";
@@ -12,7 +12,7 @@ import emptyAvatarUrl from './avatar.svg';
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { pathname } = useLocation();
-	const isShowNav = pathname !== APPRoute.LOGIN && pathname !== APPRoute.REGISTER;
+	const isShowNav = pathname !== AppRoute.LOGIN && pathname !== AppRoute.REGISTER;
 	const isAuth = useAppSelector(getIsAuth);
 	const IsHost = useAppSelector(getIsHost);
 	const user = useAppSelector(getUserData);
@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
 			<div className="container">
 				<div className="header__wrapper">
 					<div className="header__left">
-						<Link className="header__logo-link header__logo-link--active" to={APPRoute.HOME}>
+						<Link className="header__logo-link header__logo-link--active" to={AppRoute.HOME}>
 							<LazyLoadImage className="header__logo" src={logoUrl} alt="6 cities logo" width={81} height={41} />
 						</Link>
 					</div>
@@ -36,14 +36,14 @@ export const Header: React.FC = () => {
 
 								{IsHost &&
 									<li className="header__nav-item">
-										<Link className="header__nav-link" to={APPRoute.ADD_OFFER}>
+										<Link className="header__nav-link" to={AppRoute.ADD_OFFER}>
 											<span className="header__apartment">Add new Apartment</span>
 										</Link>
 									</li>
 								}
 
 								<li className="header__nav-item user">
-									<Link className="header__nav-link header__nav-link--profile" to={APPRoute.FAVORITES}>
+									<Link className="header__nav-link header__nav-link--profile" to={AppRoute.FAVORITES}>
 										<LazyLoadImage className="header__avatar" src={user.avatarUrl ? getImageAbsoluteUrl(user.avatarUrl) : emptyAvatarUrl} alt={`${user.name} avatar`} />
 										<span className="header__user-name">{user.email}</span>
 										<span className="header__favorite-count">{user.favorites.length}</span>
@@ -57,7 +57,7 @@ export const Header: React.FC = () => {
 							</>) : (
 								<>
 									<li className="header__nav-item">
-										<Link className="header__nav-link" to={APPRoute.LOGIN}>
+										<Link className="header__nav-link" to={AppRoute.LOGIN}>
 											<span className="header__signout">Sign in</span>
 										</Link>
 									</li>

@@ -1,6 +1,6 @@
 import { ApartmentCard } from '../../components/apartmentCard/ApartmentCard';
 import { Link } from "react-router-dom";
-import { APPRoute, cityHashBase } from '../../const';
+import { AppRoute, cityHashBase } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getFavorites } from '../../store/user/selectors';
 import { FavoritesObjectType } from "../../types/user.type";
@@ -30,7 +30,7 @@ export const FavoritesLayout = () => {
 				{Object.entries(favoritesObject).map(([city, offers]) => <li className="favorites__locations-items" key={city}>
 					<div className="favorites__locations locations locations--current">
 						<div className="locations__item">
-							<Link className="locations__item-link" to={`${APPRoute.HOME}#${cityHashBase}${city}`} onClick={() => onClick(offers[0].city)}>
+							<Link className="locations__item-link" to={`${AppRoute.HOME}#${cityHashBase}${city}`} onClick={() => onClick(offers[0].city)}>
 								<span>{city}</span>
 							</Link>
 						</div>

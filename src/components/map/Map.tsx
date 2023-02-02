@@ -5,7 +5,7 @@ import { YMaps, Map, Placemark, Clusterer } from "@pbe/react-yandex-maps";
 import { Link, useParams } from "react-router-dom";
 import { IOffer } from "../../types/offer.type";
 import { Rating } from '../rating/Rating';
-import { APPRoute } from "../../const";
+import { AppRoute } from "../../const";
 import closeSvg from '../../assets/img/close.svg';
 
 export const MapSection: React.FC<MapProps> = ({ centralLocation, offers, activeOffer = null, className, ...props }) => {
@@ -62,7 +62,7 @@ export const MapSection: React.FC<MapProps> = ({ centralLocation, offers, active
 				{selectedOffer && <>
 					<h2 className="map-popup__title">
 						{selectedOffer._id === currentOfferId ? selectedOffer.title
-							: <Link to={APPRoute.APARTMENT + '/' + selectedOffer._id}>{selectedOffer?.title}</Link>}
+							: <Link to={AppRoute.APARTMENT + '/' + selectedOffer._id}>{selectedOffer?.title}</Link>}
 					</h2>
 					<Rating
 						defaultValue={selectedOffer.rating ? selectedOffer.rating : 0}
