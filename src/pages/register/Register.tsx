@@ -93,6 +93,12 @@ export const Register: React.FC = () => {
 		}
 	};
 
+	const onKeyDown = (e: React.KeyboardEvent<HTMLImageElement>) => {
+		if (e.code === "Enter" || e.code === "Space") {
+			onAvatarClick();
+		}
+	};
+
 	if (isAuth) {
 		return <Navigate to={navPath} />;
 	}
@@ -115,6 +121,8 @@ export const Register: React.FC = () => {
 									onClick={onAvatarClick}
 									alt="Avatar preview"
 									effect="blur"
+									tabIndex={0}
+									onKeyDown={onKeyDown}
 								/>
 								<Input
 									className="form__input form__input--avatar"

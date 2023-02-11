@@ -222,7 +222,6 @@ template {
 body,
 html {
 	width: 100%;
-	min-width: 1144px;
 	margin: 0;
 	padding: 0;
 	font-family: rubik, arial, sans-serif;
@@ -282,7 +281,8 @@ html body.react-confirm-alert-body-element {
 }
 
 .container {
-	width: 1144px;
+	max-width: 1144px;
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 	padding-left: 58px;
@@ -643,7 +643,7 @@ html body.react-confirm-alert-body-element {
 }
 
 .cities__places {
-	width: 572px;
+	/* width: 572px; */
 	margin-top: 2px;
 	margin-right: 2px;
 	padding-top: 29px;
@@ -1117,6 +1117,7 @@ html body.react-confirm-alert-body-element {
 	-ms-flex-pack: center;
 	justify-content: center;
 	width: 785px;
+	max-width: 100%;
 	margin-right: auto;
 	margin-left: auto;
 	max-height: 452px;
@@ -1167,8 +1168,8 @@ html body.react-confirm-alert-body-element {
 	align-items: center;
 	margin-bottom: 2px;
 	margin-right: 2px;
-	width: 260px;
-	height: 200px;
+	width: calc(33.333% - 2px);
+	/* height: 200px; */
 	overflow: hidden
 }
 
@@ -1665,6 +1666,7 @@ html body.react-confirm-alert-body-element {
 }
 
 .reviews__form {
+	width: 100%;
 	margin-right: -30px;
 	padding-left: 76px
 }
@@ -1777,6 +1779,10 @@ html body.react-confirm-alert-body-element {
 	line-height: 20px;
 	display: inline-block;
 	color: #666;
+}
+
+.form__radio[type="radio"]:focus+label:before {
+	outline: 2px solid #4481c3;
 }
 
 .form__radio[type="radio"]:checked+label:before,
@@ -2029,7 +2035,7 @@ html body.react-confirm-alert-body-element {
 
 .login {
 	position: relative;
-	width: 520px;
+	width: 50%;
 	padding-top: 19.6vh;
 	padding-right: 60px;
 	padding-left: 13px
@@ -2064,7 +2070,8 @@ html body.react-confirm-alert-body-element {
 .login__form {
 	position: relative;
 	z-index: 1;
-	width: 341px
+	max-width: 341px;
+	width: 100%;
 }
 
 
@@ -2459,4 +2466,174 @@ html body.react-confirm-alert-body-element {
 
 .place-card__image-wrapper * {
 	display: block !important;
+	max-width: 100%;
+}
+
+@media (max-width: 1199.98px) {
+	.container {
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+
+	.cities__card {
+		width: 47%;
+	}
+}
+
+@media (max-width: 991.98px) {
+	.cities__places-container {
+		display: block;
+	}
+
+	.page--main,
+	.page--login {
+		width: 100%;
+		height: auto;
+	}
+
+	.cities__map {
+		height: 80vw;
+	}
+
+	[data-simplebar="init"] {
+		width: 100% !important;
+	}
+
+	.cities__card {
+		width: 31%;
+		flex: 0 1 31%;
+		margin-left: 1%;
+	}
+
+	.place-card__image-wrapper * {
+		width: 100% !important;
+	}
+
+	.locations__list {
+		justify-content: center;
+	}
+
+	.locations__item {
+		margin-right: 10px;
+		margin-left: 10px;
+	}
+
+	.cities__no-places {
+		width: 100%;
+	}
+
+	.locations--login {
+		display: none;
+	}
+
+	.page--login {
+		background: none;
+	}
+
+	.login {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		padding: 30px 0;
+	}
+
+	.login:after {
+		display: none;
+	}
+
+	.form__avatar-wrapper>span {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+	}
+}
+
+@media (max-width: 767.98px) {
+	.cities__card {
+		width: 48%;
+		flex: 0 1 48%;
+		margin-left: 2%;
+	}
+
+	.form__row {
+		grid-template-columns: 1fr;
+	}
+
+
+	.property__bookmark-button {
+		right: 10px;
+	}
+}
+
+@media (max-width: 575.98px) {
+	.header__wrapper {
+		flex-wrap: wrap;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.header__nav {
+		width: 100%;
+		margin-left: 0;
+	}
+
+	.header__left {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.header__nav-list {
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.header__user-name {
+		display: none;
+	}
+
+	.header__nav-item--register {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+
+	.header__avatar,
+	.header__nav-item.user {
+		margin-right: 0;
+	}
+
+	.cities__places-list {
+		justify-content: center;
+	}
+
+	.cities__card {
+		width: 260px;
+		flex: 0 1 260px;
+		margin-left: 0;
+	}
+
+	.reviews__form {
+		margin-right: 0;
+		padding-left: 0
+	}
+
+	.property__features {
+		margin-left: 0;
+	}
+
+	.property__feature {
+		margin-left: 14px;
+	}
+
+}
+
+@media (any-hover: none) {
+
+	.property .tools,
+	.tools--update {
+		opacity: 1;
+		visibility: visible;
+	}
 }

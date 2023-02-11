@@ -56,7 +56,7 @@ export const Header: React.FC = () => {
 								</li>
 							</>) : (
 								<>
-									<li className="header__nav-item">
+									<li className="header__nav-item header__nav-item--register">
 										<Link
 											className="header__nav-link"
 											to={{

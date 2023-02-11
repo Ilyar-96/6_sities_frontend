@@ -28,7 +28,7 @@ export const CitiesLayout: React.FC = () => {
 	return (<div className="cities">
 		<div className="cities__places-container container">
 			<SimpleBar style={{
-				width: 572
+				width: "53%"
 			}}>
 				<section className="cities__places places">
 

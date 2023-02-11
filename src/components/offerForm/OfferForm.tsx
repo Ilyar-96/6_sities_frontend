@@ -88,6 +88,7 @@ export const OfferForm: React.FC = () => {
 			.required("Enter title"),
 		isPremium: Yup.boolean()
 			.required()
+			.typeError('Selecting the premium field is required')
 			.oneOf([true, false], "Selecting the premium field is required"),
 		type: Yup.string()
 			.required("Enter apartment type"),
@@ -220,6 +221,12 @@ export const OfferForm: React.FC = () => {
 		filePreviewInputRef.current?.click();
 	};
 
+	const onKeyDown = (e: React.KeyboardEvent<HTMLImageElement>) => {
+		if (e.code === "Enter" || e.code === "Space") {
+			onPreviewClick();
+		}
+	};
+
 	if (id && !offer) {
 		return <Loader className="add-offer__loader" />;
 	}
@@ -237,6 +244,8 @@ export const OfferForm: React.FC = () => {
 					alt="Preview"
 					title="Preview (260*200)"
 					effect="blur"
+					tabIndex={0}
+					onKeyDown={onKeyDown}
 				/>
 				<Input
 					className="form__input form__input--avatar"
