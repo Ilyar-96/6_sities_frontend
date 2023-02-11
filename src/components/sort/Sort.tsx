@@ -33,10 +33,16 @@ export const Sort: React.FC<SortProps> = ({
 		setIsOpened(false);
 	};
 
+	const onKeyDown = (e: React.KeyboardEvent<HTMLLIElement>, value: SortTypes) => {
+		if (e.code === "Space" || e.code === "Enter") {
+			sortItemClickHandler(value);
+		}
+	};
+
 	return (
 		<div ref={popupRef} className="places__sorting">
 			<span className="places__sorting-caption">Sort by </span>
-			<span
+			<button
 				className="places__sorting-type"
 				tabIndex={0}
 				onClick={sortLabelClickHandler}
@@ -45,7 +51,7 @@ export const Sort: React.FC<SortProps> = ({
 				<svg className="places__sorting-arrow" width={7} height={4}>
 					<use xlinkHref="#icon-arrow-select" />
 				</svg>
-			</span>
+			</button>
 			<ul
 				className={cn(
 					"sort__options",
@@ -60,6 +66,7 @@ export const Sort: React.FC<SortProps> = ({
 						className={cn("sort__option", { "sort__option--active": active === item.dataLabel })}
 						tabIndex={0}
 						onClick={() => sortItemClickHandler(item.dataLabel)}
+						onKeyDown={(e: React.KeyboardEvent<HTMLLIElement>) => onKeyDown(e, item.dataLabel)}
 					>
 						{item.title}
 					</li>

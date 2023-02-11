@@ -84,6 +84,7 @@ export const Apartment = () => {
 				},
 				{
 					label: 'Cancel',
+					autoFocus: true
 				}
 			]
 		});

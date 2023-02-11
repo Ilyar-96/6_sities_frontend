@@ -11,17 +11,18 @@ import { getActiveCity } from '../../store/city/selectors';
 import { getActiveSort } from '../../store/offers/selectors';
 import { fetchOffersAction } from "../../store/apiOfferActions";
 import { useLocation } from "react-router-dom";
+import { useToggleBodyClass } from "../../hooks/useToggleBodyClass";
 
 export const App: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const activeSort = useAppSelector(getActiveSort);
 	const activeCity = useAppSelector(getActiveCity);
 	const location = useLocation();
+	useToggleBodyClass();
 
 	React.useEffect(() => {
 		const cityNameIndex = window.location.hash.indexOf(cityHashBase) + 5;
 		const cityName = cityNameIndex !== -1 ? location.hash.slice(cityNameIndex) : undefined;
-		console.log(cityName);
 		dispatch(authMeAction());
 		dispatch(fetchCitiesAction(cityName));
 		// eslint-disable-next-line
@@ -37,7 +38,7 @@ export const App: React.FC = () => {
 			}));
 		}
 		// eslint-disable-next-line
-	}, [activeCity]);
+	}, [activeCity, activeSort]);
 
 	return (
 		<HelmetProvider>
