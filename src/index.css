@@ -2548,6 +2548,23 @@ html body.react-confirm-alert-body-element {
 		justify-content: center;
 		width: 100%;
 	}
+
+	.cities__no-places::after {
+		display: none;
+	}
+
+	.cities__status-wrapper {
+		margin-top: 40px;
+		margin-bottom: 40px;
+	}
+
+	.cities__no-places {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
 }
 
 @media (max-width: 767.98px) {

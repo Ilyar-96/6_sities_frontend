@@ -13,13 +13,13 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-	// <React.StrictMode>
-	// </React.StrictMode>
-	<HistoryRouter history={browserHistory}>
-		<Provider store={store}>
-			<App />
-		</Provider>
-	</HistoryRouter>
+	<React.StrictMode>
+		<HistoryRouter history={browserHistory}>
+			<Provider store={store}>
+				<App />
+			</Provider>
+		</HistoryRouter>
+	</React.StrictMode>
 );
 
 reportWebVitals();
