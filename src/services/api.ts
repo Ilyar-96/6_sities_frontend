@@ -18,8 +18,8 @@ const StatusCodeMapping: Record<number, boolean> = {
 const shouldDisplayError = (response: AxiosResponse) =>
 	!!StatusCodeMapping[response.status];
 
-// export const BACKEND_URL = "http://localhost:5000/";
-export const BACKEND_URL = "https://six-sities.onrender.com/";
+export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+// export const BACKEND_URL = "https://six-sities.onrender.com/";
 const REQUEST_TIMEOUT = 10000;
 
 export const createAPI = (): AxiosInstance => {

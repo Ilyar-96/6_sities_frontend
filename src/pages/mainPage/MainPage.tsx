@@ -48,7 +48,6 @@ export const MainPage: React.FC = () => {
 				)}>
 
 				<h1 className="visually-hidden">Cities</h1>
-
 				<CitiesTabs />
 
 				{isEmpty && fetchOffersStatus === FetchStatus.FULFILLED &&
