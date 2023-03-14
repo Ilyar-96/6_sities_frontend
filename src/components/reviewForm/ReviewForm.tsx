@@ -38,7 +38,7 @@ export const ReviewForm: React.FC = () => {
 		formState: { errors },
 	} = useForm<IReviewData>({
 		resolver: yupResolver(formSchema),
-		mode: "onChange",
+		mode: "all",
 		defaultValues: {
 			rating: rating,
 		},
