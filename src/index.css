@@ -2712,6 +2712,11 @@ html body.react-confirm-alert-body-element {
 		padding-right: 0;
 	}
 
+	.favorites__places .place-card+.place-card {
+		margin-top: 20px;
+	}
+
+
 	.header__nav {
 		width: 100%;
 		margin-left: 0;
