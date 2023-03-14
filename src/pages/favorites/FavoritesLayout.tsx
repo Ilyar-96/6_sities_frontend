@@ -1,17 +1,19 @@
 import { ApartmentCard } from '../../components/apartmentCard/ApartmentCard';
 import { Link } from "react-router-dom";
-import { AppRoute, cityHashBase } from '../../const';
+import cn from 'classnames';
+import { AppRoute, cityHashBase, MediaQueries } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getFavorites } from '../../store/user/selectors';
 import { FavoritesObjectType } from "../../types/user.type";
 import { changeActiveCity } from "../../store/city/city";
 import { ICity } from '../../types/offer.type';
+import { useMedia } from "../../hooks/useMedia";
 
 
 export const FavoritesLayout = () => {
 	const dispatch = useAppDispatch();
 	const favoritesList = useAppSelector(getFavorites);
-
+	const isExtraSmall = useMedia(MediaQueries.ES);
 	const favoritesObject = favoritesList.reduce((a, b) => {
 		(b.city.name in a) ?
 			a[b.city.name].push(b)
@@ -36,7 +38,14 @@ export const FavoritesLayout = () => {
 						</div>
 					</div>
 					<div className="favorites__places">
-						{offers.map(offer => <ApartmentCard className="favorites__card" key={offer._id} data={offer} />)}
+						{offers.map(offer => (
+							<ApartmentCard
+								className={cn({ "favorites__card": !isExtraSmall })}
+								key={offer._id}
+								data=
+								{offer}
+							/>
+						))}
 					</div>
 				</li>)}
 			</ul>

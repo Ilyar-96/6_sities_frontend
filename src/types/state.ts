@@ -29,7 +29,7 @@ export interface ICityState {
 	status: FetchStatus;
 	error: string | null;
 	activeCity: ICity | null;
-	isMobilePopupOpen: boolean;
+	isSmallPopupOpen: boolean;
 }
 
 export type AsyncThunkParamsType = {

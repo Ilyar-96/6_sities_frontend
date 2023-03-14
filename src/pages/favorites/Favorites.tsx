@@ -10,8 +10,6 @@ import { FavoritesSkeleton } from "./FavoritesSkeleton";
 import { Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-
-
 export const Favorites = () => {
 	const favoritesList = useAppSelector(getFavorites);
 	const isAuth = useAppSelector(getIsAuth);
@@ -19,7 +17,7 @@ export const Favorites = () => {
 	const authStatus = useAppSelector(getAuthStatus);
 	const isLoading = authStatus === AuthorizationStatus.PENDING;
 
-	if (!isAuth) {
+	if (authStatus === AuthorizationStatus.NO_AUTH) {
 		return <Navigate to={AppRoute.HOME} />;
 	}
 

@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { AppRoute, cityHashBase } from "../../const";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { changeActiveCity, toggleMobilePopup } from "../../store/city/city";
-import { getActiveCity, getIsMobilePopupOpen } from "../../store/city/selectors";
+import { getActiveCity, getisSmallPopupOpen } from "../../store/city/selectors";
 import { ICity } from "../../types/offer.type";
 
 export const TabItem: FC<TabItemProps> = ({ city }) => {
 	const dispatch = useAppDispatch();
 	const activeCity = useAppSelector(getActiveCity);
-	const isOpen = useAppSelector(getIsMobilePopupOpen);
+	const isOpen = useAppSelector(getisSmallPopupOpen);
 	const navigate = useNavigate();
 
 	const onClick = (city: ICity) => {

@@ -1,18 +1,18 @@
 import { FC } from 'react';
 import cn from 'classnames';
 import { Menu, Portal, TabItem } from "../.";
-import { matchMediaMobileQuery, AppRoute } from '../../const';
+import { AppRoute, MediaQueries } from '../../const';
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useMedia } from "../../hooks/useMedia";
 import { toggleMobilePopup } from "../../store/city/city";
-import { getCities, getIsMobilePopupOpen } from "../../store/city/selectors";
+import { getCities, getisSmallPopupOpen } from "../../store/city/selectors";
 import closeIcon from '../../assets/img/close.svg';
 import { useLocation } from "react-router-dom";
 
 export const MobileMenu: FC = () => {
-	const isMobile = useMedia(matchMediaMobileQuery);
+	const isSmall = useMedia(MediaQueries.S);
 	const dispatch = useAppDispatch();
-	const isOpen = useAppSelector(getIsMobilePopupOpen);
+	const isOpen = useAppSelector(getisSmallPopupOpen);
 	const cities = useAppSelector(getCities);
 	const location = useLocation();
 
@@ -20,7 +20,7 @@ export const MobileMenu: FC = () => {
 		dispatch(toggleMobilePopup());
 	};
 
-	if (!isMobile) {
+	if (!isSmall || location.pathname === AppRoute.LOGIN || location.pathname === AppRoute.REGISTER) {
 		return null;
 	}
 

@@ -46,4 +46,9 @@ export const cityHashBase = "city=";
 export const searchPrevPathnameBase = "prev-pathname=";
 export const citeName = "6 Cities";
 export const titleSep = " | ";
-export const matchMediaMobileQuery = "(max-width: 767px)";
+export enum MediaQueries {
+	L = "(max-width: 1200px)",
+	M = "(max-width: 991px)",
+	S = "(max-width: 767px)",
+	ES = "(max-width: 575px)",
+}

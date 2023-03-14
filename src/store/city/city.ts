@@ -9,7 +9,7 @@ const initialState: ICityState = {
 	status: FetchStatus.IDLE,
 	error: null,
 	activeCity: null,
-	isMobilePopupOpen: false,
+	isSmallPopupOpen: false,
 };
 
 export const citySlice = createSlice({
@@ -20,7 +20,7 @@ export const citySlice = createSlice({
 			state.activeCity = action.payload;
 		},
 		toggleMobilePopup: (state) => {
-			state.isMobilePopupOpen = !state.isMobilePopupOpen;
+			state.isSmallPopupOpen = !state.isSmallPopupOpen;
 		},
 	},
 	extraReducers(builder) {

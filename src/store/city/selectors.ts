@@ -8,5 +8,5 @@ export const getCitiesErrorMessage = (state: RootState) =>
 	state[NameSpace.CITY].error;
 export const getActiveCity = (state: RootState) =>
 	state[NameSpace.CITY].activeCity;
-export const getIsMobilePopupOpen = (state: RootState) =>
-	state[NameSpace.CITY].isMobilePopupOpen;
+export const getisSmallPopupOpen = (state: RootState) =>
+	state[NameSpace.CITY].isSmallPopupOpen;
