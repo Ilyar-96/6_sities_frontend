@@ -2184,7 +2184,7 @@ html body.react-confirm-alert-body-element {
 }
 
 .favorites__status-wrapper {
-	width: 420px;
+	max-width: 420px;
 	margin-top: 16.7vh;
 	margin-right: auto;
 	margin-left: auto;
