@@ -2469,6 +2469,97 @@ html body.react-confirm-alert-body-element {
 	max-width: 100%;
 }
 
+/* #modals-root {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+
+	z-index: 1000;
+} */
+
+.mob-locations {
+	position: fixed;
+	inset: 0;
+	z-index: 999;
+
+	width: 100vw;
+	height: 100vh;
+	overflow-y: auto;
+
+	background-color: #fff;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mob-locations--open {
+	padding: 40px 0;
+	opacity: 1;
+	visibility: visible;
+}
+
+.mob-locations__list {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0;
+}
+
+.mob-locations__close {
+	position: absolute;
+	top: 33px;
+	right: 15px;
+
+	background: none;
+	border: none;
+	cursor: pointer;
+	pointer-events: none;
+}
+
+.mob-locations--open .mob-locations__close {
+	pointer-events: all;
+}
+
+.tabs-btn {
+	width: 30px;
+	height: 30px;
+	flex: 0 0 30px;
+	padding: 0;
+
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.tabs-btn img {
+	object-fit: contain;
+}
+
+.mob-locations .header__nav {
+	margin-left: 0;
+}
+
+.mob-locations .header__nav-list {
+	width: 100%;
+	flex-direction: column;
+	align-items: center;
+}
+
+.mob-locations .header__nav-item {
+	margin-right: 0;
+}
+
+.mob-locations .header__favorite-count {
+	margin-right: 0;
+}
+
+.mob-locations .header__apartment {
+	margin-right: 0;
+}
+
 @media (max-width: 1199.98px) {
 	.container {
 		padding-right: 15px;
@@ -2483,6 +2574,11 @@ html body.react-confirm-alert-body-element {
 @media (max-width: 991.98px) {
 	.cities__places-container {
 		display: block;
+	}
+
+	.cities__places {
+		padding-right: 0;
+		padding-left: 0;
 	}
 
 	.page--main,
@@ -2568,6 +2664,10 @@ html body.react-confirm-alert-body-element {
 }
 
 @media (max-width: 767.98px) {
+	.locations__list {
+		padding: 0px 3px 20px;
+	}
+
 	.cities__card {
 		width: 48%;
 		flex: 0 1 48%;
@@ -2581,6 +2681,15 @@ html body.react-confirm-alert-body-element {
 
 	.property__bookmark-button {
 		right: 10px;
+	}
+
+	.header__logo-link {
+		margin-bottom: 0;
+	}
+
+	.header__wrapper {
+		align-items: center;
+		padding: 19px 0;
 	}
 }
 
@@ -2596,27 +2705,11 @@ html body.react-confirm-alert-body-element {
 		margin-left: 0;
 	}
 
-	.header__left {
-		width: 100%;
-		justify-content: center;
-	}
-
 	.header__nav-list {
 		justify-content: space-between;
 		width: 100%;
 	}
 
-	.header__user-name {
-		display: none;
-	}
-
-	.header__nav-item--register {
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-
-	.header__avatar,
 	.header__nav-item.user {
 		margin-right: 0;
 	}

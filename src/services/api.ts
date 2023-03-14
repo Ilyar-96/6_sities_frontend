@@ -19,7 +19,6 @@ const shouldDisplayError = (response: AxiosResponse) =>
 	!!StatusCodeMapping[response.status];
 
 export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-// export const BACKEND_URL = "https://six-sities.onrender.com/";
 const REQUEST_TIMEOUT = 10000;
 
 export const createAPI = (): AxiosInstance => {

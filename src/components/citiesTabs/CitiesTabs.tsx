@@ -1,53 +1,33 @@
 import React from 'react';
-import cn from "classnames";
-import { useAppSelector, useAppDispatch } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import { CitiesTabsProps } from './CitiesTabs.type';
-import { getActiveCity, getCities, getCitiesFetchingStatus } from '../../store/city/selectors';
-import { changeActiveCity } from "../../store/city/city";
-import { ICity } from '../../types/offer.type';
-import { useNavigate } from "react-router-dom";
-import { AppRoute, cityHashBase, FetchStatus } from '../../const';
+import { getCities, getCitiesFetchingStatus } from '../../store/city/selectors';
+import { FetchStatus, matchMediaMobileQuery } from '../../const';
 import { CitiesTabsSkeleton } from './CitiesTabsSkeleton';
+import { useMedia } from '../../hooks/useMedia';
+import { TabItem } from "..";
 
 export const CitiesTabs: React.FC<CitiesTabsProps> = () => {
-	const dispatch = useAppDispatch();
-	const activeCity = useAppSelector(getActiveCity);
 	const cities = useAppSelector(getCities);
 	const fetchingStatus = useAppSelector(getCitiesFetchingStatus);
-	const navigate = useNavigate();
 	const isLoading = fetchingStatus === FetchStatus.PENDING;
 	const isError = fetchingStatus === FetchStatus.REJECTED;
-
-	const onClick = (city: ICity) => {
-		navigate(AppRoute.HOME + "#" + cityHashBase + city.name);
-		dispatch(changeActiveCity(city));
-	};
+	const isMobile = useMedia(matchMediaMobileQuery);
 
 	return (
-		<div className="tabs">
-			<section className="locations container">
-				<ul className="locations__list tabs__list">
-					{!isLoading ?
-						cities.map(city => (
-							<li className="locations__item" key={city.name}>
-								<button
-									className={cn(
-										"locations__item-link",
-										"tabs__item",
-										{ "tabs__item--active": activeCity?.name === city?.name }
-									)}
-									onClick={() => onClick(city)}
-								>
-									<span>{city.name}</span>
-								</button>
-							</li>
-						)) :
-						<CitiesTabsSkeleton />}
 
-					{isError &&
-						<h3>Oops! Cities were not loaded.</h3>}
-				</ul>
-			</section>
-		</div>
+		<>
+			{!isMobile && <div className="tabs">
+				<section className="locations container">
+					<ul className="locations__list locations__list--mob">
+						{!isLoading ?
+							cities.map((city) => (<TabItem key={city._id} city={city} />)) :
+							<CitiesTabsSkeleton />}
+						{isError &&
+							<h3>Oops! Cities were not loaded.</h3>}
+					</ul>
+				</section>
+			</div>}
+		</>
 	);
 };

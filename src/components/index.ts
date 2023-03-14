@@ -21,4 +21,8 @@ export * from "./apartmentInfo/ApartmentInfoSkeleton";
 export * from "./input/Input";
 export * from "./inputRadio/InputRadio";
 export * from "./loader/Loader";
+export * from "./portal/Portal";
+export * from "./menu/Menu";
+export * from "./tabItem/TabItem";
 export * from "./historyRouter/HistoryRouter";
+export * from "./mobileMenu/MobileMenu";

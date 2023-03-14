@@ -1,16 +1,16 @@
 import React from 'react';
 import { ToastContainer } from "react-toastify";
-import { AppRouter } from "../";
+import { useLocation } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import { AppRouter, MobileMenu } from "../";
 import 'react-toastify/dist/ReactToastify.css';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { authMeAction } from '../../store/apiUserActions';
 import { fetchCitiesAction } from '../../store/apiCityActions';
 import { cityHashBase } from "../../const";
-import { HelmetProvider } from "react-helmet-async";
 import { getActiveCity } from '../../store/city/selectors';
 import { getActiveSort } from '../../store/offers/selectors';
 import { fetchOffersAction } from "../../store/apiOfferActions";
-import { useLocation } from "react-router-dom";
 import { useToggleBodyClass } from "../../hooks/useToggleBodyClass";
 
 export const App: React.FC = () => {
@@ -43,6 +43,7 @@ export const App: React.FC = () => {
 	return (
 		<HelmetProvider>
 			<AppRouter />
+			<MobileMenu />
 			<ToastContainer />
 		</HelmetProvider>
 	);

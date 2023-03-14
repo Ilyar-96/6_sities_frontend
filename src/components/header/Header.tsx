@@ -1,24 +1,22 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { AppRoute, searchPrevPathnameBase } from '../../const';
+import { AppRoute, matchMediaMobileQuery } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { useMedia } from "../../hooks/useMedia";
+import { toggleMobilePopup } from "../../store/city/city";
+import { Menu } from "../.";
 import logoUrl from './logo.svg';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getIsAuth, getIsHost, getUserData } from "../../store/user/selectors";
-import { logout } from '../../store/user/user';
-import { getImageAbsoluteUrl } from "../../utils";
-import emptyAvatarUrl from './avatar.svg';
+import menuIcon from '../../assets/img/menu.svg';
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { pathname } = useLocation();
 	const isShowNav = pathname !== AppRoute.LOGIN && pathname !== AppRoute.REGISTER;
-	const isAuth = useAppSelector(getIsAuth);
-	const IsHost = useAppSelector(getIsHost);
-	const user = useAppSelector(getUserData);
+	const isMobile = useMedia(matchMediaMobileQuery);
 
-	const logOut = () => {
-		dispatch(logout());
+	const onClick = () => {
+		dispatch(toggleMobilePopup());
 	};
 
 	return (
@@ -30,49 +28,16 @@ export const Header: React.FC = () => {
 							<LazyLoadImage className="header__logo" src={logoUrl} alt="6 cities logo" width={81} height={41} />
 						</Link>
 					</div>
-					{isShowNav && <nav className="header__nav">
-						<ul className="header__nav-list">
-							{(isAuth && user) ? (<>
-
-								{IsHost &&
-									<li className="header__nav-item">
-										<Link className="header__nav-link" to={AppRoute.ADD_OFFER}>
-											<span className="header__apartment">Add new Apartment</span>
-										</Link>
-									</li>
-								}
-
-								<li className="header__nav-item user">
-									<Link className="header__nav-link header__nav-link--profile" to={AppRoute.FAVORITES}>
-										<LazyLoadImage className="header__avatar" src={user.avatarUrl ? getImageAbsoluteUrl(user.avatarUrl) : emptyAvatarUrl} alt={`${user.name} avatar`} />
-										<span className="header__user-name">{user.email}</span>
-										<span className="header__favorite-count">{user.favorites.length}</span>
-									</Link>
-								</li>
-								<li className="header__nav-item">
-									<button className="header__nav-link" onClick={logOut}>
-										<span className="header__signout">Sign out</span>
-									</button>
-								</li>
-							</>) : (
-								<>
-									<li className="header__nav-item header__nav-item--register">
-										<Link
-											className="header__nav-link"
-											to={{
-												pathname: AppRoute.LOGIN,
-												search: `${searchPrevPathnameBase}${pathname}`,
-											}}
-										>
-											<span className="header__signout">Sign in</span>
-										</Link>
-									</li>
-								</>
-							)}
-						</ul>
-					</nav>}
+					{!isMobile && isShowNav && <Menu />}
+					{isMobile &&
+						<button className="tabs-btn" onClick={onClick}>
+							<img src={menuIcon} alt="Open tabs" />
+							<span className="visually-hidden">Open tabs</span>
+						</button>}
 				</div>
 			</div>
 		</header>
 	);
+
+
 };
