@@ -20,6 +20,7 @@ export const MainPage: React.FC = () => {
 	const fetchCitiesStatus = useAppSelector(getCitiesFetchingStatus);
 	const singleOffer = useAppSelector(getSingleOffer);
 	const isLoading = (fetchOffersStatus === FetchStatus.IDLE || fetchOffersStatus === FetchStatus.PENDING) && FetchStatus.REJECTED !== fetchCitiesStatus;
+	console.log(offers);
 	const isEmpty = offers.length === 0;
 	const isSuccess = !isEmpty && fetchOffersStatus === FetchStatus.FULFILLED;
 	const isError = fetchOffersStatus === FetchStatus.REJECTED || FetchStatus.REJECTED === fetchCitiesStatus;
